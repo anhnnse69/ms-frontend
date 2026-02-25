@@ -1,0 +1,21 @@
+{
+  "title": "Medical Specialties",
+  "subtitle": "Comprehensive specialty system with experienced medical professionals",
+  "sectionTitle": "Our Clinics and Medical Centers",
+  "sectionDesc": "Vinmec is the only non-profit private healthcare system in Vietnam, with 2 hospitals holding JCI accreditation – the world's most stringent standard for patient safety and hospital quality, along with international certifications in each specialized field.",
+  "viewMore": "View More",
+  "items": [
+    { "name": "Internal Medicine", "icon": "heart-pulse" },
+    { "name": "Pediatrics", "icon": "baby" },
+    { "name": "Cardiology", "icon": "heart" },
+    { "name": "Neurology", "icon": "brain" },
+    { "name": "Oncology", "icon": "ribbon" },
+    { "name": "Orthopedics", "icon": "bone" },
+    { "name": "Obstetrics & Gynecology", "icon": "flower" },
+    { "name": "Dentistry", "icon": "tooth" },
+    { "name": "Ophthalmology", "icon": "eye" },
+    { "name": "ENT", "icon": "ear" },
+    { "name": "Dermatology", "icon": "leaf" },
+    { "name": "Gastroenterology", "icon": "activity" }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+    "breadcrumb": {
+        "home": "Trang chủ",
+        "doctors": "Tìm bác sĩ"
+    },
+    "bookAppointment": "Đăng ký khám",
+    "sections": {
+        "introduction": "Giới thiệu",
+        "services": "Dịch vụ chuyên môn",
+        "overallRating": "Tổng quan",
+        "reviewStats": "Chi tiết lượt đánh giá",
+        "reviews": "Nhận xét về Bác sĩ"
+    },
+    "rating": {
+        "outOf5": "trên 5",
+        "reviews": "khách hàng đánh giá",
+        "appearance": "Tác phong diện mạo",
+        "attitude": "Thái độ giao tiếp",
+        "expertise": "Chuyên môn"
+    },
+    "sidebar": {
+        "position": "Chức vụ",
+        "specialty": "Chuyên khoa",
+        "workplace": "Nơi làm việc",
+        "services": "Dịch vụ",
+        "education": "Quá trình đào tạo",
+        "experience": "Kinh nghiệm làm việc",
+        "organizations": "Thành viên của các tổ chức",
+        "research": "Sách, báo, công trình nghiên cứu"
+    },
+    "reviews": {
+        "date": "Ngày",
+        "viewMore": "Xem thêm"
+    }
+}

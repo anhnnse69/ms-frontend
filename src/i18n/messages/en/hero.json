@@ -1,0 +1,34 @@
+{
+  "slides": [
+    {
+      "tag": "Comprehensive Care",
+      "title": "Care through Talent, Ethics, and Empathy",
+      "description": "Vinmec Health System – where you receive world-class medical care from a team of leading specialists.",
+      "cta": "Book Now"
+    },
+    {
+      "tag": "Advanced Technology",
+      "title": "State-of-the-Art Equipment at International Standards",
+      "description": "Vinmec owns the most modern medical equipment, applying AI technology in diagnosis and treatment.",
+      "cta": "Explore Now"
+    },
+    {
+      "tag": "Leading Specialists",
+      "title": "Experienced and Dedicated Medical Professionals",
+      "description": "Over 1,500 medical experts trained at prestigious universities both domestically and internationally.",
+      "cta": "Find a Doctor"
+    },
+    {
+      "tag": "MyVinmec App",
+      "title": "Manage Your Health Anywhere, Anytime",
+      "description": "Download the MyVinmec app to book appointments, receive test results, and manage your health records on your phone.",
+      "cta": "Download App"
+    }
+  ],
+  "promoTitle": "FLU VACCINATION",
+  "promoDesc": "Strong protection for your whole family",
+  "viewMore": "View More",
+  "quickActionCallDesc": "Consultation and answers to your questions",
+  "quickActionBookDesc": "Quick and convenient appointment booking",
+  "quickActionDoctorDesc": "Find Vinmec medical expert information quickly"
+}

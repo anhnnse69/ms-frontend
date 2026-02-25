@@ -1,0 +1,34 @@
+{
+  "slides": [
+    {
+      "tag": "Sức khỏe toàn diện",
+      "title": "Chăm sóc bằng tài năng, y đức và sự thấu cảm",
+      "description": "Hệ thống y tế Vinmec – nơi bạn nhận được sự chăm sóc y tế đẳng cấp quốc tế với đội ngũ chuyên gia hàng đầu.",
+      "cta": "Đặt lịch ngay"
+    },
+    {
+      "tag": "Công nghệ tiên tiến",
+      "title": "Trang thiết bị hiện đại đạt chuẩn quốc tế",
+      "description": "Vinmec sở hữu hệ thống trang thiết bị y tế hiện đại nhất, ứng dụng công nghệ AI trong chẩn đoán và điều trị.",
+      "cta": "Khám phá ngay"
+    },
+    {
+      "tag": "Chuyên gia hàng đầu",
+      "title": "Đội ngũ bác sĩ giàu kinh nghiệm, tận tâm",
+      "description": "Hơn 1.500 chuyên gia y tế được đào tạo tại các trường đại học danh tiếng trong và ngoài nước.",
+      "cta": "Tìm bác sĩ"
+    },
+    {
+      "tag": "MyVinmec App",
+      "title": "Quản lý sức khỏe mọi lúc, mọi nơi",
+      "description": "Tải ứng dụng MyVinmec để đặt lịch, nhận kết quả xét nghiệm và theo dõi hồ sơ sức khỏe ngay trên điện thoại.",
+      "cta": "Tải ứng dụng"
+    }
+  ],
+  "promoTitle": "TIÊM PHÒNG CÚM",
+  "promoDesc": "Là chắn để kháng vững vàng cho cả gia đình",
+  "viewMore": "Xem thêm",
+  "quickActionCallDesc": "Tư vấn và giải đáp các vấn đề của bạn",
+  "quickActionBookDesc": "Đặt lịch hẹn nhanh chóng, tiện lợi",
+  "quickActionDoctorDesc": "Tìm kiếm thông tin chuyên gia y tế Vinmec nhanh chóng"
+}

@@ -1,0 +1,26 @@
+{
+  "systemTitle": "Vinmec System",
+  "serviceTitle": "Services",
+  "appTitle": "Download MyVinmec App",
+  "followTitle": "Follow Us",
+  "partnerTitle": "Partner Links",
+  "systemLinks": [
+    "Vision & Mission",
+    "Healthcare Facilities",
+    "Find a Doctor",
+    "Work at Vinmec"
+  ],
+  "serviceLinks": [
+    "Specialties",
+    "Service Packages",
+    "Insurance",
+    "Book Appointment"
+  ],
+  "copyright": "Copyright © 2024 Vinmec International General Hospital Joint Stock Company. All rights reserved.",
+  "privacyPolicy": "Personal Data Protection Policy",
+  "grPrivacy": "GR Privacy",
+  "grTerms": "GR Terms",
+  "tagline": "International-Standard Healthcare",
+  "hotline": "Hotline",
+  "address": "458 Minh Khai, Hai Ba Trung, Hanoi"
+}

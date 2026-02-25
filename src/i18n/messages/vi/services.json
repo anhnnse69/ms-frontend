@@ -1,0 +1,21 @@
+{
+  "title": "Chuyên khoa dịch vụ",
+  "subtitle": "Hệ thống chuyên khoa toàn diện với đội ngũ bác sĩ giàu kinh nghiệm",
+  "sectionTitle": "Hệ thống phòng khám và trung tâm của chúng tôi",
+  "sectionDesc": "Vinmec là Hệ thống Y tế tư nhân duy nhất tại Việt Nam hoạt động không vì mục tiêu lợi nhuận, có 2 bệnh viện đạt chứng chỉ tiêu chuẩn JCI – Tiêu chuẩn về an toàn người bệnh và chất lượng bệnh viện khắt khe nhất thế giới, cùng các chứng chỉ quốc tế trong từng lĩnh vực chuyên môn uy tín.",
+  "viewMore": "Xem thêm",
+  "items": [
+    { "name": "Nội khoa", "icon": "heart-pulse" },
+    { "name": "Nhi khoa", "icon": "baby" },
+    { "name": "Tim mạch", "icon": "heart" },
+    { "name": "Thần kinh", "icon": "brain" },
+    { "name": "Ung bướu", "icon": "ribbon" },
+    { "name": "Chỉnh hình", "icon": "bone" },
+    { "name": "Sản phụ khoa", "icon": "flower" },
+    { "name": "Nha khoa", "icon": "tooth" },
+    { "name": "Mắt", "icon": "eye" },
+    { "name": "Tai Mũi Họng", "icon": "ear" },
+    { "name": "Da liễu", "icon": "leaf" },
+    { "name": "Tiêu hóa", "icon": "activity" }
+  ]
+}

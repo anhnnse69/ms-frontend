@@ -1,0 +1,114 @@
+{
+    "title": "Vinmec - Phát Triển Bền Vững",
+    "intro": {
+        "paragraph1": "Tại Vinmec, chúng tôi không chỉ coi trọng sức khỏe của mỗi bệnh nhân mà còn cam kết xây dựng một môi trường y tế phát triển bền vững, từ chính sách quản trị đến những giá trị bảo vệ cộng đồng và môi trường. Chúng tôi hiểu rằng, trong thế giới ngày nay, phát triển không thể chỉ là lợi ích trước mắt, mà phải là một quá trình lâu dài, mang lại giá trị cho thế hệ hôm nay và mai sau. Hơn một thập kỷ trước, chúng tôi đã tiên phong đặt nền móng cho một hệ thống y tế khác biệt với mục tiêu không chỉ là cung cấp dịch vụ y tế chất lượng cao, mà còn tiên phong trong việc ứng dụng các mô hình quản trị lâm sàng xuất sắc và khoa học.",
+        "paragraph2": "Trong 12 năm qua, mỗi quyết định tại Vinmec đều hướng tới sự phát triển bền vững của xã hội, cân bằng giữa lợi ích của khách hàng, nhân viên y tế và cộng đồng. Chúng tôi chú trọng xây dựng một môi trường làm việc sáng tạo, hiệu quả và hạnh phúc, nơi mà mỗi cá nhân có thể phát huy tối đa khả năng của mình để góp phần vào sự phát triển bền vững của hệ thống.",
+        "paragraph3": "Bên cạnh đó, chúng tôi đã và đang triển khai các chương trình nhằm giảm thiểu dấu chân carbon trong hoạt động y tế, góp phần cùng các thành viên trong hệ sinh thái Tập đoàn Vingroup tham gia vào công cuộc chuyển đổi xanh của đất nước."
+    },
+    "featuredNumbers": "Những con số nổi bật",
+    "numbers": {
+        "environment": {
+            "title": "Môi trường (E)",
+            "items": [
+                {
+                    "number": "4 tấn",
+                    "text": "giấy/năm được giảm thiểu từ việc chuyển đổi hợp đồng giấy sang hợp đồng điện tử"
+                },
+                {
+                    "number": "250K tấn",
+                    "text": "phim/năm được giảm thiểu từ việc số hóa dữ liệu chẩn đoán hình ảnh"
+                },
+                {
+                    "number": "1,8K tấn",
+                    "text": "CO2/năm được giảm thiểu từ giải pháp họp/hội chẩn trực tuyến giữa các bệnh viện"
+                }
+            ]
+        },
+        "social": {
+            "title": "Xã hội (S)",
+            "items": [
+                {
+                    "number": "15K người",
+                    "text": "được sàng lọc sức khỏe miễn phí (tính đến hết năm 2023)"
+                },
+                {
+                    "number": "300 tỷ",
+                    "text": "VNĐ/năm sàng lọc sức khỏe miễn phí và hỗ trợ chi phí điều trị"
+                },
+                {
+                    "number": "91,6%",
+                    "text": "Vinmecers hài lòng đối với môi trường làm việc (2023)"
+                }
+            ]
+        },
+        "governance": {
+            "title": "Quản trị (G)",
+            "items": [
+                {
+                    "number": "Doanh nghiệp Quản trị tốt nhất",
+                    "text": "được bình chọn bởi Deloitte năm 2022, 2023"
+                },
+                {
+                    "number": "Giải thưởng Best in Vietnam",
+                    "text": "tại Lễ trao giải Global CSR & ESG Summit Awards 2024"
+                },
+                {
+                    "number": "Đơn vị làm việc tốt nhất Châu Á",
+                    "text": "tại Lễ trao giải HR Asia Awards 2023"
+                }
+            ]
+        }
+    },
+    "keyTopics": "Chủ đề trọng yếu",
+    "selectTopicPrompt": "Nhấn vào một chủ đề để xem chi tiết",
+    "topics": {
+        "serviceQuality": {
+            "title": "Chất lượng dịch vụ",
+            "content": "Vinmec luôn nỗ lực không ngừng để nâng cao chất lượng sản phẩm và sự hài lòng của khách hàng, thông qua các hoạt động nghiên cứu, chuyển giao công nghệ và thử nghiệm lâm sàng. 384 bài báo cáo khoa học đã được xuất bản, khẳng định sự cam kết của chúng tôi trong việc nghiên cứu và ứng dụng các tiến bộ y học mới nhất vào chăm sóc sức khỏe."
+        },
+        "socialResponsibility": {
+            "title": "Trách nhiệm xã hội",
+            "content": "Vinmec luôn coi trách nhiệm xã hội là một phần quan trọng trong sứ mệnh của mình. Trong 5 năm qua, chúng tôi đã tổ chức các chương trình khám sàng lọc y tế miễn phí cho 15.000 người, giúp phát hiện sớm các bệnh lý nguy hiểm và nâng cao ý thức bảo vệ sức khỏe cộng đồng."
+        },
+        "responsibleBusiness": {
+            "title": "Hành vi doanh nghiệp có trách nhiệm",
+            "content": "Vinmec luôn nỗ lực duy trì hành vi doanh nghiệp có trách nhiệm, đạt được các giải thưởng về quản trị như Doanh nghiệp quản trị tốt nhất Việt Nam năm 2022 & 2023 bình chọn bởi Deloitte và có 2 bệnh viện trong hệ thống được công nhận theo tiêu chuẩn JCI."
+        },
+        "dataSecurity": {
+            "title": "An ninh bảo mật và quyền riêng tư dữ liệu",
+            "content": "Tại Vinmec, an ninh bảo mật và quyền riêng tư dữ liệu là ưu tiên hàng đầu trong mọi hoạt động liên quan đến khách hàng. Chúng tôi công khai các chính sách bảo vệ dữ liệu cá nhân của khách hàng, cam kết minh bạch và tuân thủ nghiêm ngặt các quy định bảo mật."
+        },
+        "humanResources": {
+            "title": "Phát triển nguồn nhân lực",
+            "content": "Vinmec luôn coi phát triển nguồn nhân lực là yếu tố then chốt trong chiến lược phát triển bền vững. Năm 2023, chúng tôi triển khai 9330 chương trình đào tạo nhằm chuẩn hóa và nâng cao năng lực chuyên môn cho đội ngũ, tương ứng 184.195 giờ đào tạo với gần 80.000 lượt CBNV tham gia."
+        },
+        "employeeWelfare": {
+            "title": "Phúc lợi nhân viên",
+            "content": "Vinmec luôn chú trọng đến việc nâng cao phúc lợi và tạo dựng môi trường làm việc chất lượng cho nhân viên. Chúng tôi tự hào về các giải thưởng uy tín đã đạt được như 'Nơi làm việc tốt nhất Châu Á' và 'Doanh nghiệp có chính sách vì chất lượng sức khỏe nhân viên'."
+        },
+        "diversity": {
+            "title": "Đa dạng, bình đẳng và hòa nhập",
+            "content": "Tại Vinmec, chúng tôi cam kết xây dựng một môi trường làm việc đa dạng, bình đẳng và hòa nhập. Tỷ lệ lãnh đạo nữ tại Vinmec đã đạt 44%, phản ánh sự cam kết của chúng tôi trong việc tạo dựng một môi trường lãnh đạo công bằng và bình đẳng."
+        },
+        "supplyChain": {
+            "title": "Nguồn cung ứng và hiệu quả sử dụng nguyên vật liệu",
+            "content": "Tại Vinmec, chúng tôi luôn nỗ lực tối ưu hóa nguồn cung ứng nguyên vật liệu để đảm bảo sự liên tục và ổn định trong mọi hoạt động, đồng thời giảm thiểu rủi ro gián đoạn chuỗi cung ứng và tái sử dụng linh kiện từ các thiết bị y tế."
+        },
+        "climateResilience": {
+            "title": "Khả năng phục hồi khí hậu",
+            "content": "Vinmec cam kết mạnh mẽ trong việc thực hiện các giải pháp bảo vệ môi trường và ứng phó với biến đổi khí hậu. Chúng tôi đang thúc đẩy mạnh mẽ phong trào 'chuyển đổi xanh' trong đội ngũ cán bộ nhân viên, giúp giảm thiểu khoảng 1.800 tấn carbon phát thải ra môi trường."
+        },
+        "waterConservation": {
+            "title": "Bảo tồn nước và đa dạng sinh học",
+            "content": "Vinmec cam kết bảo vệ tài nguyên nước và đa dạng sinh học thông qua các hoạt động tiết kiệm và tái sử dụng nước trong tất cả các quy trình vận hành. Mục tiêu 60% nhân viên y tế hàng năm được đào tạo về bảo tồn tài nguyên nước."
+        },
+        "wasteManagement": {
+            "title": "Quản lý chất thải",
+            "content": "Tại Vinmec, việc quản lý chất thải được kiểm soát nghiêm ngặt. 100% rác thải được phân loại và đánh dấu theo các nguyên tắc color coding. Giải pháp 'No-film' và 'e-contract' giúp tiết kiệm 4 tấn giấy hàng năm và giảm 15% lượng túi nilong sử dụng."
+        },
+        "responsibleInvestment": {
+            "title": "Đầu tư có trách nhiệm",
+            "content": "Hệ thống y tế Vinmec luôn cam kết đầu tư vào những giải pháp mang tính bền vững, góp phần xây dựng một tương lai xanh và lành mạnh. Chúng tôi đang triển khai các dự án hợp tác phát triển các giải pháp năng lượng tái tạo tại một số bệnh viện."
+        }
+    }
+}

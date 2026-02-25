@@ -1,0 +1,71 @@
+{
+    "title": "Thành Tựu Và Giải Thưởng",
+    "subtitle": "Vinmec tự hào là hệ thống y tế đạt nhiều chứng nhận quốc tế uy tín và giải thưởng danh giá",
+    "breadcrumb": {
+        "home": "Trang chủ",
+        "achievements": "Thành tựu & Giải thưởng"
+    },
+    "intro": {
+        "title": "Cam Kết Chất Lượng Quốc Tế",
+        "description": "Với triết lý 'Chất lượng là sự sống còn', hệ thống Y tế Vinmec không ngừng nỗ lực nâng cao chất lượng dịch vụ và đạt được nhiều chứng nhận quốc tế danh giá, khẳng định vị thế hệ thống y tế tư nhân hàng đầu Việt Nam."
+    },
+    "certifications": {
+        "title": "Chứng Nhận Quốc Tế",
+        "subtitle": "Vinmec là hệ thống y tế tư nhân đầu tiên tại Việt Nam đạt được nhiều chứng nhận quốc tế uy tín",
+        "jci": {
+            "desc": "JCI (Joint Commission International) là chứng nhận chất lượng bệnh viện uy tín nhất thế giới, đảm bảo tiêu chuẩn an toàn và chất lượng cao nhất. Vinmec đã đạt chứng nhận JCI từ năm 2017."
+        },
+        "cap": {
+            "desc": "CAP (College of American Pathologists) - Chứng nhận phòng xét nghiệm đạt chuẩn quốc tế của Hoa Kỳ, đảm bảo độ chính xác và tin cậy của các kết quả xét nghiệm."
+        },
+        "acc": {
+            "desc": "ACC (American College of Cardiology) - Chứng nhận chất lượng can thiệp tim mạch từ Trường Đại học Tim mạch Hoa Kỳ, khẳng định năng lực vượt trội trong lĩnh vực tim mạch."
+        },
+        "aabb": {
+            "desc": "AABB - Chứng nhận tiêu chuẩn quốc tế về ngân hàng máu và dịch vụ truyền máu, đảm bảo an toàn và chất lượng trong lưu trữ và sử dụng máu."
+        },
+        "rtac": {
+            "desc": "RTAC (Reproductive Technology Accreditation Committee) - Chứng nhận chất lượng trong lĩnh vực hỗ trợ sinh sản và IVF từ Úc."
+        },
+        "hma": {
+            "desc": "HMA (Hospital Management Asia) - Giải thưởng quản lý bệnh viện xuất sắc khu vực Châu Á, ghi nhận năng lực quản trị và điều hành bệnh viện."
+        }
+    },
+    "awards": {
+        "title": "Giải Thưởng Danh Giá",
+        "subtitle": "Những ghi nhận từ các tổ chức uy tín trong nước và quốc tế",
+        "item1": {
+            "title": "Giải thưởng Quản lý Bệnh viện Châu Á",
+            "org": "Hospital Management Asia"
+        },
+        "item2": {
+            "title": "Doanh nghiệp được quản lý tốt nhất",
+            "org": "Deloitte Vietnam"
+        },
+        "item3": {
+            "title": "Bệnh viện tư an toàn nhất Việt Nam",
+            "org": "Vietnam Healthcare Awards"
+        },
+        "item4": {
+            "title": "Trung tâm Tim mạch xuất sắc",
+            "org": "American College of Cardiology"
+        },
+        "item5": {
+            "title": "Bệnh viện an toàn cho bệnh nhân",
+            "org": "Joint Commission International"
+        },
+        "item6": {
+            "title": "Đơn vị xuất sắc trong điều trị ung thư",
+            "org": "Vietnam Oncology Society"
+        }
+    },
+    "partners": {
+        "title": "Đối Tác Chiến Lược",
+        "description": "Vinmec hợp tác với các tổ chức y tế và viện nghiên cứu hàng đầu thế giới để mang đến dịch vụ y tế chất lượng quốc tế."
+    },
+    "tabs": {
+        "timeline": "Những cột mốc quan trọng",
+        "awards": "Giải thưởng & Chứng nhận"
+    },
+    "awardsIntro": "Tại Vinmec, chúng tôi nỗ lực hướng tới sự xuất sắc bằng cách cung cấp dịch vụ chăm sóc đẳng cấp thế giới, tiên phong trong nghiên cứu và đổi mới. Vinmec đã được ghi nhận cho những nỗ lực theo đuổi chất lượng quốc tế và sự an toàn cao nhất cho mọi bệnh nhân. Sau đây là một số giải thưởng và chứng nhận của chúng tôi trong những năm qua:"
+}

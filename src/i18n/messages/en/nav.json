@@ -1,0 +1,31 @@
+{
+  "specialties": "Specialties",
+  "guidance": "Guidance",
+  "sustainability": "Sustainability",
+  "specialtiesCol1": [
+    "Emergency",
+    "Cardiology Center",
+    "Oncology Center",
+    "Immunology - Allergy",
+    "Gastroenterology - Hepatology",
+    "Pediatrics Center",
+    "Women's Health Center",
+    "General Health",
+    "Vinmec-Alina Eye Center",
+    "Vinmec - View Premium Dental Clinic"
+  ],
+  "specialtiesCol2": [
+    "Vinmec-Sao Phuong Dong Traditional Medicine Center",
+    "Regenerative Medicine & Cell Therapy Center",
+    "Orthopedics & Sports Medicine Center",
+    "Institute for Stem Cell Research & Gene Technology",
+    "Vaccination Center",
+    "Breast Center",
+    "Neurology",
+    "Integrated Mental Health Care Center",
+    "Pharmacy"
+  ],
+  "guidanceCol1": [
+    "Doctors"
+  ]
+}

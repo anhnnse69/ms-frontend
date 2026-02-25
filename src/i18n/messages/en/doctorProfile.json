@@ -1,0 +1,35 @@
+{
+    "breadcrumb": {
+        "home": "Home",
+        "doctors": "Find a Doctor"
+    },
+    "bookAppointment": "Book Appointment",
+    "rating": {
+        "outOf5": "out of 5",
+        "reviews": "patient reviews",
+        "appearance": "Appearance",
+        "attitude": "Communication",
+        "expertise": "Expertise"
+    },
+    "sections": {
+        "introduction": "Introduction",
+        "services": "Services",
+        "overallRating": "Overall Rating",
+        "reviewStats": "Review Statistics",
+        "reviews": "Patient Reviews"
+    },
+    "sidebar": {
+        "position": "Position",
+        "specialty": "Specialty",
+        "workplace": "Workplace",
+        "services": "Services",
+        "education": "Education & Training",
+        "experience": "Work Experience",
+        "organizations": "Organization Membership",
+        "research": "Publications & Research"
+    },
+    "reviews": {
+        "date": "Date",
+        "viewMore": "View more"
+    }
+}

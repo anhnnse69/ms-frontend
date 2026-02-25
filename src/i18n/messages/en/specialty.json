@@ -1,0 +1,1758 @@
+{
+    "pageTitle": "Specialties",
+    "breadcrumbHome": "Home",
+    "breadcrumbSpecialty": "Specialty",
+    "emergency": {
+        "title": "Emergency",
+        "subtitle": "EMERGENCY - INTENSIVE CARE",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Over the years, Vinmec has conducted emergency care and saved critically ill patients; successfully handling many major emergency events.",
+        "overview": {
+            "section1": {
+                "title": "24/7 Operation",
+                "desc": "All days of the week, including Saturdays, Sundays and holidays throughout the year"
+            },
+            "section2": {
+                "title": "Reputation & Quick Response",
+                "items": [
+                    "Medical staff trained comprehensively and specialized in many areas of emergency resuscitation with international certifications such as ACLS, PALS, FCCS",
+                    "Supporting the Emergency Department is a team of professional secretaries and multilingual interpreters",
+                    "All specialized ambulances are equipped with modern systems including professional ventilators"
+                ]
+            },
+            "section3": {
+                "title": "Professional Emergency Process",
+                "items": [
+                    "Patients are accurately assessed and classified according to the Australian Triage Scale",
+                    "Patients receive specialized care with coordination from multiple specialty teams",
+                    "The department has full emergency and treatment functions for emergency and urgent conditions",
+                    "Vinmec Emergency Resuscitation Department also handles post-operative resuscitation"
+                ]
+            },
+            "section4": {
+                "title": "Implementing 4 Emergency Resuscitation Models",
+                "sub1": {
+                    "title": "Rapid Response Team (RRT)",
+                    "desc": "To detect early signs of acute changes in patients, remotely prevent unwanted cardiac arrest events"
+                },
+                "sub2": {
+                    "title": "Sepsis Management",
+                    "desc": "Early recognition of signs when patients have sepsis and septic shock"
+                }
+            },
+            "section5": {
+                "title": "Multidisciplinary Rounds",
+                "desc": "Daily, the Core team rounds on ICU patients, comprehensive treatment and care plans are discussed and agreed upon"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Multidisciplinary Emergency Examination and Treatment",
+                "items": [
+                    "Cardiac arrest emergency for patients with cardiac arrest, acute coronary syndrome",
+                    "Acute stroke emergency",
+                    "Severe infection emergency",
+                    "Neurological emergency (coma, seizures...)",
+                    "Respiratory emergency (respiratory failure, pulmonary embolism...)",
+                    "Abdominal emergency (acute pancreatitis, gastrointestinal bleeding...)"
+                ]
+            },
+            "section2": {
+                "title": "Basic & Advanced Emergency Resuscitation",
+                "items": [
+                    "Emergency resuscitation from basic to advanced in many areas",
+                    "Resuscitation for severe infectious diseases",
+                    "Post-operative resuscitation after cardiovascular surgery",
+                    "Neurosurgical resuscitation: After brain tumor surgery, traumatic brain injury"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Separate Emergency Room System",
+                "desc1": "Separate emergency room system specialized for each specialty",
+                "desc2": "Negative pressure isolation room system meeting specific isolation requirements"
+            },
+            "section2": {
+                "title": "Modern Equipment System",
+                "items": [
+                    "High-end ventilator",
+                    "Non-invasive ventilator",
+                    "Portable ultrasound machine",
+                    "Rapid blood gas analyzer",
+                    "Automated external defibrillator AED",
+                    "International standard ambulances"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Emergency - Resuscitation"
+        }
+    },
+    "cardiology": {
+        "title": "Cardiology",
+        "subtitle": "CARDIOLOGY CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Cardiology Center is one of the leading heart centers in Vietnam, providing comprehensive diagnostic and treatment services for cardiovascular diseases.",
+        "overview": {
+            "section1": {
+                "title": "Leading Cardiology Center",
+                "desc": "Vinmec has a team of experienced cardiologists trained at world-leading medical centers"
+            },
+            "section2": {
+                "title": "Specialized Services",
+                "items": [
+                    "Percutaneous coronary intervention (PCI)",
+                    "Open heart surgery",
+                    "Pacemaker implantation",
+                    "Arrhythmia treatment"
+                ]
+            },
+            "section3": {
+                "title": "Treatment Process",
+                "items": [
+                    "Screening and early diagnosis of cardiovascular diseases",
+                    "Developing personalized treatment protocols",
+                    "Post-treatment monitoring and care",
+                    "Cardiac rehabilitation"
+                ]
+            },
+            "section4": {
+                "title": "Modern Technology",
+                "sub1": {
+                    "title": "Cardiac Catheterization Lab",
+                    "desc": "Equipped with the most modern DSA digital subtraction angiography system"
+                },
+                "sub2": {
+                    "title": "Hybrid Operating Room",
+                    "desc": "Combining surgery and intervention in the same operating room"
+                }
+            },
+            "section5": {
+                "title": "Comprehensive Care",
+                "desc": "Patients are cared for from the diagnosis stage, treatment to functional rehabilitation"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Diagnostic Services",
+                "items": [
+                    "Electrocardiogram (ECG)",
+                    "Echocardiography",
+                    "Coronary CT",
+                    "Coronary angiography",
+                    "24-hour Holter ECG",
+                    "Stress test"
+                ]
+            },
+            "section2": {
+                "title": "Treatment Services",
+                "items": [
+                    "Percutaneous coronary intervention",
+                    "Coronary artery bypass surgery",
+                    "Heart valve repair/replacement",
+                    "Pacemaker/ICD implantation"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Modern Intervention Room",
+                "desc1": "New generation DSA system with 3D angiography capability",
+                "desc2": "FFR system measuring coronary blood flow"
+            },
+            "section2": {
+                "title": "Diagnostic Equipment",
+                "items": [
+                    "4D echocardiography machine",
+                    "640-slice CT",
+                    "3.0 Tesla cardiac MRI",
+                    "Holter ECG machine",
+                    "Remote patient monitoring system"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Cardiology"
+        }
+    },
+    "oncology": {
+        "title": "Oncology",
+        "subtitle": "ONCOLOGY CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Oncology Center provides comprehensive cancer screening, diagnosis and treatment services according to international standards.",
+        "overview": {
+            "section1": {
+                "title": "Comprehensive Cancer Treatment",
+                "desc": "Applying multimodal treatment protocols combining surgery, chemotherapy, radiotherapy and immunotherapy"
+            },
+            "section2": {
+                "title": "Outstanding Services",
+                "items": [
+                    "Early cancer screening",
+                    "Biopsy and histological diagnosis",
+                    "Chemotherapy",
+                    "High-precision radiotherapy"
+                ]
+            },
+            "section3": {
+                "title": "Treatment Process",
+                "items": [
+                    "Multidisciplinary consultation",
+                    "Developing personalized treatment protocols",
+                    "Monitoring and evaluating treatment response",
+                    "Palliative care and psychological support"
+                ]
+            },
+            "section4": {
+                "title": "Treatment Methods",
+                "sub1": {
+                    "title": "Cancer Surgery",
+                    "desc": "Tumor removal surgery and minimally invasive endoscopic surgery"
+                },
+                "sub2": {
+                    "title": "Targeted Therapy",
+                    "desc": "Targeted treatment helps selectively destroy cancer cells"
+                }
+            },
+            "section5": {
+                "title": "Comprehensive Care",
+                "desc": "Nutritional support, rehabilitation and mental care for patients"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Diagnostic Services",
+                "items": [
+                    "Whole body PET/CT",
+                    "Fine needle biopsy",
+                    "Cancer gene testing",
+                    "Gastrointestinal endoscopy",
+                    "MRI, multi-slice CT",
+                    "Tumor marker testing"
+                ]
+            },
+            "section2": {
+                "title": "Treatment Services",
+                "items": [
+                    "Chemotherapy",
+                    "IMRT/VMAT radiotherapy",
+                    "Robotic surgery",
+                    "Immunotherapy"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Modern Radiotherapy System",
+                "desc1": "Linear accelerator with IMRT, VMAT technology",
+                "desc2": "3D radiotherapy planning system"
+            },
+            "section2": {
+                "title": "Diagnostic Equipment",
+                "items": [
+                    "PET/CT machine",
+                    "CT simulator for radiotherapy",
+                    "Gene sequencing system",
+                    "Elastography ultrasound",
+                    "Surgical microscope"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Oncology"
+        }
+    },
+    "immunology": {
+        "title": "IMMUNOLOGY - ALLERGY",
+        "subtitle": "IMMUNOLOGY - ALLERGY - CLINICAL ASTHMA",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "The Immunology - Allergy Department at Vinmec specializes in diagnosing and treating allergic diseases, asthma and immune disorders.",
+        "overview": {
+            "section1": {
+                "title": "Immunology - Allergy Department",
+                "desc": "Team of experienced specialists in diagnosing and treating allergic diseases"
+            },
+            "section2": {
+                "title": "Conditions Treated",
+                "items": [
+                    "Bronchial asthma",
+                    "Allergic rhinitis",
+                    "Food allergies",
+                    "Drug allergies"
+                ]
+            },
+            "section3": {
+                "title": "Examination and Treatment Process",
+                "items": [
+                    "Clinical examination and evaluation",
+                    "Allergen testing",
+                    "Skin prick test",
+                    "Developing personalized treatment protocols"
+                ]
+            },
+            "section4": {
+                "title": "Treatment Methods",
+                "sub1": {
+                    "title": "Allergen Immunotherapy",
+                    "desc": "Desensitization to allergens, helping to control allergy symptoms long-term"
+                },
+                "sub2": {
+                    "title": "Asthma Treatment",
+                    "desc": "Asthma treatment protocol according to GINA, effective asthma control"
+                }
+            },
+            "section5": {
+                "title": "Health Education",
+                "desc": "Guiding patients on allergen avoidance and self-management"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Diagnostic Services",
+                "items": [
+                    "Skin prick test",
+                    "Specific IgE testing",
+                    "Pulmonary function testing",
+                    "Bronchial challenge test",
+                    "Food allergy testing",
+                    "Drug allergy testing"
+                ]
+            },
+            "section2": {
+                "title": "Treatment Services",
+                "items": [
+                    "Allergen immunotherapy (SCIT/SLIT)",
+                    "Asthma treatment",
+                    "Allergic rhinitis treatment",
+                    "Chronic urticaria treatment"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Allergy Testing Laboratory",
+                "desc1": "Automated specific IgE testing system",
+                "desc2": "Standardized allergen panel according to European standards"
+            },
+            "section2": {
+                "title": "Diagnostic Equipment",
+                "items": [
+                    "Pulmonary function testing machine",
+                    "FeNO measurement machine",
+                    "Automated skin testing system",
+                    "Peak flow meter",
+                    "Bronchial challenge test chamber"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Immunology - Allergy"
+        }
+    },
+    "gastroenterology": {
+        "title": "GASTROENTEROLOGY",
+        "subtitle": "GASTROENTEROLOGY - HEPATOLOGY CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Gastroenterology - Hepatology Center provides comprehensive diagnostic and treatment services for digestive and hepatobiliary diseases.",
+        "overview": {
+            "section1": {
+                "title": "Leading Gastroenterology Center",
+                "desc": "Team of experts experienced in endoscopy and gastrointestinal intervention"
+            },
+            "section2": {
+                "title": "Conditions Treated",
+                "items": [
+                    "Gastric - duodenal ulcers",
+                    "Gastroesophageal reflux disease",
+                    "Hepatitis, cirrhosis",
+                    "Gallstones, pancreatitis"
+                ]
+            },
+            "section3": {
+                "title": "Examination Process",
+                "items": [
+                    "Painless gastroscopy",
+                    "Colonoscopy",
+                    "Hepatobiliary ultrasound",
+                    "Liver function tests"
+                ]
+            },
+            "section4": {
+                "title": "Interventional Endoscopy",
+                "sub1": {
+                    "title": "Therapeutic Endoscopy",
+                    "desc": "Polypectomy, hemostasis, esophageal dilation via endoscopy"
+                },
+                "sub2": {
+                    "title": "ERCP",
+                    "desc": "Endoscopic retrograde cholangiopancreatography for gallstone and pancreatitis treatment"
+                }
+            },
+            "section5": {
+                "title": "Comprehensive Care",
+                "desc": "Nutritional counseling and post-treatment follow-up"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Endoscopy Services",
+                "items": [
+                    "Gastroscopy",
+                    "Colonoscopy",
+                    "Capsule endoscopy",
+                    "Endoscopic ultrasound (EUS)",
+                    "ERCP",
+                    "Hemostatic interventional endoscopy"
+                ]
+            },
+            "section2": {
+                "title": "Treatment Services",
+                "items": [
+                    "Hepatitis B, C treatment",
+                    "Cirrhosis treatment",
+                    "Colon polypectomy",
+                    "Gastrointestinal bleeding treatment"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Modern Endoscopy System",
+                "desc1": "Olympus endoscopy system with NBI technology for early lesion detection",
+                "desc2": "Endoscopic ultrasound system for accurate diagnosis"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "Olympus CV-290 endoscope",
+                    "ERCP system",
+                    "Capsule endoscopy",
+                    "Fibroscan elastography ultrasound",
+                    "Endoscopic CO2 system"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Gastroenterology - Hepatology"
+        }
+    },
+    "pediatrics": {
+        "title": "PEDIATRICS",
+        "subtitle": "PEDIATRICS CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Pediatrics Center provides comprehensive healthcare services for children from newborn to 18 years old.",
+        "overview": {
+            "section1": {
+                "title": "Leading Pediatrics Center",
+                "desc": "Child-friendly medical environment specially designed for children"
+            },
+            "section2": {
+                "title": "Pediatric Specialties",
+                "items": [
+                    "General pediatrics",
+                    "Pediatric respiratory",
+                    "Pediatric gastroenterology",
+                    "Pediatric cardiology"
+                ]
+            },
+            "section3": {
+                "title": "Outstanding Services",
+                "items": [
+                    "Regular health check-ups for children",
+                    "Complete vaccination",
+                    "Treatment of pediatric diseases",
+                    "Nutritional counseling for children"
+                ]
+            },
+            "section4": {
+                "title": "Special Care",
+                "sub1": {
+                    "title": "Neonatal Department",
+                    "desc": "Caring for newborns, especially premature and low birth weight babies"
+                },
+                "sub2": {
+                    "title": "Pediatric ICU",
+                    "desc": "Intensive care unit for critically ill children"
+                }
+            },
+            "section5": {
+                "title": "Expert Team",
+                "desc": "Experienced pediatricians who love and are dedicated to children"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Examination Services",
+                "items": [
+                    "General pediatric examination",
+                    "Pediatric specialty examination",
+                    "Regular health check-ups",
+                    "Congenital disease screening",
+                    "Nutritional counseling",
+                    "Vaccination"
+                ]
+            },
+            "section2": {
+                "title": "Treatment Services",
+                "items": [
+                    "Respiratory disease treatment",
+                    "Digestive disease treatment",
+                    "Infectious disease treatment",
+                    "Newborn care"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Child-Friendly Environment",
+                "desc1": "Examination rooms designed to reduce fear for children",
+                "desc2": "Play and entertainment area for children"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "Medical devices specialized for children",
+                    "Ventilators for newborns",
+                    "Vital signs monitoring system",
+                    "Neonatal incubator",
+                    "Pediatric ultrasound machine"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Pediatrics"
+        }
+    },
+    "womensHealth": {
+        "title": "WOMEN'S HEALTH",
+        "subtitle": "WOMEN'S HEALTH - OBSTETRICS & GYNECOLOGY",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Obstetrics & Gynecology Department provides comprehensive healthcare services for women at all stages.",
+        "overview": {
+            "section1": {
+                "title": "Women's Healthcare",
+                "desc": "Comprehensive medical services from gynecological exams, maternity to infertility treatment"
+            },
+            "section2": {
+                "title": "Outstanding Services",
+                "items": [
+                    "Prenatal care and pregnancy monitoring",
+                    "Natural birth and cesarean section",
+                    "Infertility treatment",
+                    "Regular gynecological check-ups"
+                ]
+            },
+            "section3": {
+                "title": "Maternity Packages",
+                "items": [
+                    "Comprehensive pregnancy management",
+                    "Non-invasive prenatal screening",
+                    "4D fetal ultrasound",
+                    "Complete birth package"
+                ]
+            },
+            "section4": {
+                "title": "Advanced Treatment",
+                "sub1": {
+                    "title": "Assisted Reproduction",
+                    "desc": "IVF, IUI and advanced reproductive assistance techniques"
+                },
+                "sub2": {
+                    "title": "Laparoscopic Surgery",
+                    "desc": "Laparoscopic surgery for uterine fibroids, ovarian cysts"
+                }
+            },
+            "section5": {
+                "title": "Postpartum Care",
+                "desc": "Breastfeeding counseling and postpartum health care"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Examination and Screening Services",
+                "items": [
+                    "Gynecological examination",
+                    "Cervical cancer screening",
+                    "Gynecological ultrasound",
+                    "Regular prenatal check-ups",
+                    "Prenatal testing",
+                    "4D ultrasound"
+                ]
+            },
+            "section2": {
+                "title": "Treatment Services",
+                "items": [
+                    "IVF - In vitro fertilization",
+                    "Gynecological laparoscopic surgery",
+                    "Natural birth and cesarean section",
+                    "Treatment of gynecological diseases"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Modern Delivery Rooms",
+                "desc1": "Comfortable delivery rooms according to international standards",
+                "desc2": "Continuous fetal monitoring system"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "4D ultrasound machine",
+                    "IVF system",
+                    "Colposcope",
+                    "Gynecological laparoscopy system",
+                    "Fetal monitor"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Obstetrics & Gynecology"
+        }
+    },
+    "generalHealth": {
+        "title": "GENERAL HEALTH",
+        "subtitle": "GENERAL HEALTH CHECK-UP",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec provides comprehensive general health check-up packages to help detect health issues early.",
+        "overview": {
+            "section1": {
+                "title": "Comprehensive Health Check-up",
+                "desc": "Check-up packages designed to suit each age group and gender"
+            },
+            "section2": {
+                "title": "Benefits",
+                "items": [
+                    "Early detection of hidden diseases",
+                    "Overall health assessment",
+                    "Disease prevention counseling",
+                    "Building health care plans"
+                ]
+            },
+            "section3": {
+                "title": "Examination Process",
+                "items": [
+                    "Registration and queue number",
+                    "Clinical examination of specialties",
+                    "Testing and diagnostic imaging",
+                    "Receiving results and doctor consultation"
+                ]
+            },
+            "section4": {
+                "title": "Diverse Packages",
+                "sub1": {
+                    "title": "Basic Package",
+                    "desc": "General examination and basic tests"
+                },
+                "sub2": {
+                    "title": "VIP Package",
+                    "desc": "Comprehensive examination with advanced tests"
+                }
+            },
+            "section5": {
+                "title": "Health Monitoring",
+                "desc": "Electronic health record storage and follow-up appointment reminders"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Examination Content",
+                "items": [
+                    "General internal examination",
+                    "Cardiac examination",
+                    "Eye examination",
+                    "ENT examination",
+                    "Dental examination",
+                    "Dermatology examination"
+                ]
+            },
+            "section2": {
+                "title": "Testing",
+                "items": [
+                    "Complete blood count",
+                    "Liver and kidney function tests",
+                    "Abdominal ultrasound",
+                    "X-ray"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Modern Examination Process",
+                "desc1": "Online registration and examination management system",
+                "desc2": "Same-day results delivery"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "Automated testing machine",
+                    "Ultrasound machine",
+                    "Digital X-ray machine",
+                    "Bone density measurement machine",
+                    "ECG machine"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "General Internal Medicine"
+        }
+    },
+    "ophthalmology": {
+        "title": "OPHTHALMOLOGY",
+        "subtitle": "EYE CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Eye Center provides comprehensive examination and treatment services for eye diseases with modern technology.",
+        "overview": {
+            "section1": {
+                "title": "Leading Eye Center",
+                "desc": "Team of experienced ophthalmologists and advanced laser technology"
+            },
+            "section2": {
+                "title": "Outstanding Services",
+                "items": [
+                    "Laser surgery for myopia",
+                    "Cataract surgery",
+                    "Retinal disease treatment",
+                    "Glaucoma treatment"
+                ]
+            },
+            "section3": {
+                "title": "Examination Process",
+                "items": [
+                    "Visual acuity and refraction measurement",
+                    "Slit lamp examination",
+                    "Intraocular pressure measurement",
+                    "OCT retinal imaging"
+                ]
+            },
+            "section4": {
+                "title": "Refractive Surgery",
+                "sub1": {
+                    "title": "LASIK/SMILE",
+                    "desc": "Laser surgery for myopia, hyperopia, astigmatism"
+                },
+                "sub2": {
+                    "title": "Phaco",
+                    "desc": "Phacoemulsification cataract surgery with IOL implantation"
+                }
+            },
+            "section5": {
+                "title": "Post-surgery Care",
+                "desc": "Regular monitoring and follow-up after surgery"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Examination Services",
+                "items": [
+                    "General eye examination",
+                    "Automated refraction measurement",
+                    "OCT imaging",
+                    "Fluorescein angiography",
+                    "Visual field testing",
+                    "Ocular ultrasound"
+                ]
+            },
+            "section2": {
+                "title": "Surgical Services",
+                "items": [
+                    "LASIK/SMILE Pro",
+                    "Cataract surgery",
+                    "Strabismus surgery",
+                    "Retinal detachment treatment"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Modern Laser Technology",
+                "desc1": "Latest generation SMILE Pro system",
+                "desc2": "WaveLight EX500 Excimer laser machine"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "OCT machine",
+                    "Phaco ultrasound machine",
+                    "Slit lamp biomicroscope",
+                    "Automated visual field machine",
+                    "Retinal laser"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Ophthalmology"
+        }
+    },
+    "dental": {
+        "title": "DENTAL",
+        "subtitle": "DENTAL CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Dental Center provides comprehensive oral care services with modern technology.",
+        "overview": {
+            "section1": {
+                "title": "Modern Dental Center",
+                "desc": "Team of experienced dentists and advanced equipment"
+            },
+            "section2": {
+                "title": "Outstanding Services",
+                "items": [
+                    "Dental implants",
+                    "Orthodontic braces",
+                    "Cosmetic dental crowns",
+                    "Teeth whitening"
+                ]
+            },
+            "section3": {
+                "title": "Examination Process",
+                "items": [
+                    "General oral examination",
+                    "Panoramic X-ray",
+                    "Consultation and treatment planning",
+                    "Treatment execution"
+                ]
+            },
+            "section4": {
+                "title": "Advanced Treatment",
+                "sub1": {
+                    "title": "Dental Implants",
+                    "desc": "Dental implant placement with CAD/CAM technology"
+                },
+                "sub2": {
+                    "title": "Invisalign Braces",
+                    "desc": "Orthodontics with clear aligners"
+                }
+            },
+            "section5": {
+                "title": "Post-treatment Care",
+                "desc": "Oral hygiene guidance and regular follow-ups"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "General Services",
+                "items": [
+                    "Regular dental check-ups",
+                    "Dental scaling",
+                    "Dental fillings",
+                    "Tooth extraction",
+                    "Root canal treatment",
+                    "Periodontal treatment"
+                ]
+            },
+            "section2": {
+                "title": "Cosmetic Services",
+                "items": [
+                    "Veneer application",
+                    "Dental crowns",
+                    "Teeth whitening",
+                    "Cosmetic braces"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Digital Technology",
+                "desc1": "CAD/CAM system for designing and fabricating dental crowns",
+                "desc2": "3D dental scanner"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "Cone Beam CT machine",
+                    "Panoramic X-ray machine",
+                    "Modern dental chair",
+                    "Dental laser system",
+                    "Implant placement machine"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Dental"
+        }
+    },
+    "traditionalMedicine": {
+        "title": "TRADITIONAL MEDICINE",
+        "subtitle": "TRADITIONAL MEDICINE CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Traditional Medicine Center combines Traditional Medicine with Modern Medicine in treatment.",
+        "overview": {
+            "section1": {
+                "title": "East-West Medicine Integration",
+                "desc": "Treatment methods combining the essence of Traditional Medicine and Modern Medicine"
+            },
+            "section2": {
+                "title": "Outstanding Services",
+                "items": [
+                    "Acupuncture",
+                    "Massage and acupressure",
+                    "Thread embedding",
+                    "Herbal medicine"
+                ]
+            },
+            "section3": {
+                "title": "Conditions Treated",
+                "items": [
+                    "Spinal pain, joint degeneration",
+                    "Nerve paralysis",
+                    "Digestive disorders",
+                    "Insomnia, stress"
+                ]
+            },
+            "section4": {
+                "title": "Treatment Methods",
+                "sub1": {
+                    "title": "Acupuncture",
+                    "desc": "Traditional acupuncture combined with modern electroacupuncture"
+                },
+                "sub2": {
+                    "title": "Aquapuncture",
+                    "desc": "Drug injection into acupuncture points for pain treatment"
+                }
+            },
+            "section5": {
+                "title": "Comprehensive Care",
+                "desc": "Lifestyle guidance and disease prevention according to traditional medicine"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Acupuncture Services",
+                "items": [
+                    "Traditional acupuncture",
+                    "Electroacupuncture",
+                    "Ear acupuncture",
+                    "Thread embedding",
+                    "Aquapuncture",
+                    "Moxibustion"
+                ]
+            },
+            "section2": {
+                "title": "Other Services",
+                "items": [
+                    "Massage and acupressure",
+                    "Cupping",
+                    "Herbal medicine prescription",
+                    "Physical therapy"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "East-West Medicine Integration",
+                "desc1": "Diagnosis with modern equipment combined with traditional medicine theory",
+                "desc2": "Quality-tested herbal medicines"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "Electroacupuncture machine",
+                    "Infrared lamp",
+                    "Short wave machine",
+                    "Electric pulse machine",
+                    "Comfortable treatment room"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Traditional Medicine"
+        }
+    },
+    "regenerativeMedicine": {
+        "title": "REGENERATIVE MEDICINE",
+        "subtitle": "REGENERATIVE MEDICINE CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Regenerative Medicine Center applies stem cell technology and advanced regenerative medicine.",
+        "overview": {
+            "section1": {
+                "title": "Advanced Regenerative Medicine",
+                "desc": "Application of stem cells and biotechnology in treatment and tissue regeneration"
+            },
+            "section2": {
+                "title": "Treatment Applications",
+                "items": [
+                    "Joint degeneration",
+                    "Sports injuries",
+                    "Skin rejuvenation",
+                    "Hair loss"
+                ]
+            },
+            "section3": {
+                "title": "Outstanding Technologies",
+                "items": [
+                    "PRP injection",
+                    "Autologous stem cells",
+                    "Exosome therapy",
+                    "Tissue regeneration therapy"
+                ]
+            },
+            "section4": {
+                "title": "Treatment Methods",
+                "sub1": {
+                    "title": "PRP - Platelet Rich Plasma",
+                    "desc": "PRP injection into joints or skin for regeneration and healing"
+                },
+                "sub2": {
+                    "title": "Stem Cells",
+                    "desc": "Stem cell transplantation from fat or bone marrow"
+                }
+            },
+            "section5": {
+                "title": "Research and Development",
+                "desc": "Collaboration with leading research institutes in regenerative medicine"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Treatment Services",
+                "items": [
+                    "Joint PRP injection",
+                    "Stem cell injection",
+                    "Skin rejuvenation with PRP",
+                    "Hair loss treatment with PRP",
+                    "Soft tissue regeneration",
+                    "Non-healing wound treatment"
+                ]
+            },
+            "section2": {
+                "title": "Aesthetic Services",
+                "items": [
+                    "Mesotherapy",
+                    "Vampire facial",
+                    "Hand rejuvenation",
+                    "Scar treatment"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Modern Laboratory",
+                "desc1": "Advanced PRP extraction system",
+                "desc2": "Sterile environment according to international standards"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "PRP centrifuge",
+                    "Cell culture system",
+                    "Ultrasound-guided injection machine",
+                    "Sterile laminar flow cabinet system",
+                    "Cell analyzer"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Regenerative Medicine"
+        }
+    },
+    "orthopedics": {
+        "title": "ORTHOPEDICS",
+        "subtitle": "ORTHOPEDICS CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Orthopedics Center specializes in diagnosing and treating bone, joint, and spinal diseases.",
+        "overview": {
+            "section1": {
+                "title": "Trauma and Orthopedics Center",
+                "desc": "Team of experienced surgeons in trauma and orthopedics"
+            },
+            "section2": {
+                "title": "Conditions Treated",
+                "items": [
+                    "Joint degeneration",
+                    "Herniated disc",
+                    "Bone fractures",
+                    "Rheumatoid arthritis"
+                ]
+            },
+            "section3": {
+                "title": "Outstanding Surgeries",
+                "items": [
+                    "Hip and knee replacement",
+                    "Joint arthroscopy",
+                    "Spinal surgery",
+                    "Bone fixation"
+                ]
+            },
+            "section4": {
+                "title": "Treatment Methods",
+                "sub1": {
+                    "title": "Joint Arthroscopy",
+                    "desc": "Arthroscopic surgery for ligament and cartilage injuries"
+                },
+                "sub2": {
+                    "title": "Joint Replacement",
+                    "desc": "Total or partial hip and knee replacement"
+                }
+            },
+            "section5": {
+                "title": "Rehabilitation",
+                "desc": "Comprehensive post-surgery rehabilitation program"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Examination Services",
+                "items": [
+                    "Orthopedic examination",
+                    "Bone and joint X-ray",
+                    "Joint MRI",
+                    "Bone density measurement",
+                    "Joint fluid analysis",
+                    "Joint ultrasound"
+                ]
+            },
+            "section2": {
+                "title": "Surgical Services",
+                "items": [
+                    "Hip/knee replacement",
+                    "Shoulder/knee arthroscopy",
+                    "Spinal surgery",
+                    "Fracture fixation"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Minimally Invasive Surgery",
+                "desc1": "High-resolution joint arthroscopy system",
+                "desc2": "Robot-assisted joint replacement surgery"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "Joint arthroscopy system",
+                    "Intraoperative C-arm",
+                    "3.0T MRI machine",
+                    "High-quality prosthetic joints",
+                    "Rehabilitation equipment"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Trauma and Orthopedics"
+        }
+    },
+    "stemCell": {
+        "title": "STEM CELL",
+        "subtitle": "STEM CELL INSTITUTE",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Stem Cell Institute is a pioneer in stem cell research and application in Vietnam.",
+        "overview": {
+            "section1": {
+                "title": "Leading Research Institute",
+                "desc": "The most advanced stem cell research and application center in Vietnam"
+            },
+            "section2": {
+                "title": "Research Areas",
+                "items": [
+                    "Cord blood stem cells",
+                    "Mesenchymal stem cells",
+                    "Gene therapy",
+                    "Regenerative medicine"
+                ]
+            },
+            "section3": {
+                "title": "Clinical Applications",
+                "items": [
+                    "Blood disease treatment",
+                    "Autism treatment",
+                    "Cerebral palsy treatment",
+                    "Joint degeneration treatment"
+                ]
+            },
+            "section4": {
+                "title": "Storage Services",
+                "sub1": {
+                    "title": "Cord Blood Bank",
+                    "desc": "Storing stem cells from cord blood for families"
+                },
+                "sub2": {
+                    "title": "Cord Tissue Bank",
+                    "desc": "Storing mesenchymal stem cells from cord tissue"
+                }
+            },
+            "section5": {
+                "title": "International Collaboration",
+                "desc": "Collaboration with world-leading stem cell research institutes"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Storage Services",
+                "items": [
+                    "Cord blood storage",
+                    "Cord tissue storage",
+                    "Mesenchymal stem cell storage",
+                    "Cell processing and preservation",
+                    "Quality testing",
+                    "Transportation and delivery"
+                ]
+            },
+            "section2": {
+                "title": "Treatment Services",
+                "items": [
+                    "Hematopoietic stem cell transplantation",
+                    "Autism treatment",
+                    "Cerebral palsy treatment",
+                    "Clinical research"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "International Standard Laboratory",
+                "desc1": "AABB certified (American Association of Blood Banks)",
+                "desc2": "Storage system in liquid nitrogen at -196°C"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "Liquid nitrogen tank",
+                    "Sterile laminar flow cabinet",
+                    "Cell separator",
+                    "Flow cytometer",
+                    "Specialized cold storage"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Stem Cell"
+        }
+    },
+    "vaccine": {
+        "title": "VACCINATION",
+        "subtitle": "VACCINATION CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Vaccination Center provides complete and safe vaccination services for all ages.",
+        "overview": {
+            "section1": {
+                "title": "Safe Vaccination",
+                "desc": "Standard vaccination process with high-quality vaccines from reputable manufacturers"
+            },
+            "section2": {
+                "title": "Diverse Vaccines",
+                "items": [
+                    "Vaccines for children",
+                    "Vaccines for adults",
+                    "Vaccines for pregnant women",
+                    "Travel vaccines"
+                ]
+            },
+            "section3": {
+                "title": "Vaccination Process",
+                "items": [
+                    "Pre-vaccination screening",
+                    "Consultation on suitable vaccines",
+                    "Safe vaccination",
+                    "30-minute post-vaccination monitoring"
+                ]
+            },
+            "section4": {
+                "title": "Benefits",
+                "sub1": {
+                    "title": "New Generation Vaccines",
+                    "desc": "Using combination vaccines, reducing the number of injections"
+                },
+                "sub2": {
+                    "title": "Vaccination Schedule Tracking",
+                    "desc": "Automatic vaccination reminder system via app"
+                }
+            },
+            "section5": {
+                "title": "Absolute Safety",
+                "desc": "Vaccine cold chain monitored 24/7"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Vaccines for Children",
+                "items": [
+                    "6-in-1 vaccine",
+                    "Pneumococcal vaccine",
+                    "Rotavirus vaccine",
+                    "Japanese encephalitis vaccine",
+                    "Measles - Mumps - Rubella vaccine",
+                    "Chickenpox vaccine"
+                ]
+            },
+            "section2": {
+                "title": "Vaccines for Adults",
+                "items": [
+                    "Flu vaccine",
+                    "Hepatitis B vaccine",
+                    "HPV vaccine",
+                    "Shingles vaccine"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Vaccine Storage",
+                "desc1": "Specialized refrigerators with temperature monitoring system",
+                "desc2": "Backup power ensuring continuous operation"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "Vaccine storage refrigerator",
+                    "Anaphylaxis emergency kit",
+                    "Vaccination management software",
+                    "Temperature monitoring system",
+                    "Post-vaccination monitoring room"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Vaccination"
+        }
+    },
+    "breastCenter": {
+        "title": "BREAST CENTER",
+        "subtitle": "BREAST HEALTH CARE CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Breast Center specializes in screening, diagnosis and treatment of breast diseases.",
+        "overview": {
+            "section1": {
+                "title": "Comprehensive Breast Healthcare",
+                "desc": "Breast screening and treatment services with expert team"
+            },
+            "section2": {
+                "title": "Outstanding Services",
+                "items": [
+                    "Breast cancer screening",
+                    "Breast biopsy",
+                    "Breast tumor surgery",
+                    "Breast cancer treatment"
+                ]
+            },
+            "section3": {
+                "title": "Examination Process",
+                "items": [
+                    "Clinical breast examination",
+                    "Breast ultrasound",
+                    "Mammography",
+                    "Biopsy if needed"
+                ]
+            },
+            "section4": {
+                "title": "Advanced Treatment",
+                "sub1": {
+                    "title": "Breast-Conserving Surgery",
+                    "desc": "Tumor removal while maximally preserving the breast"
+                },
+                "sub2": {
+                    "title": "Multimodal Treatment",
+                    "desc": "Combining surgery, chemotherapy, radiotherapy, hormonal therapy"
+                }
+            },
+            "section5": {
+                "title": "Psychological Support",
+                "desc": "Counseling and psychological support for patients during treatment"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Screening Services",
+                "items": [
+                    "Clinical breast examination",
+                    "Breast ultrasound",
+                    "3D mammography",
+                    "Breast MRI",
+                    "Needle biopsy",
+                    "Vacuum-assisted biopsy"
+                ]
+            },
+            "section2": {
+                "title": "Treatment Services",
+                "items": [
+                    "Benign tumor removal surgery",
+                    "Breast cancer surgery",
+                    "Post-surgery breast reconstruction",
+                    "Chemotherapy, radiotherapy"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Modern Diagnostic Imaging",
+                "desc1": "3D mammography machine (Tomosynthesis)",
+                "desc2": "Vacuum-assisted biopsy system (VAB)"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "Breast ultrasound machine",
+                    "3D mammography machine",
+                    "3.0 Tesla MRI",
+                    "VAB system",
+                    "Radiotherapy machine"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Breast Oncology"
+        }
+    },
+    "neurology": {
+        "title": "NEUROLOGY",
+        "subtitle": "NEUROLOGY CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Neurology Center specializes in diagnosing and treating neurological and brain diseases.",
+        "overview": {
+            "section1": {
+                "title": "Advanced Neurology Center",
+                "desc": "Leading neurology experts with modern equipment"
+            },
+            "section2": {
+                "title": "Conditions Treated",
+                "items": [
+                    "Stroke",
+                    "Epilepsy",
+                    "Parkinson's disease",
+                    "Headache, dizziness"
+                ]
+            },
+            "section3": {
+                "title": "Outstanding Services",
+                "items": [
+                    "Stroke emergency care",
+                    "Cerebrovascular intervention",
+                    "Brain tumor surgery",
+                    "Epilepsy treatment"
+                ]
+            },
+            "section4": {
+                "title": "Stroke",
+                "sub1": {
+                    "title": "Stroke Emergency",
+                    "desc": "\"Golden hour\" stroke treatment process according to international standards"
+                },
+                "sub2": {
+                    "title": "Thrombectomy",
+                    "desc": "Endovascular procedure to remove blood clots from cerebral vessels"
+                }
+            },
+            "section5": {
+                "title": "Rehabilitation",
+                "desc": "Comprehensive rehabilitation program for neurological patients"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Diagnostic Services",
+                "items": [
+                    "Brain MRI",
+                    "Brain CT",
+                    "Electroencephalogram (EEG)",
+                    "Electromyography (EMG)",
+                    "Cerebrovascular Doppler",
+                    "Cerebrospinal fluid analysis"
+                ]
+            },
+            "section2": {
+                "title": "Treatment Services",
+                "items": [
+                    "Cerebrovascular intervention",
+                    "Brain tumor surgery",
+                    "Drug-resistant epilepsy treatment",
+                    "Deep brain stimulation (DBS)"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Vascular Intervention Room",
+                "desc1": "Biplane DSA system for cerebrovascular intervention",
+                "desc2": "24/7 stroke emergency process"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "3.0 Tesla MRI",
+                    "640-slice CT",
+                    "Biplane DSA",
+                    "Video EEG machine",
+                    "Surgical navigation system"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Neurology"
+        }
+    },
+    "mentalHealth": {
+        "title": "MENTAL HEALTH",
+        "subtitle": "MENTAL HEALTH CENTER",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Mental Health Center provides diagnostic and treatment services for mental disorders.",
+        "overview": {
+            "section1": {
+                "title": "Mental Healthcare",
+                "desc": "Experienced team of psychiatrists and psychologists"
+            },
+            "section2": {
+                "title": "Conditions Treated",
+                "items": [
+                    "Depression",
+                    "Anxiety disorders",
+                    "Sleep disorders",
+                    "Eating disorders"
+                ]
+            },
+            "section3": {
+                "title": "Treatment Methods",
+                "items": [
+                    "Psychotherapy",
+                    "Antidepressant medication",
+                    "Cognitive behavioral therapy (CBT)",
+                    "Family therapy"
+                ]
+            },
+            "section4": {
+                "title": "Special Services",
+                "sub1": {
+                    "title": "Psychological Counseling",
+                    "desc": "Individual and family counseling with psychologists"
+                },
+                "sub2": {
+                    "title": "TMS - Transcranial Magnetic Stimulation",
+                    "desc": "Treatment for drug-resistant depression using magnetic stimulation"
+                }
+            },
+            "section5": {
+                "title": "Information Confidentiality",
+                "desc": "Absolute commitment to patient information confidentiality"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Assessment Services",
+                "items": [
+                    "Psychiatric examination",
+                    "Psychological assessment",
+                    "IQ, EQ testing",
+                    "Autism assessment",
+                    "ADHD assessment",
+                    "Sleep polysomnography"
+                ]
+            },
+            "section2": {
+                "title": "Treatment Services",
+                "items": [
+                    "Psychotherapy",
+                    "Medication treatment",
+                    "TMS",
+                    "Group therapy"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Treatment Environment",
+                "desc1": "Private counseling rooms ensuring privacy",
+                "desc2": "Relaxation space for psychotherapy"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "TMS machine",
+                    "Sleep polysomnography machine",
+                    "Standardized psychological test kit",
+                    "Psychological assessment software",
+                    "Biofeedback equipment"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Psychiatry"
+        }
+    },
+    "pharmacy": {
+        "title": "PHARMACY",
+        "subtitle": "PHARMACY DEPARTMENT",
+        "tabs": {
+            "overview": "Overview",
+            "services": "Services",
+            "technology": "Technology",
+            "doctors": "Doctor List"
+        },
+        "description": "Vinmec Pharmacy Department ensures providing high-quality and safe medications for patients.",
+        "overview": {
+            "section1": {
+                "title": "Quality Pharmacy Services",
+                "desc": "Ensuring genuine, high-quality medications at reasonable prices"
+            },
+            "section2": {
+                "title": "Outstanding Services",
+                "items": [
+                    "Medication use counseling",
+                    "Special medication compounding",
+                    "Clinical pharmacy",
+                    "Antibiotic stewardship"
+                ]
+            },
+            "section3": {
+                "title": "Dispensing Process",
+                "items": [
+                    "Receiving prescription",
+                    "Drug interaction checking",
+                    "Medication preparation",
+                    "Counseling and handover"
+                ]
+            },
+            "section4": {
+                "title": "Clinical Pharmacy",
+                "sub1": {
+                    "title": "Medication Counseling",
+                    "desc": "Pharmacists advise on proper medication use"
+                },
+                "sub2": {
+                    "title": "Antibiotic Stewardship",
+                    "desc": "Program for rational antibiotic use management"
+                }
+            },
+            "section5": {
+                "title": "Medication Safety",
+                "desc": "Strict medication quality control system"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Pharmacy Services",
+                "items": [
+                    "Inpatient medication dispensing",
+                    "Outpatient medication dispensing",
+                    "Medication use counseling",
+                    "Medication compounding",
+                    "Chemotherapy preparation",
+                    "Unit dose"
+                ]
+            },
+            "section2": {
+                "title": "Clinical Services",
+                "items": [
+                    "Clinical pharmacy",
+                    "ADR monitoring",
+                    "Antibiotic stewardship",
+                    "Parenteral nutrition counseling"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Medication Management System",
+                "desc1": "Smart medication inventory management software",
+                "desc2": "Barcode system for medication tracking"
+            },
+            "section2": {
+                "title": "Equipment",
+                "items": [
+                    "Automated medication dispensing cabinet",
+                    "Unit dose packaging machine",
+                    "Vaccine storage refrigerator",
+                    "Smart medication cabinet system",
+                    "Drug interaction checking software"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Pharmacy"
+        }
+    },
+    "doctorList": "Doctor List",
+    "viewProfile": "View Profile",
+    "bookAppointment": "Book Appointment",
+    "callHotline": "Call Hotline",
+    "findDoctor": "Find Doctor"
+}

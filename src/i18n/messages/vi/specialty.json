@@ -1,0 +1,1758 @@
+{
+    "pageTitle": "Chuyên Khoa",
+    "breadcrumbHome": "Trang chủ",
+    "breadcrumbSpecialty": "Chuyên khoa",
+    "emergency": {
+        "title": "Cấp Cứu",
+        "subtitle": "CẤP CỨU - HỒI SỨC TÍCH CỰC",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trong nhiều năm qua, Vinmec đã tiến hành cấp cứu và cứu sống những bệnh nhân nặng, phức tạp; thực hiện thành công nhiều sự việc cấp cứu lớn, cấp cứu hàng loạt.",
+        "overview": {
+            "section1": {
+                "title": "Hoạt động 24/7",
+                "desc": "Tất cả các ngày trong tuần, kể cả Thứ 7, Chủ nhật và ngày lễ trong năm"
+            },
+            "section2": {
+                "title": "Uy tín & Phản ứng nhanh",
+                "items": [
+                    "Đội ngũ bác sĩ, nhân viên y tế được đào tạo bài bản, chuyên sâu về nhiều lĩnh vực hồi sức cấp cứu với chứng chỉ quốc tế như ACLS, PALS, FCCS",
+                    "Hỗ trợ đắc lực cho khoa Cấp cứu là đội ngũ thư ký chuyên môn phiên dịch viên đa ngôn ngữ",
+                    "Tất cả các xe cấp cứu chuyên dụng được trang bị hiện đại với hệ thống máy thở chuyên nghiệp"
+                ]
+            },
+            "section3": {
+                "title": "Quy trình cấp cứu chuyên nghiệp",
+                "items": [
+                    "Người bệnh được đánh giá chính xác và phân loại tình trạng bệnh theo thang điểm phân loại bệnh nhân của Úc",
+                    "Người bệnh được chăm sóc chuyên sâu, với sự phối hợp của nhiều chuyên khoa",
+                    "Khoa có đầy đủ chức năng cấp cứu và điều trị tình trạng cấp cứu, khẩn cấp",
+                    "Khoa Hồi sức cấp cứu Vinmec cũng đảm nhiệm công tác hồi sức sau phẫu thuật"
+                ]
+            },
+            "section4": {
+                "title": "Thực hiện 4 mô hình hồi sức cấp cứu",
+                "sub1": {
+                    "title": "Đội phản ứng nhanh (RRT)",
+                    "desc": "Để phát hiện sớm các dấu hiệu thay đổi cấp tính của người bệnh, dự phòng từ xa các biến cố ngừng tuần hoàn"
+                },
+                "sub2": {
+                    "title": "Xử trí tình trạng nhiễm khuẩn huyết",
+                    "desc": "Nhận diện được sớm các dấu hiệu khi bệnh nhân bị nhiễm khuẩn huyết và sốc nhiễm khuẩn"
+                }
+            },
+            "section5": {
+                "title": "Đi buồng đa chuyên khoa",
+                "desc": "Hàng ngày đội Core đi buồng các bệnh nhân ICU, kế hoạch điều trị chăm sóc toàn diện được thảo luận và thống nhất"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Khám và xử trí cấp cứu đa khoa",
+                "items": [
+                    "Cấp cứu ngừng tuần hoàn với người bệnh ngừng tim, hội chứng mạch vành cấp",
+                    "Cấp cứu đột quỵ não cấp",
+                    "Cấp cứu nhiễm trùng nặng",
+                    "Cấp cứu thần kinh (hôn mê, co giật…)",
+                    "Cấp cứu hô hấp (suy hô hấp, tắc động mạch phổi…)",
+                    "Cấp cứu ổ bụng (viêm tụy cấp, xuất huyết tiêu hóa…)"
+                ]
+            },
+            "section2": {
+                "title": "Hồi sức cấp cứu cơ bản & chuyên sâu",
+                "items": [
+                    "Hồi sức cấp cứu từ cơ bản đến chuyên sâu ở nhiều lĩnh vực",
+                    "Hồi sức các bệnh lý nhiễm khuẩn nặng",
+                    "Hồi sức hậu phẫu sau phẫu thuật tim mạch",
+                    "Hồi sức ngoại thần kinh: Sau mổ u não, chấn thương sọ não"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Hệ thống phòng cấp cứu riêng biệt",
+                "desc1": "Hệ thống phòng cấp cứu riêng, đặc thù cho từng loại hình chuyên khoa",
+                "desc2": "Hệ thống phòng cách ly áp lực âm đáp ứng các yêu cầu cách ly riêng biệt"
+            },
+            "section2": {
+                "title": "Hệ thống trang thiết bị hiện đại",
+                "items": [
+                    "Máy thở cao cấp",
+                    "Máy thở không xâm nhập",
+                    "Máy siêu âm di động",
+                    "Máy xét nghiệm khí máu nhanh",
+                    "Máy sốc điện tự động AED",
+                    "Xe cứu thương đạt tiêu chuẩn quốc tế"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Hồi sức - Cấp cứu"
+        }
+    },
+    "cardiology": {
+        "title": "Tim Mạch",
+        "subtitle": "TRUNG TÂM TIM MẠCH",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Tim mạch Vinmec là một trong những trung tâm tim mạch hàng đầu tại Việt Nam, cung cấp dịch vụ chẩn đoán và điều trị toàn diện các bệnh lý tim mạch.",
+        "overview": {
+            "section1": {
+                "title": "Trung tâm Tim mạch hàng đầu",
+                "desc": "Vinmec sở hữu đội ngũ chuyên gia tim mạch giàu kinh nghiệm, được đào tạo tại các trung tâm y khoa hàng đầu thế giới"
+            },
+            "section2": {
+                "title": "Dịch vụ chuyên sâu",
+                "items": [
+                    "Can thiệp tim mạch qua da (PCI)",
+                    "Phẫu thuật tim hở",
+                    "Đặt máy tạo nhịp tim",
+                    "Điều trị rối loạn nhịp tim"
+                ]
+            },
+            "section3": {
+                "title": "Quy trình điều trị",
+                "items": [
+                    "Khám sàng lọc và chẩn đoán sớm các bệnh lý tim mạch",
+                    "Xây dựng phác đồ điều trị cá nhân hóa",
+                    "Theo dõi và chăm sóc sau điều trị",
+                    "Phục hồi chức năng tim mạch"
+                ]
+            },
+            "section4": {
+                "title": "Công nghệ hiện đại",
+                "sub1": {
+                    "title": "Phòng can thiệp tim mạch",
+                    "desc": "Được trang bị hệ thống chụp mạch số hóa xóa nền DSA hiện đại nhất"
+                },
+                "sub2": {
+                    "title": "Phòng mổ hybrid",
+                    "desc": "Kết hợp phẫu thuật và can thiệp trong cùng một phòng mổ"
+                }
+            },
+            "section5": {
+                "title": "Chăm sóc toàn diện",
+                "desc": "Bệnh nhân được chăm sóc từ giai đoạn chẩn đoán, điều trị đến phục hồi chức năng"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ chẩn đoán",
+                "items": [
+                    "Điện tâm đồ (ECG)",
+                    "Siêu âm tim",
+                    "CT mạch vành",
+                    "Chụp mạch vành",
+                    "Holter điện tim 24h",
+                    "Nghiệm pháp gắng sức"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ điều trị",
+                "items": [
+                    "Can thiệp mạch vành qua da",
+                    "Phẫu thuật bắc cầu mạch vành",
+                    "Sửa/thay van tim",
+                    "Đặt máy tạo nhịp tim/ICD"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Phòng can thiệp hiện đại",
+                "desc1": "Hệ thống DSA thế hệ mới với khả năng chụp mạch 3D",
+                "desc2": "Hệ thống FFR đo lưu lượng máu qua mạch vành"
+            },
+            "section2": {
+                "title": "Trang thiết bị chẩn đoán",
+                "items": [
+                    "Máy siêu âm tim 4D",
+                    "CT 640 lát cắt",
+                    "MRI tim 3.0 Tesla",
+                    "Máy Holter điện tim",
+                    "Hệ thống theo dõi bệnh nhân từ xa"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Tim mạch"
+        }
+    },
+    "oncology": {
+        "title": "Ung Bướu",
+        "subtitle": "TRUNG TÂM UNG BƯỚU",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Ung bướu Vinmec cung cấp dịch vụ tầm soát, chẩn đoán và điều trị ung thư toàn diện theo tiêu chuẩn quốc tế.",
+        "overview": {
+            "section1": {
+                "title": "Điều trị ung thư toàn diện",
+                "desc": "Áp dụng phác đồ điều trị đa mô thức kết hợp phẫu thuật, hóa trị, xạ trị và liệu pháp miễn dịch"
+            },
+            "section2": {
+                "title": "Dịch vụ nổi bật",
+                "items": [
+                    "Tầm soát ung thư sớm",
+                    "Sinh thiết và chẩn đoán mô học",
+                    "Hóa trị liệu",
+                    "Xạ trị chính xác cao"
+                ]
+            },
+            "section3": {
+                "title": "Quy trình điều trị",
+                "items": [
+                    "Hội chẩn đa chuyên khoa",
+                    "Xây dựng phác đồ điều trị cá nhân hóa",
+                    "Theo dõi và đánh giá đáp ứng điều trị",
+                    "Chăm sóc giảm nhẹ và hỗ trợ tâm lý"
+                ]
+            },
+            "section4": {
+                "title": "Phương pháp điều trị",
+                "sub1": {
+                    "title": "Phẫu thuật ung thư",
+                    "desc": "Phẫu thuật cắt bỏ khối u và phẫu thuật nội soi ít xâm lấn"
+                },
+                "sub2": {
+                    "title": "Liệu pháp đích",
+                    "desc": "Điều trị nhắm trúng đích giúp tiêu diệt tế bào ung thư chọn lọc"
+                }
+            },
+            "section5": {
+                "title": "Chăm sóc toàn diện",
+                "desc": "Hỗ trợ dinh dưỡng, phục hồi chức năng và chăm sóc tinh thần cho bệnh nhân"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ chẩn đoán",
+                "items": [
+                    "PET/CT toàn thân",
+                    "Sinh thiết kim nhỏ",
+                    "Xét nghiệm gen ung thư",
+                    "Nội soi tiêu hóa",
+                    "Chụp MRI, CT đa lát cắt",
+                    "Xét nghiệm dấu ấn ung thư"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ điều trị",
+                "items": [
+                    "Hóa trị",
+                    "Xạ trị IMRT/VMAT",
+                    "Phẫu thuật robot",
+                    "Liệu pháp miễn dịch"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Hệ thống xạ trị hiện đại",
+                "desc1": "Máy gia tốc tuyến tính với công nghệ IMRT, VMAT",
+                "desc2": "Hệ thống lập kế hoạch xạ trị 3D"
+            },
+            "section2": {
+                "title": "Trang thiết bị chẩn đoán",
+                "items": [
+                    "Máy PET/CT",
+                    "Máy CT mô phỏng xạ trị",
+                    "Hệ thống giải trình tự gen",
+                    "Máy siêu âm đàn hồi",
+                    "Kính hiển vi phẫu thuật"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Ung bướu"
+        }
+    },
+    "immunology": {
+        "title": "Miễn Dịch - Dị Ứng",
+        "subtitle": "MIỄN DỊCH - DỊ ỨNG - HEN LÂM SÀNG",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Chuyên khoa Miễn dịch - Dị ứng tại Vinmec chuyên chẩn đoán và điều trị các bệnh lý dị ứng, hen suyễn và các rối loạn miễn dịch.",
+        "overview": {
+            "section1": {
+                "title": "Chuyên khoa Miễn dịch - Dị ứng",
+                "desc": "Đội ngũ bác sĩ chuyên khoa giàu kinh nghiệm trong chẩn đoán và điều trị các bệnh lý dị ứng"
+            },
+            "section2": {
+                "title": "Các bệnh lý điều trị",
+                "items": [
+                    "Hen phế quản",
+                    "Viêm mũi dị ứng",
+                    "Dị ứng thức ăn",
+                    "Dị ứng thuốc"
+                ]
+            },
+            "section3": {
+                "title": "Quy trình khám và điều trị",
+                "items": [
+                    "Thăm khám và đánh giá lâm sàng",
+                    "Xét nghiệm dị nguyên",
+                    "Test da (Skin prick test)",
+                    "Xây dựng phác đồ điều trị cá nhân hóa"
+                ]
+            },
+            "section4": {
+                "title": "Phương pháp điều trị",
+                "sub1": {
+                    "title": "Liệu pháp miễn dịch đặc hiệu",
+                    "desc": "Giảm mẫn cảm với dị nguyên, giúp kiểm soát triệu chứng dị ứng lâu dài"
+                },
+                "sub2": {
+                    "title": "Điều trị hen suyễn",
+                    "desc": "Phác đồ điều trị hen theo GINA, kiểm soát cơn hen hiệu quả"
+                }
+            },
+            "section5": {
+                "title": "Giáo dục sức khỏe",
+                "desc": "Hướng dẫn bệnh nhân cách phòng tránh dị nguyên và tự quản lý bệnh"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ chẩn đoán",
+                "items": [
+                    "Test dị ứng da",
+                    "Xét nghiệm IgE đặc hiệu",
+                    "Đo chức năng hô hấp",
+                    "Test kích thích phế quản",
+                    "Test dị ứng thức ăn",
+                    "Xét nghiệm dị ứng thuốc"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ điều trị",
+                "items": [
+                    "Liệu pháp miễn dịch đặc hiệu (SCIT/SLIT)",
+                    "Điều trị hen suyễn",
+                    "Điều trị viêm mũi dị ứng",
+                    "Điều trị mày đay mạn tính"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Phòng xét nghiệm dị ứng",
+                "desc1": "Hệ thống xét nghiệm IgE đặc hiệu tự động",
+                "desc2": "Bộ dị nguyên chuẩn hóa theo tiêu chuẩn châu Âu"
+            },
+            "section2": {
+                "title": "Trang thiết bị chẩn đoán",
+                "items": [
+                    "Máy đo chức năng hô hấp",
+                    "Máy đo FeNO",
+                    "Hệ thống test da tự động",
+                    "Máy đo lưu lượng đỉnh",
+                    "Buồng test kích thích phế quản"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Miễn dịch - Dị ứng"
+        }
+    },
+    "gastroenterology": {
+        "title": "Tiêu Hóa",
+        "subtitle": "TRUNG TÂM TIÊU HÓA - GAN MẬT",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Tiêu hóa - Gan mật Vinmec cung cấp dịch vụ chẩn đoán và điều trị toàn diện các bệnh lý đường tiêu hóa và gan mật.",
+        "overview": {
+            "section1": {
+                "title": "Trung tâm Tiêu hóa hàng đầu",
+                "desc": "Đội ngũ chuyên gia giàu kinh nghiệm trong nội soi và can thiệp tiêu hóa"
+            },
+            "section2": {
+                "title": "Các bệnh lý điều trị",
+                "items": [
+                    "Viêm loét dạ dày - tá tràng",
+                    "Trào ngược dạ dày thực quản",
+                    "Viêm gan, xơ gan",
+                    "Sỏi mật, viêm tụy"
+                ]
+            },
+            "section3": {
+                "title": "Quy trình khám",
+                "items": [
+                    "Nội soi dạ dày không đau",
+                    "Nội soi đại tràng",
+                    "Siêu âm gan mật",
+                    "Xét nghiệm chức năng gan"
+                ]
+            },
+            "section4": {
+                "title": "Can thiệp nội soi",
+                "sub1": {
+                    "title": "Nội soi can thiệp",
+                    "desc": "Cắt polyp, cầm máu, nong thực quản qua nội soi"
+                },
+                "sub2": {
+                    "title": "ERCP",
+                    "desc": "Nội soi mật tụy ngược dòng điều trị sỏi mật, viêm tụy"
+                }
+            },
+            "section5": {
+                "title": "Chăm sóc toàn diện",
+                "desc": "Tư vấn dinh dưỡng và theo dõi sau điều trị"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ nội soi",
+                "items": [
+                    "Nội soi dạ dày",
+                    "Nội soi đại tràng",
+                    "Nội soi ruột non (Capsule endoscopy)",
+                    "Nội soi siêu âm (EUS)",
+                    "ERCP",
+                    "Nội soi can thiệp cầm máu"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ điều trị",
+                "items": [
+                    "Điều trị viêm gan B, C",
+                    "Điều trị xơ gan",
+                    "Cắt polyp đại tràng",
+                    "Điều trị xuất huyết tiêu hóa"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Hệ thống nội soi hiện đại",
+                "desc1": "Hệ thống nội soi Olympus với công nghệ NBI phát hiện tổn thương sớm",
+                "desc2": "Hệ thống nội soi siêu âm cho chẩn đoán chính xác"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Máy nội soi Olympus CV-290",
+                    "Hệ thống ERCP",
+                    "Capsule endoscopy",
+                    "Máy siêu âm đàn hồi Fibroscan",
+                    "Hệ thống CO2 nội soi"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Tiêu hóa - Gan mật"
+        }
+    },
+    "pediatrics": {
+        "title": "Nhi Khoa",
+        "subtitle": "TRUNG TÂM NHI",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Nhi Vinmec cung cấp dịch vụ chăm sóc sức khỏe toàn diện cho trẻ em từ sơ sinh đến 18 tuổi.",
+        "overview": {
+            "section1": {
+                "title": "Trung tâm Nhi hàng đầu",
+                "desc": "Môi trường khám chữa bệnh thân thiện, được thiết kế đặc biệt dành cho trẻ em"
+            },
+            "section2": {
+                "title": "Chuyên khoa Nhi",
+                "items": [
+                    "Nhi tổng quát",
+                    "Nhi hô hấp",
+                    "Nhi tiêu hóa",
+                    "Nhi tim mạch"
+                ]
+            },
+            "section3": {
+                "title": "Dịch vụ nổi bật",
+                "items": [
+                    "Khám sức khỏe định kỳ cho trẻ",
+                    "Tiêm chủng đầy đủ",
+                    "Điều trị các bệnh lý nhi khoa",
+                    "Tư vấn dinh dưỡng cho trẻ"
+                ]
+            },
+            "section4": {
+                "title": "Chăm sóc đặc biệt",
+                "sub1": {
+                    "title": "Khoa Sơ sinh",
+                    "desc": "Chăm sóc trẻ sơ sinh, đặc biệt trẻ sinh non và nhẹ cân"
+                },
+                "sub2": {
+                    "title": "Hồi sức Nhi",
+                    "desc": "Đơn vị hồi sức tích cực dành cho trẻ em bệnh nặng"
+                }
+            },
+            "section5": {
+                "title": "Đội ngũ chuyên gia",
+                "desc": "Bác sĩ nhi khoa giàu kinh nghiệm, yêu trẻ và tận tâm"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ khám",
+                "items": [
+                    "Khám nhi tổng quát",
+                    "Khám chuyên khoa nhi",
+                    "Kiểm tra sức khỏe định kỳ",
+                    "Tầm soát bệnh lý bẩm sinh",
+                    "Tư vấn dinh dưỡng",
+                    "Tiêm chủng"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ điều trị",
+                "items": [
+                    "Điều trị bệnh hô hấp",
+                    "Điều trị bệnh tiêu hóa",
+                    "Điều trị bệnh truyền nhiễm",
+                    "Chăm sóc trẻ sơ sinh"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Môi trường thân thiện",
+                "desc1": "Phòng khám được thiết kế sinh động, giảm sợ hãi cho trẻ",
+                "desc2": "Khu vui chơi và giải trí cho trẻ em"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Dụng cụ y tế chuyên dụng cho trẻ em",
+                    "Máy thở dành cho trẻ sơ sinh",
+                    "Hệ thống theo dõi sinh hiệu",
+                    "Lồng ấp sơ sinh",
+                    "Máy siêu âm nhi khoa"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Nhi khoa"
+        }
+    },
+    "womensHealth": {
+        "title": "Sức Khỏe Phụ Nữ",
+        "subtitle": "SỨC KHỎE PHỤ NỮ - SẢN PHỤ KHOA",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Chuyên khoa Sản phụ khoa Vinmec cung cấp dịch vụ chăm sóc sức khỏe toàn diện cho phụ nữ ở mọi giai đoạn.",
+        "overview": {
+            "section1": {
+                "title": "Chăm sóc sức khỏe phụ nữ",
+                "desc": "Dịch vụ y tế toàn diện từ khám phụ khoa, thai sản đến điều trị vô sinh"
+            },
+            "section2": {
+                "title": "Dịch vụ nổi bật",
+                "items": [
+                    "Khám thai và theo dõi thai kỳ",
+                    "Sinh thường và sinh mổ",
+                    "Điều trị vô sinh hiếm muộn",
+                    "Khám phụ khoa định kỳ"
+                ]
+            },
+            "section3": {
+                "title": "Gói dịch vụ thai sản",
+                "items": [
+                    "Quản lý thai kỳ toàn diện",
+                    "Sàng lọc trước sinh không xâm lấn",
+                    "Siêu âm 4D thai nhi",
+                    "Sinh con trọn gói"
+                ]
+            },
+            "section4": {
+                "title": "Điều trị chuyên sâu",
+                "sub1": {
+                    "title": "Hỗ trợ sinh sản",
+                    "desc": "IVF, IUI và các kỹ thuật hỗ trợ sinh sản tiên tiến"
+                },
+                "sub2": {
+                    "title": "Phẫu thuật nội soi",
+                    "desc": "Phẫu thuật u xơ tử cung, u nang buồng trứng qua nội soi"
+                }
+            },
+            "section5": {
+                "title": "Chăm sóc sau sinh",
+                "desc": "Tư vấn nuôi con bằng sữa mẹ và chăm sóc sức khỏe sau sinh"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ khám và tầm soát",
+                "items": [
+                    "Khám phụ khoa",
+                    "Sàng lọc ung thư cổ tử cung",
+                    "Siêu âm phụ khoa",
+                    "Khám thai định kỳ",
+                    "Xét nghiệm trước sinh",
+                    "Siêu âm 4D"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ điều trị",
+                "items": [
+                    "IVF - Thụ tinh ống nghiệm",
+                    "Phẫu thuật nội soi phụ khoa",
+                    "Sinh thường và sinh mổ",
+                    "Điều trị các bệnh lý phụ khoa"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Phòng sinh hiện đại",
+                "desc1": "Phòng sinh tiện nghi theo tiêu chuẩn quốc tế",
+                "desc2": "Hệ thống theo dõi thai nhi liên tục"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Máy siêu âm 4D",
+                    "Hệ thống IVF",
+                    "Máy soi cổ tử cung",
+                    "Hệ thống nội soi phụ khoa",
+                    "Monitor theo dõi thai nhi"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Sản phụ khoa"
+        }
+    },
+    "generalHealth": {
+        "title": "Sức Khỏe Tổng Quát",
+        "subtitle": "KHÁM SỨC KHỎE TỔNG QUÁT",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Vinmec cung cấp các gói khám sức khỏe tổng quát toàn diện, giúp phát hiện sớm các vấn đề sức khỏe.",
+        "overview": {
+            "section1": {
+                "title": "Khám sức khỏe toàn diện",
+                "desc": "Các gói khám được thiết kế phù hợp với từng độ tuổi và giới tính"
+            },
+            "section2": {
+                "title": "Lợi ích",
+                "items": [
+                    "Phát hiện sớm bệnh lý tiềm ẩn",
+                    "Đánh giá tổng quan sức khỏe",
+                    "Tư vấn phòng bệnh",
+                    "Xây dựng kế hoạch chăm sóc sức khỏe"
+                ]
+            },
+            "section3": {
+                "title": "Quy trình khám",
+                "items": [
+                    "Đăng ký và lấy số thứ tự",
+                    "Khám lâm sàng các chuyên khoa",
+                    "Xét nghiệm và chẩn đoán hình ảnh",
+                    "Nhận kết quả và tư vấn bác sĩ"
+                ]
+            },
+            "section4": {
+                "title": "Gói khám đa dạng",
+                "sub1": {
+                    "title": "Gói khám cơ bản",
+                    "desc": "Khám tổng quát và các xét nghiệm cơ bản"
+                },
+                "sub2": {
+                    "title": "Gói khám VIP",
+                    "desc": "Khám toàn diện với các xét nghiệm chuyên sâu"
+                }
+            },
+            "section5": {
+                "title": "Theo dõi sức khỏe",
+                "desc": "Lưu trữ hồ sơ sức khỏe điện tử và nhắc lịch tái khám"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Nội dung khám",
+                "items": [
+                    "Khám nội tổng quát",
+                    "Khám tim mạch",
+                    "Khám mắt",
+                    "Khám tai mũi họng",
+                    "Khám răng hàm mặt",
+                    "Khám da liễu"
+                ]
+            },
+            "section2": {
+                "title": "Xét nghiệm",
+                "items": [
+                    "Xét nghiệm máu toàn bộ",
+                    "Xét nghiệm chức năng gan thận",
+                    "Siêu âm ổ bụng",
+                    "Chụp X-quang"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Quy trình khám hiện đại",
+                "desc1": "Hệ thống đăng ký và quản lý khám online",
+                "desc2": "Trả kết quả trong ngày"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Máy xét nghiệm tự động",
+                    "Máy siêu âm",
+                    "Máy X-quang kỹ thuật số",
+                    "Máy đo mật độ xương",
+                    "Máy điện tim"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Nội tổng quát"
+        }
+    },
+    "ophthalmology": {
+        "title": "Mắt",
+        "subtitle": "TRUNG TÂM MẮT",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Mắt Vinmec cung cấp dịch vụ khám và điều trị toàn diện các bệnh lý về mắt với công nghệ hiện đại.",
+        "overview": {
+            "section1": {
+                "title": "Trung tâm Mắt hàng đầu",
+                "desc": "Đội ngũ bác sĩ nhãn khoa giàu kinh nghiệm và công nghệ laser tiên tiến"
+            },
+            "section2": {
+                "title": "Dịch vụ nổi bật",
+                "items": [
+                    "Phẫu thuật laser điều trị cận thị",
+                    "Phẫu thuật đục thủy tinh thể",
+                    "Điều trị bệnh võng mạc",
+                    "Điều trị glaucoma"
+                ]
+            },
+            "section3": {
+                "title": "Quy trình khám",
+                "items": [
+                    "Đo thị lực và khúc xạ",
+                    "Khám bằng đèn khe",
+                    "Đo nhãn áp",
+                    "Chụp OCT võng mạc"
+                ]
+            },
+            "section4": {
+                "title": "Phẫu thuật khúc xạ",
+                "sub1": {
+                    "title": "LASIK/SMILE",
+                    "desc": "Phẫu thuật laser điều trị cận thị, viễn thị, loạn thị"
+                },
+                "sub2": {
+                    "title": "Phaco",
+                    "desc": "Phẫu thuật tán nhuyễn thủy tinh thể đặt IOL"
+                }
+            },
+            "section5": {
+                "title": "Chăm sóc sau phẫu thuật",
+                "desc": "Theo dõi và tái khám định kỳ sau phẫu thuật"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ khám",
+                "items": [
+                    "Khám mắt tổng quát",
+                    "Đo khúc xạ tự động",
+                    "Chụp OCT",
+                    "Chụp huỳnh quang võng mạc",
+                    "Đo thị trường",
+                    "Siêu âm mắt"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ phẫu thuật",
+                "items": [
+                    "LASIK/SMILE Pro",
+                    "Phẫu thuật đục thủy tinh thể",
+                    "Phẫu thuật lác mắt",
+                    "Điều trị bong võng mạc"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Công nghệ laser hiện đại",
+                "desc1": "Hệ thống SMILE Pro thế hệ mới nhất",
+                "desc2": "Máy Excimer laser WaveLight EX500"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Máy OCT",
+                    "Máy siêu âm phaco",
+                    "Đèn khe sinh hiển vi",
+                    "Máy đo thị trường tự động",
+                    "Laser võng mạc"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Nhãn khoa"
+        }
+    },
+    "dental": {
+        "title": "Nha Khoa",
+        "subtitle": "TRUNG TÂM NHA KHOA",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Nha khoa Vinmec cung cấp dịch vụ chăm sóc răng miệng toàn diện với công nghệ hiện đại.",
+        "overview": {
+            "section1": {
+                "title": "Trung tâm Nha khoa hiện đại",
+                "desc": "Đội ngũ nha sĩ giàu kinh nghiệm và trang thiết bị tiên tiến"
+            },
+            "section2": {
+                "title": "Dịch vụ nổi bật",
+                "items": [
+                    "Cấy ghép Implant",
+                    "Niềng răng chỉnh nha",
+                    "Bọc răng sứ thẩm mỹ",
+                    "Tẩy trắng răng"
+                ]
+            },
+            "section3": {
+                "title": "Quy trình khám",
+                "items": [
+                    "Khám tổng quát răng miệng",
+                    "Chụp X-quang panorama",
+                    "Tư vấn và lập kế hoạch điều trị",
+                    "Thực hiện điều trị"
+                ]
+            },
+            "section4": {
+                "title": "Điều trị chuyên sâu",
+                "sub1": {
+                    "title": "Implant nha khoa",
+                    "desc": "Cấy ghép răng Implant với công nghệ CAD/CAM"
+                },
+                "sub2": {
+                    "title": "Niềng răng Invisalign",
+                    "desc": "Chỉnh nha bằng khay trong suốt"
+                }
+            },
+            "section5": {
+                "title": "Chăm sóc sau điều trị",
+                "desc": "Hướng dẫn vệ sinh răng miệng và tái khám định kỳ"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ tổng quát",
+                "items": [
+                    "Khám răng định kỳ",
+                    "Cạo vôi răng",
+                    "Trám răng",
+                    "Nhổ răng",
+                    "Điều trị tủy răng",
+                    "Điều trị nha chu"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ thẩm mỹ",
+                "items": [
+                    "Dán sứ Veneer",
+                    "Bọc răng sứ",
+                    "Tẩy trắng răng",
+                    "Niềng răng thẩm mỹ"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Công nghệ số hóa",
+                "desc1": "Hệ thống CAD/CAM thiết kế và chế tác răng sứ",
+                "desc2": "Máy scan răng 3D"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Máy chụp CT Cone Beam",
+                    "Máy X-quang panorama",
+                    "Ghế nha khoa hiện đại",
+                    "Hệ thống laser nha khoa",
+                    "Máy cấy Implant"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Nha khoa"
+        }
+    },
+    "traditionalMedicine": {
+        "title": "Y Học Cổ Truyền",
+        "subtitle": "TRUNG TÂM Y HỌC CỔ TRUYỀN",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Y học cổ truyền Vinmec kết hợp Y học cổ truyền với Y học hiện đại trong điều trị.",
+        "overview": {
+            "section1": {
+                "title": "Kết hợp Đông - Tây y",
+                "desc": "Phương pháp điều trị kết hợp tinh hoa Y học cổ truyền và Y học hiện đại"
+            },
+            "section2": {
+                "title": "Dịch vụ nổi bật",
+                "items": [
+                    "Châm cứu",
+                    "Xoa bóp bấm huyệt",
+                    "Cấy chỉ",
+                    "Thuốc đông y"
+                ]
+            },
+            "section3": {
+                "title": "Bệnh lý điều trị",
+                "items": [
+                    "Đau cột sống, thoái hóa khớp",
+                    "Liệt dây thần kinh",
+                    "Rối loạn tiêu hóa",
+                    "Mất ngủ, stress"
+                ]
+            },
+            "section4": {
+                "title": "Phương pháp điều trị",
+                "sub1": {
+                    "title": "Châm cứu",
+                    "desc": "Châm cứu truyền thống kết hợp điện châm hiện đại"
+                },
+                "sub2": {
+                    "title": "Thủy châm",
+                    "desc": "Tiêm thuốc vào huyệt đạo điều trị đau"
+                }
+            },
+            "section5": {
+                "title": "Chăm sóc toàn diện",
+                "desc": "Tư vấn dưỡng sinh và phòng bệnh theo y học cổ truyền"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ châm cứu",
+                "items": [
+                    "Châm cứu truyền thống",
+                    "Điện châm",
+                    "Nhĩ châm",
+                    "Cấy chỉ",
+                    "Thủy châm",
+                    "Cứu ngải"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ khác",
+                "items": [
+                    "Xoa bóp bấm huyệt",
+                    "Giác hơi",
+                    "Kê đơn thuốc đông y",
+                    "Vật lý trị liệu"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Kết hợp Đông - Tây y",
+                "desc1": "Chẩn đoán bằng máy móc hiện đại kết hợp lý luận y học cổ truyền",
+                "desc2": "Thuốc đông y được kiểm định chất lượng"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Máy điện châm",
+                    "Đèn hồng ngoại",
+                    "Máy sóng ngắn",
+                    "Máy xung điện",
+                    "Phòng điều trị tiện nghi"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Y học cổ truyền"
+        }
+    },
+    "regenerativeMedicine": {
+        "title": "Y Học Tái Tạo",
+        "subtitle": "TRUNG TÂM Y HỌC TÁI TẠO",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Y học tái tạo Vinmec ứng dụng công nghệ tế bào gốc và y học tái tạo tiên tiến.",
+        "overview": {
+            "section1": {
+                "title": "Y học tái tạo tiên tiến",
+                "desc": "Ứng dụng tế bào gốc và công nghệ sinh học trong điều trị và tái tạo mô"
+            },
+            "section2": {
+                "title": "Ứng dụng điều trị",
+                "items": [
+                    "Thoái hóa khớp",
+                    "Chấn thương thể thao",
+                    "Trẻ hóa da",
+                    "Rụng tóc"
+                ]
+            },
+            "section3": {
+                "title": "Công nghệ nổi bật",
+                "items": [
+                    "Tiêm PRP",
+                    "Tế bào gốc tự thân",
+                    "Exosome therapy",
+                    "Liệu pháp tái tạo mô"
+                ]
+            },
+            "section4": {
+                "title": "Phương pháp điều trị",
+                "sub1": {
+                    "title": "PRP - Huyết tương giàu tiểu cầu",
+                    "desc": "Tiêm PRP vào khớp hoặc da để tái tạo và chữa lành"
+                },
+                "sub2": {
+                    "title": "Tế bào gốc",
+                    "desc": "Cấy ghép tế bào gốc từ mỡ hoặc tủy xương"
+                }
+            },
+            "section5": {
+                "title": "Nghiên cứu và phát triển",
+                "desc": "Hợp tác với các viện nghiên cứu hàng đầu trong lĩnh vực y học tái tạo"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ điều trị",
+                "items": [
+                    "Tiêm PRP khớp",
+                    "Tiêm tế bào gốc",
+                    "Trẻ hóa da bằng PRP",
+                    "Điều trị rụng tóc PRP",
+                    "Tái tạo mô mềm",
+                    "Điều trị vết thương khó lành"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ thẩm mỹ",
+                "items": [
+                    "Mesotherapy",
+                    "Vampire facial",
+                    "Trẻ hóa bàn tay",
+                    "Điều trị sẹo"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Phòng lab hiện đại",
+                "desc1": "Hệ thống tách chiết PRP tiên tiến",
+                "desc2": "Môi trường vô trùng theo tiêu chuẩn quốc tế"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Máy ly tâm PRP",
+                    "Hệ thống nuôi cấy tế bào",
+                    "Máy siêu âm hướng dẫn tiêm",
+                    "Hệ thống tủ cấy vô trùng",
+                    "Máy phân tích tế bào"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Y học tái tạo"
+        }
+    },
+    "orthopedics": {
+        "title": "Cơ Xương Khớp",
+        "subtitle": "TRUNG TÂM CƠ XƯƠNG KHỚP",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Cơ xương khớp Vinmec chuyên chẩn đoán và điều trị các bệnh lý về xương khớp, cột sống.",
+        "overview": {
+            "section1": {
+                "title": "Trung tâm Chấn thương chỉnh hình",
+                "desc": "Đội ngũ bác sĩ phẫu thuật viên giàu kinh nghiệm trong lĩnh vực chấn thương chỉnh hình"
+            },
+            "section2": {
+                "title": "Bệnh lý điều trị",
+                "items": [
+                    "Thoái hóa khớp",
+                    "Thoát vị đĩa đệm",
+                    "Gãy xương",
+                    "Viêm khớp dạng thấp"
+                ]
+            },
+            "section3": {
+                "title": "Phẫu thuật nổi bật",
+                "items": [
+                    "Thay khớp háng, khớp gối",
+                    "Nội soi khớp",
+                    "Phẫu thuật cột sống",
+                    "Kết hợp xương"
+                ]
+            },
+            "section4": {
+                "title": "Phương pháp điều trị",
+                "sub1": {
+                    "title": "Nội soi khớp",
+                    "desc": "Phẫu thuật nội soi điều trị tổn thương dây chằng, sụn khớp"
+                },
+                "sub2": {
+                    "title": "Thay khớp nhân tạo",
+                    "desc": "Thay khớp háng, khớp gối toàn phần hoặc bán phần"
+                }
+            },
+            "section5": {
+                "title": "Phục hồi chức năng",
+                "desc": "Chương trình phục hồi chức năng toàn diện sau phẫu thuật"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ khám",
+                "items": [
+                    "Khám cơ xương khớp",
+                    "Chụp X-quang xương khớp",
+                    "Chụp MRI khớp",
+                    "Đo mật độ xương",
+                    "Xét nghiệm dịch khớp",
+                    "Siêu âm khớp"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ phẫu thuật",
+                "items": [
+                    "Thay khớp háng/gối",
+                    "Nội soi khớp vai/gối",
+                    "Phẫu thuật cột sống",
+                    "Kết hợp xương gãy"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Phẫu thuật ít xâm lấn",
+                "desc1": "Hệ thống nội soi khớp độ phân giải cao",
+                "desc2": "Robot hỗ trợ phẫu thuật thay khớp"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Hệ thống nội soi khớp",
+                    "C-arm trong mổ",
+                    "Máy chụp MRI 3.0T",
+                    "Khớp nhân tạo cao cấp",
+                    "Thiết bị phục hồi chức năng"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Chấn thương chỉnh hình"
+        }
+    },
+    "stemCell": {
+        "title": "Tế Bào Gốc",
+        "subtitle": "VIỆN TẾ BÀO GỐC",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Viện Tế bào gốc Vinmec là đơn vị tiên phong trong nghiên cứu và ứng dụng tế bào gốc tại Việt Nam.",
+        "overview": {
+            "section1": {
+                "title": "Viện nghiên cứu hàng đầu",
+                "desc": "Trung tâm nghiên cứu và ứng dụng tế bào gốc tiên tiến nhất Việt Nam"
+            },
+            "section2": {
+                "title": "Lĩnh vực nghiên cứu",
+                "items": [
+                    "Tế bào gốc máu cuống rốn",
+                    "Tế bào gốc trung mô",
+                    "Liệu pháp gen",
+                    "Y học tái tạo"
+                ]
+            },
+            "section3": {
+                "title": "Ứng dụng lâm sàng",
+                "items": [
+                    "Điều trị bệnh máu",
+                    "Điều trị tự kỷ",
+                    "Điều trị bại não",
+                    "Điều trị thoái hóa khớp"
+                ]
+            },
+            "section4": {
+                "title": "Dịch vụ lưu trữ",
+                "sub1": {
+                    "title": "Ngân hàng máu cuống rốn",
+                    "desc": "Lưu trữ tế bào gốc từ máu cuống rốn cho gia đình"
+                },
+                "sub2": {
+                    "title": "Ngân hàng mô cuống rốn",
+                    "desc": "Lưu trữ tế bào gốc trung mô từ mô cuống rốn"
+                }
+            },
+            "section5": {
+                "title": "Hợp tác quốc tế",
+                "desc": "Hợp tác với các viện nghiên cứu tế bào gốc hàng đầu thế giới"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ lưu trữ",
+                "items": [
+                    "Lưu trữ máu cuống rốn",
+                    "Lưu trữ mô cuống rốn",
+                    "Lưu trữ tế bào gốc trung mô",
+                    "Xử lý và bảo quản tế bào",
+                    "Kiểm định chất lượng",
+                    "Vận chuyển và bàn giao"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ điều trị",
+                "items": [
+                    "Ghép tế bào gốc tạo máu",
+                    "Điều trị bệnh tự kỷ",
+                    "Điều trị bại não",
+                    "Nghiên cứu lâm sàng"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Phòng lab chuẩn quốc tế",
+                "desc1": "Đạt tiêu chuẩn AABB (American Association of Blood Banks)",
+                "desc2": "Hệ thống lưu trữ trong nitơ lỏng -196°C"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Bể nitơ lỏng",
+                    "Tủ cấy vô trùng",
+                    "Máy tách tế bào",
+                    "Máy đốm lưu lượng",
+                    "Kho lạnh chuyên dụng"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Tế bào gốc"
+        }
+    },
+    "vaccine": {
+        "title": "Tiêm Chủng",
+        "subtitle": "TRUNG TÂM TIÊM CHỦNG",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Tiêm chủng Vinmec cung cấp dịch vụ tiêm vaccine đầy đủ và an toàn cho mọi lứa tuổi.",
+        "overview": {
+            "section1": {
+                "title": "Tiêm chủng an toàn",
+                "desc": "Quy trình tiêm chủng đạt chuẩn với vaccine chất lượng cao từ các nhà sản xuất uy tín"
+            },
+            "section2": {
+                "title": "Vaccine đa dạng",
+                "items": [
+                    "Vaccine cho trẻ em",
+                    "Vaccine cho người lớn",
+                    "Vaccine phụ nữ mang thai",
+                    "Vaccine du lịch"
+                ]
+            },
+            "section3": {
+                "title": "Quy trình tiêm",
+                "items": [
+                    "Khám sàng lọc trước tiêm",
+                    "Tư vấn chọn vaccine phù hợp",
+                    "Tiêm chủng an toàn",
+                    "Theo dõi sau tiêm 30 phút"
+                ]
+            },
+            "section4": {
+                "title": "Lợi ích",
+                "sub1": {
+                    "title": "Vaccine thế hệ mới",
+                    "desc": "Sử dụng các loại vaccine kết hợp, giảm số mũi tiêm"
+                },
+                "sub2": {
+                    "title": "Theo dõi lịch tiêm",
+                    "desc": "Hệ thống nhắc lịch tiêm tự động qua app"
+                }
+            },
+            "section5": {
+                "title": "An toàn tuyệt đối",
+                "desc": "Chuỗi lạnh bảo quản vaccine được giám sát 24/7"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Vaccine cho trẻ em",
+                "items": [
+                    "Vaccine 6 trong 1",
+                    "Vaccine phế cầu",
+                    "Vaccine Rota",
+                    "Vaccine viêm não Nhật Bản",
+                    "Vaccine sởi - quai bị - rubella",
+                    "Vaccine thủy đậu"
+                ]
+            },
+            "section2": {
+                "title": "Vaccine cho người lớn",
+                "items": [
+                    "Vaccine cúm",
+                    "Vaccine viêm gan B",
+                    "Vaccine HPV",
+                    "Vaccine zona"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Bảo quản vaccine",
+                "desc1": "Tủ lạnh chuyên dụng với hệ thống giám sát nhiệt độ",
+                "desc2": "Nguồn điện dự phòng đảm bảo hoạt động liên tục"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Tủ bảo quản vaccine",
+                    "Bộ xử lý cấp cứu phản vệ",
+                    "Phần mềm quản lý tiêm chủng",
+                    "Hệ thống theo dõi nhiệt độ",
+                    "Phòng theo dõi sau tiêm"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Tiêm chủng"
+        }
+    },
+    "breastCenter": {
+        "title": "Trung Tâm Vú",
+        "subtitle": "TRUNG TÂM CHĂM SÓC SỨC KHỎE VÚ",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Vú Vinmec chuyên tầm soát, chẩn đoán và điều trị các bệnh lý tuyến vú.",
+        "overview": {
+            "section1": {
+                "title": "Chăm sóc sức khỏe vú toàn diện",
+                "desc": "Dịch vụ tầm soát và điều trị các bệnh lý vú với đội ngũ chuyên gia"
+            },
+            "section2": {
+                "title": "Dịch vụ nổi bật",
+                "items": [
+                    "Tầm soát ung thư vú",
+                    "Sinh thiết u vú",
+                    "Phẫu thuật u vú",
+                    "Điều trị ung thư vú"
+                ]
+            },
+            "section3": {
+                "title": "Quy trình khám",
+                "items": [
+                    "Khám lâm sàng vú",
+                    "Siêu âm vú",
+                    "Chụp nhũ ảnh (Mammography)",
+                    "Sinh thiết nếu cần"
+                ]
+            },
+            "section4": {
+                "title": "Điều trị chuyên sâu",
+                "sub1": {
+                    "title": "Phẫu thuật bảo tồn",
+                    "desc": "Cắt bỏ khối u và bảo tồn tối đa tuyến vú"
+                },
+                "sub2": {
+                    "title": "Điều trị đa mô thức",
+                    "desc": "Kết hợp phẫu thuật, hóa trị, xạ trị, nội tiết"
+                }
+            },
+            "section5": {
+                "title": "Hỗ trợ tâm lý",
+                "desc": "Tư vấn và hỗ trợ tâm lý cho bệnh nhân trong quá trình điều trị"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ tầm soát",
+                "items": [
+                    "Khám vú lâm sàng",
+                    "Siêu âm vú",
+                    "Chụp nhũ ảnh 3D",
+                    "Chụp MRI vú",
+                    "Sinh thiết kim",
+                    "Sinh thiết hút chân không"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ điều trị",
+                "items": [
+                    "Phẫu thuật cắt u lành",
+                    "Phẫu thuật ung thư vú",
+                    "Tái tạo vú sau phẫu thuật",
+                    "Hóa trị, xạ trị"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Chẩn đoán hình ảnh hiện đại",
+                "desc1": "Máy chụp nhũ ảnh 3D (Tomosynthesis)",
+                "desc2": "Hệ thống sinh thiết hút chân không (VAB)"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Máy siêu âm vú",
+                    "Máy chụp nhũ ảnh 3D",
+                    "MRI 3.0 Tesla",
+                    "Hệ thống VAB",
+                    "Máy xạ trị"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Ung bướu vú"
+        }
+    },
+    "neurology": {
+        "title": "Thần Kinh",
+        "subtitle": "TRUNG TÂM THẦN KINH",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Thần kinh Vinmec chuyên chẩn đoán và điều trị các bệnh lý thần kinh và não bộ.",
+        "overview": {
+            "section1": {
+                "title": "Trung tâm Thần kinh chuyên sâu",
+                "desc": "Đội ngũ chuyên gia thần kinh hàng đầu với trang thiết bị hiện đại"
+            },
+            "section2": {
+                "title": "Bệnh lý điều trị",
+                "items": [
+                    "Đột quỵ não",
+                    "Động kinh",
+                    "Parkinson",
+                    "Đau đầu, chóng mặt"
+                ]
+            },
+            "section3": {
+                "title": "Dịch vụ nổi bật",
+                "items": [
+                    "Cấp cứu đột quỵ",
+                    "Can thiệp mạch não",
+                    "Phẫu thuật u não",
+                    "Điều trị động kinh"
+                ]
+            },
+            "section4": {
+                "title": "Đột quỵ não",
+                "sub1": {
+                    "title": "Cấp cứu đột quỵ",
+                    "desc": "Quy trình \"giờ vàng\" điều trị đột quỵ theo chuẩn quốc tế"
+                },
+                "sub2": {
+                    "title": "Can thiệp lấy huyết khối",
+                    "desc": "Thủ thuật nội mạch lấy cục máu đông trong mạch não"
+                }
+            },
+            "section5": {
+                "title": "Phục hồi chức năng",
+                "desc": "Chương trình phục hồi chức năng toàn diện cho bệnh nhân thần kinh"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ chẩn đoán",
+                "items": [
+                    "Chụp MRI não",
+                    "Chụp CT não",
+                    "Điện não đồ (EEG)",
+                    "Điện cơ (EMG)",
+                    "Doppler mạch não",
+                    "Xét nghiệm dịch não tủy"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ điều trị",
+                "items": [
+                    "Can thiệp mạch não",
+                    "Phẫu thuật u não",
+                    "Điều trị động kinh kháng thuốc",
+                    "Kích thích não sâu (DBS)"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Phòng can thiệp mạch",
+                "desc1": "Hệ thống DSA biplane cho can thiệp mạch não",
+                "desc2": "Quy trình cấp cứu đột quỵ 24/7"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "MRI 3.0 Tesla",
+                    "CT 640 lát cắt",
+                    "DSA biplane",
+                    "Máy điện não đồ video",
+                    "Hệ thống navigation phẫu thuật"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Thần kinh"
+        }
+    },
+    "mentalHealth": {
+        "title": "Sức Khỏe Tâm Thần",
+        "subtitle": "TRUNG TÂM SỨC KHỎE TÂM THẦN",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Trung tâm Sức khỏe Tâm thần Vinmec cung cấp dịch vụ chẩn đoán và điều trị các rối loạn tâm thần.",
+        "overview": {
+            "section1": {
+                "title": "Chăm sóc sức khỏe tâm thần",
+                "desc": "Đội ngũ bác sĩ tâm thần và chuyên gia tâm lý giàu kinh nghiệm"
+            },
+            "section2": {
+                "title": "Rối loạn điều trị",
+                "items": [
+                    "Trầm cảm",
+                    "Rối loạn lo âu",
+                    "Rối loạn giấc ngủ",
+                    "Rối loạn ăn uống"
+                ]
+            },
+            "section3": {
+                "title": "Phương pháp điều trị",
+                "items": [
+                    "Tâm lý trị liệu",
+                    "Thuốc chống trầm cảm",
+                    "Liệu pháp hành vi nhận thức (CBT)",
+                    "Liệu pháp gia đình"
+                ]
+            },
+            "section4": {
+                "title": "Đặc biệt",
+                "sub1": {
+                    "title": "Tư vấn tâm lý",
+                    "desc": "Tư vấn cá nhân và gia đình với chuyên gia tâm lý"
+                },
+                "sub2": {
+                    "title": "TMS - kích thích từ xuyên sọ",
+                    "desc": "Điều trị trầm cảm kháng thuốc bằng kích thích từ"
+                }
+            },
+            "section5": {
+                "title": "Bảo mật thông tin",
+                "desc": "Cam kết bảo mật tuyệt đối thông tin bệnh nhân"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ đánh giá",
+                "items": [
+                    "Khám tâm thần",
+                    "Đánh giá tâm lý",
+                    "Test IQ, EQ",
+                    "Đánh giá tự kỷ",
+                    "Đánh giá ADHD",
+                    "Đo đa ký giấc ngủ"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ điều trị",
+                "items": [
+                    "Tâm lý trị liệu",
+                    "Điều trị bằng thuốc",
+                    "TMS",
+                    "Liệu pháp nhóm"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Môi trường điều trị",
+                "desc1": "Phòng tư vấn riêng biệt, đảm bảo sự riêng tư",
+                "desc2": "Không gian thư giãn cho liệu pháp tâm lý"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Máy TMS",
+                    "Máy đo đa ký giấc ngủ",
+                    "Bộ test tâm lý chuẩn hóa",
+                    "Phần mềm đánh giá tâm lý",
+                    "Thiết bị biofeedback"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Tâm thần"
+        }
+    },
+    "pharmacy": {
+        "title": "Dược",
+        "subtitle": "KHOA DƯỢC",
+        "tabs": {
+            "overview": "Tổng quan",
+            "services": "Dịch vụ",
+            "technology": "Công nghệ",
+            "doctors": "Danh sách bác sĩ"
+        },
+        "description": "Khoa Dược Vinmec đảm bảo cung cấp thuốc chất lượng cao và an toàn cho bệnh nhân.",
+        "overview": {
+            "section1": {
+                "title": "Dịch vụ Dược chất lượng",
+                "desc": "Đảm bảo thuốc chính hãng, chất lượng cao với giá cả hợp lý"
+            },
+            "section2": {
+                "title": "Dịch vụ nổi bật",
+                "items": [
+                    "Tư vấn sử dụng thuốc",
+                    "Pha chế thuốc đặc biệt",
+                    "Dược lâm sàng",
+                    "Quản lý kháng sinh"
+                ]
+            },
+            "section3": {
+                "title": "Quy trình cấp phát",
+                "items": [
+                    "Nhận đơn thuốc",
+                    "Kiểm tra tương tác thuốc",
+                    "Chuẩn bị thuốc",
+                    "Tư vấn và bàn giao"
+                ]
+            },
+            "section4": {
+                "title": "Dược lâm sàng",
+                "sub1": {
+                    "title": "Tư vấn thuốc",
+                    "desc": "Dược sĩ tư vấn cách sử dụng thuốc đúng cách"
+                },
+                "sub2": {
+                    "title": "Quản lý kháng sinh",
+                    "desc": "Chương trình quản lý sử dụng kháng sinh hợp lý"
+                }
+            },
+            "section5": {
+                "title": "An toàn thuốc",
+                "desc": "Hệ thống kiểm soát chất lượng thuốc nghiêm ngặt"
+            }
+        },
+        "services": {
+            "section1": {
+                "title": "Dịch vụ dược",
+                "items": [
+                    "Cấp phát thuốc nội trú",
+                    "Cấp phát thuốc ngoại trú",
+                    "Tư vấn sử dụng thuốc",
+                    "Pha chế thuốc",
+                    "Chuẩn bị hóa chất",
+                    "Liều đơn vị"
+                ]
+            },
+            "section2": {
+                "title": "Dịch vụ lâm sàng",
+                "items": [
+                    "Dược lâm sàng",
+                    "Giám sát ADR",
+                    "Quản lý kháng sinh",
+                    "Tư vấn dinh dưỡng đường tĩnh mạch"
+                ]
+            }
+        },
+        "technology": {
+            "section1": {
+                "title": "Hệ thống quản lý thuốc",
+                "desc1": "Phần mềm quản lý kho thuốc thông minh",
+                "desc2": "Hệ thống mã vạch theo dõi thuốc"
+            },
+            "section2": {
+                "title": "Trang thiết bị",
+                "items": [
+                    "Tủ thuốc tự động",
+                    "Máy đóng gói đơn liều",
+                    "Tủ lạnh bảo quản vaccine",
+                    "Hệ thống tủ thuốc thông minh",
+                    "Phần mềm kiểm tra tương tác thuốc"
+                ]
+            }
+        },
+        "doctors": {
+            "specialty": "Dược"
+        }
+    },
+    "doctorList": "Danh sách bác sĩ",
+    "viewProfile": "Xem hồ sơ",
+    "bookAppointment": "Đặt lịch hẹn",
+    "callHotline": "Gọi tổng đài",
+    "findDoctor": "Tìm bác sĩ"
+}

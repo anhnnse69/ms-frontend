@@ -1,0 +1,22 @@
+{
+    "title": "Doctors & Specialists",
+    "breadcrumbHome": "Home",
+    "subtitle": "Leading doctors and specialists team",
+    "searchPlaceholder": "Search doctors by name...",
+    "filterBySpecialty": "Filter by specialty",
+    "filterByHospital": "Filter by hospital",
+    "allSpecialties": "All specialties",
+    "allHospitals": "All hospitals",
+    "yearsExperience": "years experience",
+    "viewProfile": "View profile",
+    "bookWithDoctor": "Book with doctor",
+    "noResults": "No doctors found",
+    "tryAdjustFilter": "Please adjust filters or search keywords",
+    "loading": "Loading...",
+    "showMore": "Show more",
+    "resultsFound": "{count} doctors found",
+    "sortBy": "Sort by",
+    "sortByName": "Name A-Z",
+    "sortByExperience": "Experience",
+    "sortByRating": "Rating"
+}

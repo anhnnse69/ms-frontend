@@ -1,0 +1,71 @@
+{
+    "title": "Achievements And Awards",
+    "subtitle": "Vinmec is proud to be a healthcare system with prestigious international certifications and awards",
+    "breadcrumb": {
+        "home": "Home",
+        "achievements": "Achievements & Awards"
+    },
+    "intro": {
+        "title": "Commitment to International Quality",
+        "description": "With the philosophy 'Quality is survival', Vinmec Healthcare System continuously strives to improve service quality and has achieved many prestigious international certifications, affirming its position as Vietnam's leading private healthcare system."
+    },
+    "certifications": {
+        "title": "International Certifications",
+        "subtitle": "Vinmec is the first private healthcare system in Vietnam to achieve numerous prestigious international certifications",
+        "jci": {
+            "desc": "JCI (Joint Commission International) is the world's most prestigious hospital quality certification, ensuring the highest standards of safety and quality. Vinmec has been JCI accredited since 2017."
+        },
+        "cap": {
+            "desc": "CAP (College of American Pathologists) - International laboratory certification from the United States, ensuring accuracy and reliability of test results."
+        },
+        "acc": {
+            "desc": "ACC (American College of Cardiology) - Cardiac intervention quality certification from the American College of Cardiology, affirming excellence in the cardiovascular field."
+        },
+        "aabb": {
+            "desc": "AABB - International standards certification for blood banking and transfusion services, ensuring safety and quality in blood storage and usage."
+        },
+        "rtac": {
+            "desc": "RTAC (Reproductive Technology Accreditation Committee) - Quality certification in reproductive assistance and IVF from Australia."
+        },
+        "hma": {
+            "desc": "HMA (Hospital Management Asia) - Outstanding Hospital Management Award in Asia, recognizing hospital management and operation capabilities."
+        }
+    },
+    "awards": {
+        "title": "Prestigious Awards",
+        "subtitle": "Recognition from reputable domestic and international organizations",
+        "item1": {
+            "title": "Hospital Management Asia Award",
+            "org": "Hospital Management Asia"
+        },
+        "item2": {
+            "title": "Best Managed Company",
+            "org": "Deloitte Vietnam"
+        },
+        "item3": {
+            "title": "Safest Private Hospital in Vietnam",
+            "org": "Vietnam Healthcare Awards"
+        },
+        "item4": {
+            "title": "Cardiac Center of Excellence",
+            "org": "American College of Cardiology"
+        },
+        "item5": {
+            "title": "Patient Safety Hospital",
+            "org": "Joint Commission International"
+        },
+        "item6": {
+            "title": "Excellence in Cancer Treatment",
+            "org": "Vietnam Oncology Society"
+        }
+    },
+    "partners": {
+        "title": "Strategic Partners",
+        "description": "Vinmec partners with world-leading healthcare organizations and research institutes to bring international quality healthcare services."
+    },
+    "tabs": {
+        "timeline": "Milestones Timeline",
+        "awards": "Awards & Certifications"
+    },
+    "awardsIntro": "At Vinmec, we strive for excellence by providing world-class care, pioneering research, and innovation. Vinmec has been recognized for its pursuit of international quality and the highest safety for every patient. Here are some of our awards and certifications over the years:"
+}

@@ -1,0 +1,31 @@
+{
+  "specialties": "Chuyên khoa",
+  "guidance": "Hướng dẫn",
+  "sustainability": "Phát triển bền vững",
+  "specialtiesCol1": [
+    "Cấp cứu",
+    "Trung tâm Tim mạch",
+    "Trung tâm Ung bướu",
+    "Miễn dịch - Dị ứng",
+    "Tiêu hoá - Gan mật",
+    "Trung tâm Nhi",
+    "Trung tâm Sức khoẻ phụ nữ",
+    "Sức khoẻ tổng quát",
+    "Trung tâm Mắt Vinmec-Alina",
+    "Vinmec - View Premium Dental Clinic"
+  ],
+  "specialtiesCol2": [
+    "Trung tâm Y học cổ truyền Vinmec-Sao Phương Đông",
+    "Trung tâm Y học Tái tạo và Trị liệu Tế bào",
+    "Trung tâm Chấn thương chỉnh hình - Y học thể thao",
+    "Viện nghiên cứu tế bào gốc và công nghệ Gen",
+    "Trung tâm Vacxin",
+    "Trung tâm Vú",
+    "Thần kinh",
+    "Trung tâm chăm sóc sức khỏe tinh thần tích hợp",
+    "Khối Dược"
+  ],
+  "guidanceCol1": [
+    "Bác sĩ"
+  ]
+}

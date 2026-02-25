@@ -1,0 +1,26 @@
+{
+  "systemTitle": "Hệ thống Vinmec",
+  "serviceTitle": "Dịch vụ",
+  "appTitle": "Tải App MyVinmec",
+  "followTitle": "Theo dõi chúng tôi",
+  "partnerTitle": "Đối tác liên kết",
+  "systemLinks": [
+    "Tầm nhìn sứ mệnh",
+    "Hệ thống cơ sở y tế",
+    "Tìm bác sĩ",
+    "Làm việc tại Vinmec"
+  ],
+  "serviceLinks": [
+    "Chuyên khoa",
+    "Gói dịch vụ",
+    "Bảo hiểm",
+    "Đặt lịch hẹn"
+  ],
+  "copyright": "Bản quyền © 2024 thuộc về Công ty Cổ phần Bệnh viện Đa khoa Quốc tế Vinmec",
+  "privacyPolicy": "Chính sách bảo vệ dữ liệu cá nhân của Vinmec",
+  "grPrivacy": "GR Privacy",
+  "grTerms": "GR Terms",
+  "tagline": "Chăm sóc sức khỏe đẳng cấp quốc tế",
+  "hotline": "Đường dây nóng",
+  "address": "458 Minh Khai, Hai Bà Trưng, Hà Nội"
+}

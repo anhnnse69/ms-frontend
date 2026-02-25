@@ -1,0 +1,22 @@
+{
+    "title": "Danh sách bác sĩ - Chuyên gia",
+    "breadcrumbHome": "Trang chủ",
+    "subtitle": "Đội ngũ bác sĩ - chuyên gia hàng đầu",
+    "searchPlaceholder": "Tìm kiếm bác sĩ theo tên...",
+    "filterBySpecialty": "Lọc theo chuyên khoa",
+    "filterByHospital": "Lọc theo cơ sở",
+    "allSpecialties": "Tất cả chuyên khoa",
+    "allHospitals": "Tất cả cơ sở",
+    "yearsExperience": "năm kinh nghiệm",
+    "viewProfile": "Xem hồ sơ",
+    "bookWithDoctor": "Đặt lịch với bác sĩ",
+    "noResults": "Không tìm thấy bác sĩ phù hợp",
+    "tryAdjustFilter": "Vui lòng điều chỉnh bộ lọc hoặc từ khóa tìm kiếm",
+    "loading": "Đang tải...",
+    "showMore": "Xem thêm",
+    "resultsFound": "{count} bác sĩ được tìm thấy",
+    "sortBy": "Sắp xếp theo",
+    "sortByName": "Tên A-Z",
+    "sortByExperience": "Kinh nghiệm",
+    "sortByRating": "Đánh giá"
+}

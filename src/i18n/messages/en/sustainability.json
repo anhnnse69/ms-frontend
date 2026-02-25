@@ -1,0 +1,114 @@
+{
+    "title": "Vinmec - Sustainable Development",
+    "intro": {
+        "paragraph1": "At Vinmec, we not only value the health of each patient but also commit to building a sustainable healthcare environment, from governance policies to community and environmental protection values. We understand that in today's world, development cannot be just about immediate benefits, but must be a long-term process that brings value to current and future generations. Over a decade ago, we pioneered the foundation for a different healthcare system with the goal of not only providing high-quality medical services, but also leading in the application of excellent and scientific clinical governance models.",
+        "paragraph2": "Over the past 12 years, every decision at Vinmec has been oriented towards the sustainable development of society, balancing the interests of customers, medical staff, and the community. We focus on building a creative, efficient, and happy working environment, where each individual can maximize their potential to contribute to the sustainable development of the system.",
+        "paragraph3": "In addition, we have been implementing programs to reduce the carbon footprint in healthcare operations, contributing along with members of the Vingroup ecosystem to the country's green transformation effort."
+    },
+    "featuredNumbers": "Featured Numbers",
+    "numbers": {
+        "environment": {
+            "title": "Environment (E)",
+            "items": [
+                {
+                    "number": "4 tons",
+                    "text": "of paper/year reduced by switching from paper contracts to electronic contracts"
+                },
+                {
+                    "number": "250K tons",
+                    "text": "of film/year reduced by digitizing diagnostic imaging data"
+                },
+                {
+                    "number": "1.8K tons",
+                    "text": "of CO2/year reduced through online meeting/consultation solutions between hospitals"
+                }
+            ]
+        },
+        "social": {
+            "title": "Social (S)",
+            "items": [
+                {
+                    "number": "15K people",
+                    "text": "received free health screenings (as of end of 2023)"
+                },
+                {
+                    "number": "300 billion",
+                    "text": "VND/year for free health screenings and treatment cost support"
+                },
+                {
+                    "number": "91.6%",
+                    "text": "Vinmecers satisfied with the working environment (2023)"
+                }
+            ]
+        },
+        "governance": {
+            "title": "Governance (G)",
+            "items": [
+                {
+                    "number": "Best Governed Enterprise",
+                    "text": "voted by Deloitte in 2022, 2023"
+                },
+                {
+                    "number": "Best in Vietnam Award",
+                    "text": "at Global CSR & ESG Summit Awards 2024"
+                },
+                {
+                    "number": "Best Workplace in Asia",
+                    "text": "at HR Asia Awards 2023"
+                }
+            ]
+        }
+    },
+    "keyTopics": "Key Topics",
+    "selectTopicPrompt": "Click on a topic to view details",
+    "topics": {
+        "serviceQuality": {
+            "title": "Service Quality",
+            "content": "Vinmec constantly strives to improve product quality and customer satisfaction through research, technology transfer, and clinical trials. 384 scientific reports have been published, affirming our commitment to researching and applying the latest medical advances to healthcare."
+        },
+        "socialResponsibility": {
+            "title": "Social Responsibility",
+            "content": "Vinmec always considers social responsibility as an important part of our mission. Over the past 5 years, we have organized free medical screening programs for 15,000 people, helping to detect dangerous diseases early and raise awareness about community health protection."
+        },
+        "responsibleBusiness": {
+            "title": "Responsible Business Conduct",
+            "content": "Vinmec always strives to maintain responsible business conduct, achieving governance awards such as Vietnam's Best Governed Enterprise in 2022 & 2023 voted by Deloitte and having 2 hospitals in the system recognized according to JCI standards."
+        },
+        "dataSecurity": {
+            "title": "Data Security & Privacy",
+            "content": "At Vinmec, data security and privacy are top priorities in all customer-related activities. We publicly disclose our customer personal data protection policies, committing to transparency and strict compliance with security regulations."
+        },
+        "humanResources": {
+            "title": "Human Resource Development",
+            "content": "Vinmec always considers human resource development as a key factor in sustainable development strategy. In 2023, we implemented 9,330 training programs to standardize and improve the professional capacity of our team, totaling 184,195 training hours with nearly 80,000 employee participations."
+        },
+        "employeeWelfare": {
+            "title": "Employee Welfare",
+            "content": "Vinmec always focuses on improving welfare and creating a quality working environment for employees. We are proud of the prestigious awards we have achieved, such as 'Best Companies to Work for in Asia' and 'Most Caring Company Award'."
+        },
+        "diversity": {
+            "title": "Diversity, Equity & Inclusion",
+            "content": "At Vinmec, we are committed to building a diverse, equitable, and inclusive working environment. The proportion of female leaders at Vinmec has reached 44%, reflecting our commitment to creating a fair and equal leadership environment."
+        },
+        "supplyChain": {
+            "title": "Supply Chain & Resource Efficiency",
+            "content": "At Vinmec, we always strive to optimize raw material supply to ensure continuity and stability in all operations, while minimizing supply chain disruption risks and reusing components from medical equipment."
+        },
+        "climateResilience": {
+            "title": "Climate Resilience",
+            "content": "Vinmec is strongly committed to implementing environmental protection solutions and responding to climate change. We are vigorously promoting the 'green transformation' movement among our staff, helping to reduce approximately 1,800 tons of carbon emissions to the environment."
+        },
+        "waterConservation": {
+            "title": "Water Conservation & Biodiversity",
+            "content": "Vinmec is committed to protecting water resources and biodiversity through water-saving and reuse activities in all operational processes. Our goal is to train 60% of medical staff annually on water resource conservation."
+        },
+        "wasteManagement": {
+            "title": "Waste Management",
+            "content": "At Vinmec, waste management is strictly controlled. 100% of waste is sorted and marked according to color coding principles. The 'No-film' and 'e-contract' solutions help save 4 tons of paper annually and reduce plastic bag usage by 15%."
+        },
+        "responsibleInvestment": {
+            "title": "Responsible Investment",
+            "content": "Vinmec healthcare system is always committed to investing in sustainable solutions, contributing to building a green and healthy future. We are implementing cooperative projects to develop renewable energy solutions at some hospitals."
+        }
+    }
+}

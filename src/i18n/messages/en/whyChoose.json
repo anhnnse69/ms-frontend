@@ -1,0 +1,22 @@
+{
+  "title": "Why Choose Vinmec?",
+  "subtitle": "We are committed to delivering the highest quality healthcare services",
+  "cards": [
+    {
+      "title": "Leading Specialists",
+      "description": "Vinmec brings together highly skilled specialists, doctors, pharmacists and nurses who are dedicated and professional. Always putting patients first, Vinmec is committed to delivering excellent healthcare services."
+    },
+    {
+      "title": "International Quality",
+      "description": "The Vinmec Health System is managed and operated under the supervision of experienced healthcare managers, supported by state-of-the-art technology, to ensure comprehensive and effective healthcare services."
+    },
+    {
+      "title": "Advanced Technology",
+      "description": "Vinmec provides world-class facilities and 5-star service by utilizing advanced technologies managed by skilled clinicians to ensure comprehensive and highly effective healthcare."
+    },
+    {
+      "title": "Research & Innovation",
+      "description": "Vinmec continuously advances academic medicine through methodical research and healthcare development shared from global partnerships with leading healthcare systems worldwide to deliver revolutionary and innovative treatment approaches."
+    }
+  ]
+}
