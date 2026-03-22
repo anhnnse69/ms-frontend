@@ -7,6 +7,7 @@ import { routing } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileHUD } from "@/components/layout/MobileHUD";
+import { PageContainer } from "@/components/layout/PageContainer";
 import "@/app/globals.css";
 
 const geistSans = Geist({
@@ -50,7 +51,7 @@ export default async function LocaleLayout({
       <body className={`${geistSans.variable} antialiased`} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <Header />
-          <main className="pt-40">{children}</main>
+          <PageContainer>{children}</PageContainer>
           <Footer />
           <MobileHUD />
         </NextIntlClientProvider>

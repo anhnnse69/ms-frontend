@@ -2,8 +2,11 @@
 
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import { authApi } from "@/services/api/authApi";
+import type { backendApiResponse, loginRequestDto, loginResponseDto } from "@/types/auth";
+import type { CurrentUser } from "@/types/admin";
 
 function EyeIcon() {
     return (
@@ -30,17 +33,80 @@ export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
+    const router = useRouter();
+
+    const redirectByRole = () => {
+        if (typeof window === "undefined") return;
+        const raw = localStorage.getItem("user");
+        if (!raw) {
+            router.push(`/${locale}`);
+            return;
+        }
+        let user: CurrentUser | null = null;
+        try {
+            user = JSON.parse(raw) as CurrentUser;
+        } catch {
+            router.push(`/${locale}`);
+            return;
+        }
+
+        switch (user?.role) {
+            case "ITAdmin":
+                router.push(`/${locale}/admin`);
+                break;
+            case "Manager":
+                router.push(`/${locale}/manager`);
+                break;
+            case "Doctor":
+                router.push(`/${locale}/doctor`);
+                break;
+            case "Patient":
+            default:
+                router.push(`/${locale}`);
+                break;
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
+        setError(null);
+        setSuccess(null);
 
-        // TODO: Implement actual login logic
-        console.log("Login attempt:", { email, password, rememberMe });
+        try {
+            const payload: loginRequestDto = {
+                EmailAddress: email,
+                Password: password,
+            };
 
-        setTimeout(() => {
+            const response: backendApiResponse<loginResponseDto> = await authApi.login(payload);
+            const codeMessage = response.codeMessage ?? response.CodeMessage;
+
+            if (codeMessage === "APP_MESSAGE_4016") {
+                setError(t("messages.APP_MESSAGE_4016"));
+                return;
+            }
+
+            setSuccess(t("loginSuccess"));
+            redirectByRole();
+        } catch (err: any) {
+            const codeMessage = (err?.response?.data?.codeMessage ?? err?.response?.data?.CodeMessage) as
+                | string
+                | undefined;
+            if (codeMessage) {
+                try {
+                    setError(t(`messages.${codeMessage}` as any));
+                } catch {
+                    setError(t("loginError"));
+                }
+            } else {
+                setError(t("loginError"));
+            }
+        } finally {
             setIsLoading(false);
-        }, 1000);
+        }
     };
 
     return (
@@ -62,6 +128,16 @@ export default function LoginPage() {
                 </div>
 
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                    {error && (
+                        <div className="rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-700">
+                            {error}
+                        </div>
+                    )}
+                    {success && (
+                        <div className="rounded-md bg-green-50 border border-green-200 p-3 text-sm text-green-700">
+                            {success}
+                        </div>
+                    )}
                     <div className="space-y-4">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">

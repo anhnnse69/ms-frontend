@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 function PhoneIcon() {
   return (
@@ -29,6 +29,12 @@ function DoctorIcon() {
 export function MobileHUD() {
   const t = useTranslations("common");
   const { locale } = useParams<{ locale: string }>();
+  const pathname = usePathname();
+
+  const isDashboardRoute = pathname?.includes("/admin") || pathname?.includes("/manager") || pathname?.includes("/doctor");
+  if (isDashboardRoute) {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-0 inset-x-0 z-40 md:hidden bg-white border-t border-[#e0e8ef] shadow-lg safe-area-pb">

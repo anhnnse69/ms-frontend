@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
 
 function YoutubeIcon() {
   return (
@@ -46,8 +49,14 @@ const SERVICE_HREFS = [
   "/vi/booking",
 ];
 
-export async function Footer() {
-  const t = await getTranslations("footer");
+export function Footer() {
+  const t = useTranslations("footer");
+  const pathname = usePathname();
+
+  const isDashboardRoute = pathname?.includes("/admin") || pathname?.includes("/manager") || pathname?.includes("/doctor");
+  if (isDashboardRoute) {
+    return null;
+  }
   const systemLinks = (t.raw("systemLinks") as string[]).map((label, i) => ({
     label,
     href: SYSTEM_HREFS[i] ?? "#",

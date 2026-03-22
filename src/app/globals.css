@@ -49,6 +49,10 @@ body {
   line-height: 1.6;
 }
 
+button {
+  cursor: pointer;
+}
+
 /* Hero carousel animation */
 @keyframes slideIn {
   from {
