@@ -4,6 +4,8 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { authApi } from "@/services/api/authApi";
+import type { backendApiResponse, registerRequestDto, registerResponseDto } from "@/types/auth";
 
 function EyeIcon() {
     return (
@@ -29,20 +31,65 @@ export default function RegisterPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
+    const [gender, setGender] = useState<"Male" | "Female" | "Other">("Male");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
+        setError(null);
+        setSuccess(null);
 
-        // TODO: Implement actual register logic
-        console.log("Register attempt:", { fullName, email, password, confirmPassword });
-
-        setTimeout(() => {
+        if (password !== confirmPassword) {
+            setError(t("passwordMismatch"));
             setIsLoading(false);
-        }, 1000);
+            return;
+        }
+
+        try {
+            const genderValue = gender === "Male" ? 0 : gender === "Female" ? 1 : 2;
+
+            const payload: registerRequestDto = {
+                FullName: fullName,
+                EmailAddress: email,
+                Password: password,
+                PhoneNumber: phoneNumber,
+                DateOfBirth: dateOfBirth ? new Date(dateOfBirth).toISOString() : new Date().toISOString(),
+                Gender: genderValue,
+            };
+
+            const response: backendApiResponse<registerResponseDto> = await authApi.register(payload);
+            const codeMessage = response.codeMessage ?? response.CodeMessage;
+
+            if (codeMessage === "APP_MESSAGE_4017") {
+                setError(t("messages.APP_MESSAGE_4017"));
+            } else if (codeMessage === "APP_MESSAGE_2000") {
+                setSuccess(t("registerSuccess"));
+            } else {
+                setSuccess(t("registerSuccess"));
+            }
+        } catch (err: any) {
+            const codeMessage = (err?.response?.data?.codeMessage ?? err?.response?.data?.CodeMessage) as
+                | string
+                | undefined;
+            if (codeMessage) {
+                try {
+                    setError(t(`messages.${codeMessage}` as any));
+                } catch {
+                    setError(t("registerError"));
+                }
+            } else {
+                setError(t("registerError"));
+            }
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -64,6 +111,16 @@ export default function RegisterPage() {
                 </div>
 
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                    {error && (
+                        <div className="rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-700">
+                            {error}
+                        </div>
+                    )}
+                    {success && (
+                        <div className="rounded-md bg-green-50 border border-green-200 p-3 text-sm text-green-700">
+                            {success}
+                        </div>
+                    )}
                     <div className="space-y-4">
                         <div>
                             <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
@@ -97,6 +154,56 @@ export default function RegisterPage() {
                                 className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076c0] focus:border-[#0076c0] sm:text-sm"
                                 placeholder="name@example.com"
                             />
+                        </div>
+
+                        <div>
+                            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                                {t("phoneNumber")}
+                            </label>
+                            <input
+                                id="phone"
+                                name="phone"
+                                type="tel"
+                                required
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value)}
+                                className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076c0] focus:border-[#0076c0] sm:text-sm"
+                                placeholder="0901234567"
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700">
+                                    {t("dateOfBirth")}
+                                </label>
+                                <input
+                                    id="dateOfBirth"
+                                    name="dateOfBirth"
+                                    type="date"
+                                    required
+                                    value={dateOfBirth}
+                                    onChange={(e) => setDateOfBirth(e.target.value)}
+                                    className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076c0] focus:border-[#0076c0] sm:text-sm"
+                                />
+                            </div>
+
+                            <div>
+                                <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
+                                    {t("gender")}
+                                </label>
+                                <select
+                                    id="gender"
+                                    name="gender"
+                                    value={gender}
+                                    onChange={(e) => setGender(e.target.value as any)}
+                                    className="mt-1 block w-full pl-3 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0076c0] focus:border-[#0076c0] sm:text-sm rounded-lg"
+                                >
+                                    <option value="Male">{t("genderMale")}</option>
+                                    <option value="Female">{t("genderFemale")}</option>
+                                    <option value="Other">{t("genderOther")}</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div>
