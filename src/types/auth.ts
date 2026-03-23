@@ -73,3 +73,13 @@ export interface resetPasswordResponseDto {
     message?: string;
     Message?: string;
 }
+
+export interface changePasswordRequestDto {
+    CurrentPassword: string;
+    NewPassword: string;
+}
+
+export interface changePasswordResponseDto {
+    message?: string;
+    Message?: string;
+}

@@ -53,6 +53,25 @@ export function Header() {
   const { user, isLoading, isAdmin, logout } = useAuth();
   const pathname = usePathname();
 
+  const displayUser = user; // Avoid triggering profile fetch in header, use useAuth storage state.
+  const getDisplayName = () => {
+    if (!displayUser) return "User";
+    if (displayUser.displayName) return displayUser.displayName;
+    if (displayUser.fullName) return displayUser.fullName;
+    if ((displayUser as any).username) return (displayUser as any).username;
+    if (displayUser.email) return displayUser.email;
+    return "User";
+  };
+
+  const getAvatarUrl = () => {
+    if (!displayUser) return undefined;
+    if (displayUser.avatarUrl) return displayUser.avatarUrl;
+    return (displayUser as any).avatarUrl || undefined;
+  };
+
+  const displayName = getDisplayName();
+  const avatarUrl = getAvatarUrl();
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -127,15 +146,24 @@ export function Header() {
 
               <span className="hidden md:block h-5 w-px bg-[#dde4ec]" />
 
-              {!isLoading && user && (
+              {!isLoading && displayUser && (
                 <>
                   <div className="hidden md:flex items-center gap-2 text-sm text-[#0076c0]">
-                    <UserIcon />
+                    {avatarUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={avatarUrl}
+                        alt={displayName}
+                        className="h-6 w-6 rounded-full object-cover"
+                      />
+                    ) : (
+                      <UserIcon />
+                    )}
                     <span
                       className="font-medium truncate max-w-35"
-                      title={user.displayName || user.username || user.email}
+                      title={displayName}
                     >
-                      {user.displayName || user.username || user.email}
+                      {displayName}
                     </span>
                   </div>
 
@@ -148,7 +176,7 @@ export function Header() {
                     </Link>
                   )}
 
-                  {!isAdmin && user.role === "Manager" && (
+                  {!isAdmin && user?.role === "Manager" && (
                     <Link
                       href={`/${locale}/manager`}
                       className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
@@ -157,13 +185,30 @@ export function Header() {
                     </Link>
                   )}
 
-                  {!isAdmin && user.role === "Doctor" && (
+                  {!isAdmin && user?.role === "Doctor" && (
                     <Link
                       href={`/${locale}/doctor`}
                       className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
                     >
                       {t("doctorDashboard")}
                     </Link>
+                  )}
+
+                  {!isAdmin && user?.role === "Patient" && (
+                    <>
+                      <Link
+                        href={`/${locale}/patient/profile`}
+                        className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
+                      >
+                        My Profile
+                      </Link>
+                      <Link
+                        href={`/${locale}/patient/appointments`}
+                        className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
+                      >
+                        My Appointments
+                      </Link>
+                    </>
                   )}
 
                   <button

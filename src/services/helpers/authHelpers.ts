@@ -53,6 +53,14 @@ export const buildCurrentUserFromToken = (token: string): CurrentUser | null => 
         email: email || '',
         role: role || '',
         displayName: displayName || username || email || 'User',
+        fullName: fullName || undefined,
+        avatarUrl: payload.avatarUrl || payload.avatar || payload.picture || undefined,
+        phoneNumber:
+            payload.phoneNumber ||
+            payload.phone ||
+            payload.PhoneNumber ||
+            payload.phone_number ||
+            undefined,
     };
 };
 

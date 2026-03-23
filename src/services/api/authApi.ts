@@ -12,6 +12,8 @@ import type {
     verifyOtpResponseDto,
     resetPasswordRequestDto,
     resetPasswordResponseDto,
+    changePasswordRequestDto,
+    changePasswordResponseDto,
 } from '@/types/auth';
 
 // === Public API: only API calls with apiClient ===
@@ -53,6 +55,16 @@ export const authApi = {
     ): Promise<backendApiResponse<resetPasswordResponseDto>> => {
         const response = await apiClient().post<backendApiResponse<resetPasswordResponseDto>>(
             '/auth/reset-password',
+            payload,
+        );
+        return response.data;
+    },
+
+    changePassword: async (
+        payload: { CurrentPassword: string; NewPassword: string },
+    ): Promise<backendApiResponse<changePasswordResponseDto>> => {
+        const response = await apiClient().post<backendApiResponse<changePasswordResponseDto>>(
+            '/ChangePassword',
             payload,
         );
         return response.data;

@@ -166,4 +166,7 @@ export interface CurrentUser {
     email: string;
     role: string;
     displayName: string;
+    fullName?: string;
+    phoneNumber?: string;
+    avatarUrl?: string;
 }

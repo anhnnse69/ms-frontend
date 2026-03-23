@@ -2,65 +2,85 @@
 
 import { useState, useEffect } from 'react';
 import { CurrentUser } from '@/types/admin';
+import { getUserProfile } from '@/services/api/userProfile.api'; 
 
 export const useAuth = () => {
-    const [user, setUser] = useState<CurrentUser | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isAdmin, setIsAdmin] = useState(false);
+  const [user, setUser] = useState<CurrentUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-    useEffect(() => {
-        const checkAuth = () => {
-            if (typeof window !== 'undefined') {
-                const storedUser = localStorage.getItem('user');
-                const token = localStorage.getItem('accessToken');
+  useEffect(() => {
+    const checkAuth = async () => {
+      if (typeof window !== 'undefined') {
+        const storedUser = localStorage.getItem('user');
+        const token = localStorage.getItem('accessToken');
 
-                if (storedUser && token) {
-                    const parsedUser = JSON.parse(storedUser);
-                    setUser(parsedUser);
-                    setIsAdmin(parsedUser.role === 'ITAdmin');
-                } else {
-                    setUser(null);
-                    setIsAdmin(false);
-                }
+        if (storedUser && token) {
+          let parsedUser = JSON.parse(storedUser);
+
+          // Nếu là Patient, fetch full profile để có patientId, displayName, avatarUrl
+          if (parsedUser.role === 'Patient') {
+            try {
+              const fullProfile = await getUserProfile(); // ✅ đúng API
+              parsedUser = { ...parsedUser, ...fullProfile }; // merge profile
+              localStorage.setItem('user', JSON.stringify(parsedUser));
+            } catch (err) {
+              console.error('Failed to fetch patient profile', err);
             }
-            setIsLoading(false);
-        };
+          }
 
+          setUser(parsedUser);
+          setIsAdmin(parsedUser.role === 'ITAdmin');
+        } else {
+          setUser(null);
+          setIsAdmin(false);
+        }
+      }
+
+      setIsLoading(false);
+    };
+
+    checkAuth();
+
+    if (typeof window !== 'undefined') {
+      const handleAuthChanged = () => checkAuth();
+      const handleProfileUpdated = (e: Event) => {
+        const customEvent = e as CustomEvent<Partial<CurrentUser>>;
+        if (customEvent?.detail) {
+          const existingUser = localStorage.getItem('user');
+          if (existingUser) {
+            try {
+              const parsed = JSON.parse(existingUser);
+              const merged = { ...parsed, ...customEvent.detail };
+              localStorage.setItem('user', JSON.stringify(merged));
+              setUser(merged);
+              setIsAdmin(merged.role === 'ITAdmin');
+              return;
+            } catch {}
+          }
+        }
         checkAuth();
+      };
 
-        if (typeof window !== 'undefined') {
-            const handleAuthChanged = () => {
-                // Khi login/logout, đọc lại localStorage và cập nhật Header ngay
-                checkAuth();
-            };
+      window.addEventListener('auth-changed', handleAuthChanged);
+      window.addEventListener('profile:updated', handleProfileUpdated);
 
-            window.addEventListener('auth-changed', handleAuthChanged);
-            return () => {
-                window.removeEventListener('auth-changed', handleAuthChanged);
-            };
-        }
-    }, []);
+      return () => {
+        window.removeEventListener('auth-changed', handleAuthChanged);
+        window.removeEventListener('profile:updated', handleProfileUpdated);
+      };
+    }
+  }, []);
 
-    const logout = () => {
-        if (typeof window !== 'undefined') {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('user');
-            window.dispatchEvent(new CustomEvent('auth-changed'));
-        }
-        setUser(null);
-        setIsAdmin(false);
-    };
+  const logout = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('user');
+      window.dispatchEvent(new CustomEvent('auth-changed'));
+    }
+    setUser(null);
+    setIsAdmin(false);
+  };
 
-    return { user, isLoading, isAdmin, logout };
-};
-
-export const useAdminCheck = () => {
-    const { user, isLoading, isAdmin } = useAuth();
-
-    return {
-        user,
-        isLoading,
-        isAdmin,
-        hasAdminAccess: !isLoading && isAdmin && user?.role === 'ITAdmin',
-    };
+  return { user, isLoading, isAdmin, logout };
 };
