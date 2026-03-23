@@ -2,11 +2,12 @@
 
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter, usePathname } from "next/navigation";
 import { Navigation } from "./Navigation";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 
 function SearchIcon() {
   return (
@@ -46,14 +47,42 @@ function VinmecLogo() {
 export function Header() {
   const t = useTranslations("common");
   const { locale } = useParams<{ locale: string }>();
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [searchVal, setSearchVal] = useState("");
+  const { user, isLoading, isAdmin, logout } = useAuth();
+  const pathname = usePathname();
+
+  const displayUser = user; // Avoid triggering profile fetch in header, use useAuth storage state.
+  const getDisplayName = () => {
+    if (!displayUser) return "User";
+    if (displayUser.displayName) return displayUser.displayName;
+    if (displayUser.fullName) return displayUser.fullName;
+    if ((displayUser as any).username) return (displayUser as any).username;
+    if (displayUser.email) return displayUser.email;
+    return "User";
+  };
+
+  const getAvatarUrl = () => {
+    if (!displayUser) return undefined;
+    if (displayUser.avatarUrl) return displayUser.avatarUrl;
+    return (displayUser as any).avatarUrl || undefined;
+  };
+
+  const displayName = getDisplayName();
+  const avatarUrl = getAvatarUrl();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const isDashboardRoute = pathname?.includes("/admin") || pathname?.includes("/manager") || pathname?.includes("/doctor");
+
+  if (isDashboardRoute) {
+    return null;
+  }
 
   return (
     <header
@@ -117,20 +146,102 @@ export function Header() {
 
               <span className="hidden md:block h-5 w-px bg-[#dde4ec]" />
 
-              <Link
-                href={`/${locale}/login`}
-                className="hidden md:flex items-center gap-1.5 text-[#0076c0] hover:text-[#005a91] transition-colors text-sm font-medium"
-              >
-                <UserIcon />
-                {t("login")}
-              </Link>
+              {!isLoading && displayUser && (
+                <>
+                  <div className="hidden md:flex items-center gap-2 text-sm text-[#0076c0]">
+                    {avatarUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={avatarUrl}
+                        alt={displayName}
+                        className="h-6 w-6 rounded-full object-cover"
+                      />
+                    ) : (
+                      <UserIcon />
+                    )}
+                    <span
+                      className="font-medium truncate max-w-35"
+                      title={displayName}
+                    >
+                      {displayName}
+                    </span>
+                  </div>
 
-              <Link
-                href={`/${locale}/register`}
-                className="bg-[#0076c0] hover:bg-[#005a91] text-white px-3 py-1.5 rounded text-sm font-medium transition-colors hidden md:block"
-              >
-                {t("register")}
-              </Link>
+                  {isAdmin && (
+                    <Link
+                      href={`/${locale}/admin`}
+                      className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
+                    >
+                      {t("adminDashboard")}
+                    </Link>
+                  )}
+
+                  {!isAdmin && user?.role === "Manager" && (
+                    <Link
+                      href={`/${locale}/manager`}
+                      className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
+                    >
+                      {t("managerDashboard")}
+                    </Link>
+                  )}
+
+                  {!isAdmin && user?.role === "Doctor" && (
+                    <Link
+                      href={`/${locale}/doctor`}
+                      className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
+                    >
+                      {t("doctorDashboard")}
+                    </Link>
+                  )}
+
+                  {!isAdmin && user?.role === "Patient" && (
+                    <>
+                      <Link
+                        href={`/${locale}/patient/profile`}
+                        className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
+                      >
+                        My Profile
+                      </Link>
+                      <Link
+                        href={`/${locale}/patient/appointments`}
+                        className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
+                      >
+                        My Appointments
+                      </Link>
+                    </>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logout();
+                      router.push(`/${locale}`);
+                    }}
+                    className="hidden md:block bg-transparent border border-[#dde4ec] text-[#444] hover:bg-[#f3f6fa] px-3 py-1.5 rounded text-sm font-medium transition-colors"
+                  >
+                    {t("logout")}
+                  </button>
+                </>
+              )}
+
+              {!isLoading && !user && (
+                <>
+                  <Link
+                    href={`/${locale}/login`}
+                    className="hidden md:flex items-center gap-1.5 text-[#0076c0] hover:text-[#005a91] transition-colors text-sm font-medium"
+                  >
+                    <UserIcon />
+                    {t("login")}
+                  </Link>
+
+                  <Link
+                    href={`/${locale}/register`}
+                    className="bg-[#0076c0] hover:bg-[#005a91] text-white px-3 py-1.5 rounded text-sm font-medium transition-colors hidden md:block"
+                  >
+                    {t("register")}
+                  </Link>
+                </>
+              )}
 
               <span className="hidden md:block h-5 w-px bg-[#dde4ec]" />
 
