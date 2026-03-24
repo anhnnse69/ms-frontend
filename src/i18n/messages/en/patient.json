@@ -95,5 +95,15 @@
     "searchErrorDefault": "Failed to search doctors",
     "detailErrorDefault": "Failed to fetch doctor details",
     "bookingErrorDefault": "Failed to book appointment"
+  },
+  "payment": {
+    "momoSuccessTitle": "Deposit payment successful",
+    "momoFailureTitle": "MoMo payment failed",
+    "momoDefaultSuccessMessage": "Your deposit payment for the appointment has been recorded.",
+    "momoDefaultErrorMessage": "An error occurred during payment.",
+    "momoAmountLabel": "Deposit amount",
+    "momoAmountNote": "Transaction details have been stored by the system. You do not need to remember the order code.",
+    "momoViewAppointments": "View my appointments",
+    "momoGoHome": "Back to home"
   }
 }

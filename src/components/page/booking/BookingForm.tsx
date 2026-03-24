@@ -2,42 +2,17 @@
 
 import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
-import { searchDoctors } from "@/services/api/patient.api";
+import { searchDoctors, getDoctorDetail } from "@/services/api/patient.api";
 import { Doctor } from "@/types/patient";
 
 const VINMEC_BASE_URL = "https://www.vinmec.com";
 
-// Hospital data
-const HOSPITALS = [
-    { id: "times-city", name: "Bệnh viện Đa khoa Quốc tế Vinmec Times City" },
-    { id: "central-park", name: "Bệnh viện Đa khoa Quốc tế Vinmec Central Park" },
-    { id: "ha-long", name: "Bệnh viện Đa khoa Quốc tế Vinmec Hạ Long" },
-    { id: "nha-trang", name: "Bệnh viện Đa khoa Vinmec Nha Trang" },
-    { id: "da-nang", name: "Bệnh viện Đa khoa Vinmec Đà Nẵng" },
-    { id: "smart-city", name: "Bệnh viện Đa khoa Vinmec Smart City" },
-    { id: "phu-quoc", name: "Bệnh viện Đa khoa Vinmec Phú Quốc" },
-];
-
-// Specialty data
-const SPECIALTIES = [
-    { id: "emergency", name: "Cấp cứu" },
-    { id: "cardiology", name: "Tim mạch" },
-    { id: "oncology", name: "Ung bướu" },
-    { id: "pediatrics", name: "Nhi khoa" },
-    { id: "gastroenterology", name: "Tiêu hóa - Gan mật" },
-    { id: "neurology", name: "Thần kinh" },
-    { id: "orthopedics", name: "Chấn thương chỉnh hình" },
-    { id: "ophthalmology", name: "Mắt" },
-    { id: "dental", name: "Nha khoa" },
-    { id: "womens-health", name: "Sức khỏe phụ nữ" },
-];
-
-// Generate next 7 days
+// Generate today + next 2 days
 const generateDateOptions = () => {
     const dates = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 3; i++) {
         const date = new Date();
         date.setDate(date.getDate() + i);
         dates.push({
@@ -108,6 +83,120 @@ export function BookingForm() {
 
     const dateOptions = generateDateOptions();
 
+    // Dynamic hospital & specialty options built from doctor data (same source as doctor list page)
+    const hospitalOptions = useMemo(
+        () => {
+            const map = new Map<string, { id: string; name: string }>();
+            allDoctors.forEach((d) => {
+                // Prefer real facilityId from backend; fallback to facility name if needed
+                if (d.facilityId && d.facility) {
+                    if (!map.has(d.facilityId)) {
+                        map.set(d.facilityId, { id: d.facilityId, name: d.facility });
+                    }
+                } else if (d.facility) {
+                    const key = d.facility.trim();
+                    if (key && !map.has(key)) {
+                        map.set(key, { id: key, name: d.facility });
+                    }
+                }
+            });
+            return Array.from(map.values());
+        },
+        [allDoctors]
+    );
+
+    const specialtyOptions = useMemo(
+        () => {
+            const map = new Map<string, { id: string; name: string }>();
+            allDoctors.forEach((d) => {
+                // Prefer real specialtyId from backend; fallback to specialty name if needed
+                if (d.specialtyId && d.specialty) {
+                    if (!map.has(d.specialtyId)) {
+                        map.set(d.specialtyId, { id: d.specialtyId, name: d.specialty });
+                    }
+                } else if (d.specialty) {
+                    const key = d.specialty.trim();
+                    if (key && !map.has(key)) {
+                        map.set(key, { id: key, name: d.specialty });
+                    }
+                }
+            });
+            return Array.from(map.values());
+        },
+        [allDoctors]
+    );
+
+    // Specialties available within selected hospital (clinic)
+    const filteredSpecialtyOptions = useMemo(
+        () => {
+            const map = new Map<string, { id: string; name: string }>();
+            allDoctors.forEach((d) => {
+                // If a hospital is selected, only consider doctors belonging to that facility
+                if (hospital) {
+                    const matchesFacilityId = d.facilityId && d.facilityId === hospital;
+                    const selectedHospital = hospitalOptions.find((h) => h.id === hospital);
+                    const matchesFacilityName = !d.facilityId && d.facility && selectedHospital && d.facility === selectedHospital.name;
+                    if (!matchesFacilityId && !matchesFacilityName) {
+                        return;
+                    }
+                }
+
+                if (d.specialtyId && d.specialty) {
+                    if (!map.has(d.specialtyId)) {
+                        map.set(d.specialtyId, { id: d.specialtyId, name: d.specialty });
+                    }
+                } else if (d.specialty) {
+                    const key = d.specialty.trim();
+                    if (key && !map.has(key)) {
+                        map.set(key, { id: key, name: d.specialty });
+                    }
+                }
+            });
+            // If no hospital is selected, fall back to all specialties
+            const result = Array.from(map.values());
+            return hospital ? result : specialtyOptions;
+        },
+        [allDoctors, hospital, hospitalOptions, specialtyOptions]
+    );
+
+    // Doctors filtered by selected hospital and specialty
+    const filteredDoctors = useMemo(
+        () => {
+            return allDoctors.filter((d) => {
+                // filter by hospital / facility first
+                if (hospital) {
+                    const matchesFacilityId = d.facilityId && d.facilityId === hospital;
+                    const selectedHospital = hospitalOptions.find((h) => h.id === hospital);
+                    const matchesFacilityName = !d.facilityId && d.facility && selectedHospital && d.facility === selectedHospital.name;
+                    if (!matchesFacilityId && !matchesFacilityName) {
+                        return false;
+                    }
+                }
+
+                // then filter by specialty (if selected)
+                if (specialty) {
+                    if (d.specialtyId) {
+                        return d.specialtyId === specialty;
+                    }
+                    const selectedSpec = specialtyOptions.find((s) => s.id === specialty) ?? filteredSpecialtyOptions.find((s) => s.id === specialty);
+                    if (!selectedSpec) return true;
+                    return d.specialty?.toLowerCase().includes(selectedSpec.name.toLowerCase());
+                }
+
+                return true;
+            });
+        },
+        [allDoctors, hospital, specialty, hospitalOptions, specialtyOptions, filteredSpecialtyOptions]
+    );
+
+    const todayStr = (() => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = (today.getMonth() + 1).toString().padStart(2, "0");
+        const day = today.getDate().toString().padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    })();
+
     const breadcrumbItems = [
         { label: t("breadcrumbHome"), href: "/" },
         { label: t("title") },
@@ -140,7 +229,7 @@ export function BookingForm() {
         }
 
         // Resolve selected appointment date
-        const dates = generateDateOptions();
+        const dates = dateOptions;
         let selectedDateObj: Date | null = null;
 
         if (useOtherDate) {
@@ -168,8 +257,8 @@ export function BookingForm() {
 
         // If user is not logged in, redirect to login page
         if (typeof window !== "undefined") {
-            const hospitalInfo = HOSPITALS.find((h) => h.id === hospital);
-            const specialtyInfo = SPECIALTIES.find((s) => s.id === specialty);
+            const hospitalInfo = hospitalOptions.find((h) => h.id === hospital);
+            const specialtyInfo = specialtyOptions.find((s) => s.id === specialty);
             const doctorInfo = allDoctors.find((d) => d.id === doctor);
 
             const draft: BookingDraftStorage = {
@@ -234,12 +323,18 @@ export function BookingForm() {
                         </label>
                         <select
                             value={hospital}
-                            onChange={(e) => setHospital(e.target.value)}
+                            onChange={(e) => {
+								const value = e.target.value;
+								setHospital(value);
+								// reset dependent fields when hospital changes
+								setSpecialty("");
+								setDoctor("");
+							}}
                             required
                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076c0] focus:border-[#0076c0] text-gray-900 bg-white"
                         >
                             <option value="">{t("selectHospital")}</option>
-                            {HOSPITALS.map((h) => (
+                            {hospitalOptions.map((h) => (
                                 <option key={h.id} value={h.id}>
                                     {h.name}
                                 </option>
@@ -263,7 +358,7 @@ export function BookingForm() {
                                     }}
                                     className={`shrink-0 px-4 py-2 rounded-lg border text-center transition-colors ${
                                         selectedDate === idx
-                                            ? "bg-blue-600 text-white border-blue-600"
+                                            ? "bg-[#005a94] text-white border-[#005a94]"
                                             : "bg-white text-gray-700 border-gray-300 hover:border-blue-600"
                                     }`}
                                 >
@@ -273,10 +368,13 @@ export function BookingForm() {
                             ))}
                             <button
                                 type="button"
-                                onClick={() => setUseOtherDate(true)}
+                                onClick={() => {
+                                    setUseOtherDate(true);
+                                    setSelectedDate(-1);
+                                }}
                                 className={`shrink-0 px-4 py-2 rounded-lg border flex flex-col items-center justify-center transition-colors ${
                                     useOtherDate
-                                        ? "bg-blue-600 text-white border-blue-600"
+                                        ? "bg-[#005a94] text-white border-[#005a94]"
                                         : "bg-white text-gray-700 border-gray-300 hover:border-blue-600"
                                 }`}
                             >
@@ -290,6 +388,7 @@ export function BookingForm() {
                                     type="date"
                                     value={otherDate}
                                     onChange={(e) => setOtherDate(e.target.value)}
+                                    min={todayStr}
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900"
                                 />
                                 <p className="mt-1 text-xs text-gray-500">{t("appointmentDate")}</p>
@@ -304,12 +403,18 @@ export function BookingForm() {
                         </label>
                         <select
                             value={specialty}
-                            onChange={(e) => setSpecialty(e.target.value)}
+                            onChange={(e) => {
+								const value = e.target.value;
+								setSpecialty(value);
+								// when specialty changes, clear doctor selection
+								setDoctor("");
+							}}
                             required
+                            disabled={!hospital || filteredSpecialtyOptions.length === 0}
                                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900 bg-white"
                         >
                             <option value="">{t("selectSpecialty")}</option>
-                            {SPECIALTIES.map((s) => (
+                            {filteredSpecialtyOptions.map((s) => (
                                 <option key={s.id} value={s.id}>
                                     {s.name}
                                 </option>
@@ -325,7 +430,7 @@ export function BookingForm() {
                         <select
                             value={doctor}
                             onChange={(e) => setDoctor(e.target.value)}
-                            disabled={isLoadingDoctors || allDoctors.length === 0}
+                            disabled={isLoadingDoctors || allDoctors.length === 0 || !specialty}
                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900 bg-white disabled:bg-gray-50 disabled:text-gray-400"
                         >
                             <option value="">
@@ -335,16 +440,7 @@ export function BookingForm() {
                                     ? t("selectDoctor")
                                     : t("selectDoctor")}
                             </option>
-                            {allDoctors
-                                .filter((d) => {
-                                    if (!specialty) return true;
-                                    const selectedSpecialty = SPECIALTIES.find((s) => s.id === specialty)?.name;
-                                    if (!selectedSpecialty) return true;
-                                    return (
-                                        d.specialty?.toLowerCase().includes(selectedSpecialty.toLowerCase())
-                                    );
-                                })
-                                .map((d) => (
+                            {filteredDoctors.map((d) => (
                                     <option key={d.id} value={d.id}>
                                         {d.name} {d.specialty ? `- ${d.specialty}` : ""}
                                     </option>
@@ -427,6 +523,7 @@ export function BookingForm() {
                                 value={birthDate}
                                 onChange={(e) => setBirthDate(e.target.value)}
                                 required
+                                max={todayStr}
                                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900"
                             />
                         </div>

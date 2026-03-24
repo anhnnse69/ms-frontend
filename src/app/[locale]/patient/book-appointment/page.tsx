@@ -19,6 +19,7 @@ import {
   getDoctorDetail,
   bookAppointment,
   SearchDoctorsParams,
+  createMomoPayment,
 } from '@/services/api/patient.api';
 import {
   Doctor,
@@ -53,6 +54,7 @@ export default function BookAppointmentPage() {
   const [detailError, setDetailError] = useState<Error | null>(null);
 
   // Booking form state
+  const [selectedDoctorMeta, setSelectedDoctorMeta] = useState<Doctor | null>(null);
   const [appointmentTime, setAppointmentTime] = useState('');
   const [appointmentNotes, setAppointmentNotes] = useState('');
   const [bookingLoading, setBookingLoading] = useState(false);
@@ -61,11 +63,17 @@ export default function BookAppointmentPage() {
   const [uiMessage, setUiMessage] = useState<string | null>(null);
   const [uiMessageType, setUiMessageType] = useState<'success' | 'error' | 'info'>('info');
 
-  const [paymentMethod, setPaymentMethod] = useState<'hospital' | 'momo'>('hospital');
-
   // Step tracking for multi-step form
   type Step = 'search' | 'doctor-detail' | 'confirm';
   const [currentStep, setCurrentStep] = useState<Step>('search');
+  const isFromMarketing = urlSearchParams.get('fromMarketingBooking') === '1';
+
+  const minAppointmentDateTime = (() => {
+    const now = new Date();
+    const tzOffset = now.getTimezoneOffset();
+    const local = new Date(now.getTime() - tzOffset * 60000);
+    return local.toISOString().slice(0, 16);
+  })();
 
   // 1. Search doctors on component mount
   useEffect(() => {
@@ -94,6 +102,7 @@ export default function BookAppointmentPage() {
           setSelectedDoctorId(draft.doctorId as string);
           const detail = await getDoctorDetail(draft.doctorId as string);
           setDoctorDetail(detail);
+          setSelectedDoctorMeta(detail);
 
           if (draft.datetimeLocal) {
             setAppointmentTime(draft.datetimeLocal as string);
@@ -149,6 +158,9 @@ export default function BookAppointmentPage() {
       setDetailError(null);
       setSelectedDoctorId(doctorId);
 
+      const meta = doctors.find((d) => d.id === doctorId) || null;
+      setSelectedDoctorMeta(meta);
+
       const detail = await getDoctorDetail(doctorId);
       setDoctorDetail(detail);
       setCurrentStep('doctor-detail');
@@ -186,40 +198,49 @@ export default function BookAppointmentPage() {
       return;
     }
 
+    const facilityId = selectedDoctorMeta?.facilityId || doctorDetail.facilityId;
+    const specialtyId = selectedDoctorMeta?.specialtyId || doctorDetail.specialtyId;
+
+    if (!facilityId || !specialtyId) {
+      setBookingError(
+        new Error('Selected doctor is missing facility or specialty information. Please choose another doctor.')
+      );
+      return;
+    }
+
     try {
       setBookingLoading(true);
       setBookingError(null);
       setBookingSuccess(false);
 
-      const paymentNotePrefix =
-        paymentMethod === 'momo'
-          ? '[Payment method: MoMo]\n'
-          : '[Payment method: Pay at hospital]\n';
+      const paymentNotePrefix = '[Payment method: MoMo]\n';
 
       const combinedNotes = appointmentNotes
         ? `${appointmentNotes}\n\n${paymentNotePrefix}`
         : paymentNotePrefix;
 
       const bookingRequest: BookAppointmentRequest = {
-        facilityId: doctorDetail.facilityId,
-        specialtyId: doctorDetail.specialtyId,
+        facilityId,
+        specialtyId,
         doctorId: selectedDoctorId,
         appointmentTime: selectedTime.toISOString(),
         notes: combinedNotes,
       };
 
-      await bookAppointment(bookingRequest);
+      // 1) Create appointment
+      const createdAppointment = await bookAppointment(bookingRequest);
 
-      setBookingSuccess(true);
-      setUiMessage('Appointment booked successfully!');
-      setUiMessageType('success');
-      // Reset form
-      setAppointmentTime('');
-      setAppointmentNotes('');
-      setDoctorDetail(null);
-      setSelectedDoctorId(null);
-      setCurrentStep('search');
+      if (!createdAppointment?.id) {
+        throw new Error('Appointment created but missing ID');
+      }
 
+      // 2) Create MoMo payment for this appointment
+      const momo = await createMomoPayment(
+        createdAppointment.id,
+        `Deposit for appointment ${createdAppointment.id}`
+      );
+
+      // Clear draft before redirecting away
       try {
         if (typeof window !== 'undefined') {
           window.localStorage.removeItem('bookingDraft');
@@ -228,10 +249,10 @@ export default function BookAppointmentPage() {
         console.warn('Failed to clear bookingDraft from storage', error);
       }
 
-      // Redirect after a delay
-      setTimeout(() => {
-        window.location.href = '/patient/appointments';
-      }, 2000);
+      // 3) Redirect patient to MoMo payment page
+      if (typeof window !== 'undefined') {
+        window.location.href = momo.payUrl;
+      }
     } catch (err) {
       const error =
         err instanceof Error ? err : new Error('Failed to book appointment');
@@ -279,38 +300,40 @@ export default function BookAppointmentPage() {
         </div>
 
         {/* Step indicator */}
-        <div className="mb-8 flex gap-2">
-          <div
-            className={`flex-1 py-2 px-4 rounded-lg text-center font-medium transition ${
-              currentStep === 'search'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700'
-            }`}
-          >
-            1. Search Doctors
+        {!isFromMarketing && (
+          <div className="mb-8 flex gap-2">
+            <div
+              className={`flex-1 py-2 px-4 rounded-lg text-center font-medium transition ${
+                currentStep === 'search'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-200 text-gray-700'
+              }`}
+            >
+              1. Search Doctors
+            </div>
+            <div
+              className={`flex-1 py-2 px-4 rounded-lg text-center font-medium transition ${
+                currentStep === 'doctor-detail'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-200 text-gray-700'
+              }`}
+            >
+              2. Doctor Details
+            </div>
+            <div
+              className={`flex-1 py-2 px-4 rounded-lg text-center font-medium transition ${
+                currentStep === 'confirm'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-200 text-gray-700'
+              }`}
+            >
+              3. Confirm Booking
+            </div>
           </div>
-          <div
-            className={`flex-1 py-2 px-4 rounded-lg text-center font-medium transition ${
-              currentStep === 'doctor-detail'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700'
-            }`}
-          >
-            2. Doctor Details
-          </div>
-          <div
-            className={`flex-1 py-2 px-4 rounded-lg text-center font-medium transition ${
-              currentStep === 'confirm'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700'
-            }`}
-          >
-            3. Confirm Booking
-          </div>
-        </div>
+        )}
 
         {/* STEP 1: Search Doctors */}
-        {currentStep === 'search' && (
+        {!isFromMarketing && currentStep === 'search' && (
           <div className="bg-white shadow rounded-lg p-8 space-y-6">
             <h2 className="text-2xl font-bold text-gray-900">Search Doctors</h2>
 
@@ -431,7 +454,7 @@ export default function BookAppointmentPage() {
         )}
 
         {/* STEP 2: Doctor Details */}
-        {currentStep === 'doctor-detail' && doctorDetail && (
+        {!isFromMarketing && currentStep === 'doctor-detail' && doctorDetail && (
           <div className="bg-white shadow rounded-lg p-8 space-y-6">
             <h2 className="text-2xl font-bold text-gray-900">Doctor Details</h2>
 
@@ -536,7 +559,7 @@ export default function BookAppointmentPage() {
         )}
 
         {/* STEP 3: Confirm Booking */}
-        {currentStep === 'confirm' && doctorDetail && (
+        {(currentStep === 'confirm' || isFromMarketing) && doctorDetail && (
           <form onSubmit={handleBookAppointment} className="bg-white shadow rounded-lg p-8 space-y-6">
             <h2 className="text-2xl font-bold text-gray-900">Confirm Booking</h2>
 
@@ -578,43 +601,32 @@ export default function BookAppointmentPage() {
                 value={appointmentTime}
                 onChange={(e) => setAppointmentTime(e.target.value)}
                 disabled={bookingLoading}
+                min={minAppointmentDateTime}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:bg-gray-50"
                 required
               />
               <p className="mt-1 text-xs text-gray-500">Select a future date and time</p>
             </div>
 
-            {/* Payment method */}
+            {/* Payment method - MoMo only */}
             <div>
               <p className="block text-sm font-medium text-gray-700 mb-2">Payment Method</p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <label className="inline-flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="hospital"
-                    checked={paymentMethod === 'hospital'}
-                    onChange={() => setPaymentMethod('hospital')}
-                    className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                  />
-                  <span className="text-sm text-gray-700">Pay at Hospital</span>
-                </label>
-                <label className="inline-flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="momo"
-                    checked={paymentMethod === 'momo'}
-                    onChange={() => setPaymentMethod('momo')}
-                    className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                  />
-                  <span className="text-sm text-gray-700">MoMo e-wallet (coming soon)</span>
-                </label>
+              <div className="flex items-center gap-3 rounded-lg border border-pink-200 bg-pink-50 px-4 py-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#a50064] text-white text-xs font-bold leading-tight">
+                  <span>
+                    Mo
+                    <br />
+                    Mo
+                  </span>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-900">MoMo e-wallet</p>
+                  <p className="text-xs text-gray-600">
+                    You will place a booking with MoMo as the payment method. The actual payment
+                    step can be completed on the next screen.
+                  </p>
+                </div>
               </div>
-              <p className="mt-1 text-xs text-gray-500">
-                Your payment preference will be recorded in the appointment notes. Online MoMo
-                payment integration can be added later.
-              </p>
             </div>
 
             {/* Notes */}
@@ -654,11 +666,7 @@ export default function BookAppointmentPage() {
                 disabled={bookingLoading || bookingSuccess}
                 className="flex-1 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
               >
-                {bookingLoading
-                  ? 'Booking...'
-                  : paymentMethod === 'momo'
-                  ? 'Confirm & Proceed to MoMo'
-                  : 'Confirm & Book'}
+                {bookingLoading ? 'Booking...' : 'Confirm & Proceed to MoMo'}
               </button>
               <button
                 type="button"

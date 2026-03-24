@@ -17,6 +17,7 @@ const NAMESPACES = [
   "sustainability",
   "doctorProfile",
   "achievements",
+  "patient",
 ] as const;
 
 export default getRequestConfig(async ({ requestLocale }) => {

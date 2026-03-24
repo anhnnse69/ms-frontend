@@ -95,5 +95,15 @@
     "searchErrorDefault": "Không thể tìm kiếm bác sĩ",
     "detailErrorDefault": "Không thể tải thông tin bác sĩ",
     "bookingErrorDefault": "Không thể đặt lịch hẹn"
+  },
+  "payment": {
+    "momoSuccessTitle": "Thanh toán đặt cọc thành công",
+    "momoFailureTitle": "Thanh toán MoMo thất bại",
+    "momoDefaultSuccessMessage": "Hệ thống đã ghi nhận thanh toán đặt cọc cho lịch hẹn của bạn.",
+    "momoDefaultErrorMessage": "Đã có lỗi xảy ra trong quá trình thanh toán.",
+    "momoAmountLabel": "Số tiền đặt cọc",
+    "momoAmountNote": "Chi tiết giao dịch đã được hệ thống lưu lại để đối soát. Bạn không cần ghi nhớ mã đơn hàng.",
+    "momoViewAppointments": "Xem lịch hẹn của tôi",
+    "momoGoHome": "Về trang chủ"
   }
 }
