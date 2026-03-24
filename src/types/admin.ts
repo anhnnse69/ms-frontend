@@ -169,4 +169,5 @@ export interface CurrentUser {
     fullName?: string;
     phoneNumber?: string;
     avatarUrl?: string;
+    facilityId?: string;
 }
