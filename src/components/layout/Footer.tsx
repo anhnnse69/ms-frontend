@@ -53,7 +53,8 @@ export function Footer() {
   const t = useTranslations("footer");
   const pathname = usePathname();
 
-  const isDashboardRoute = pathname?.includes("/admin") || pathname?.includes("/manager") || pathname?.includes("/doctor");
+  const segments = pathname?.split("/") ?? [];
+  const isDashboardRoute = segments.includes("admin") || segments.includes("manager") || segments.includes("doctor");
   if (isDashboardRoute) {
     return null;
   }

@@ -1,7 +1,8 @@
 {
     "breadcrumb": {
         "home": "Home",
-        "doctors": "Find a Doctor"
+        "doctors": "Find a Doctor",
+        "doctorDetail": "Doctor detail"
     },
     "bookAppointment": "Book Appointment",
     "rating": {
@@ -16,7 +17,8 @@
         "services": "Services",
         "overallRating": "Overall Rating",
         "reviewStats": "Review Statistics",
-        "reviews": "Patient Reviews"
+        "reviews": "Patient Reviews",
+        "introductionEmpty": "Information is being updated."
     },
     "sidebar": {
         "position": "Position",
@@ -30,6 +32,10 @@
     },
     "reviews": {
         "date": "Date",
-        "viewMore": "View more"
+        "viewMore": "View more",
+        "empty": "There are no reviews yet."
+    },
+    "errors": {
+        "doctorNotFound": "Doctor information not available."
     }
 }

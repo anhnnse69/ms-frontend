@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
 import { usePatientProfile } from '@/hooks/usePatientProfile';
@@ -9,8 +9,12 @@ import {
   submitReview,
 } from '@/services/api/patient.api';
 import { Appointment, SubmitReviewRequest } from '@/types/patient';
+import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 
 export default function PatientAppointmentsPage() {
+  const t = useTranslations('patient.appointments');
+  const { locale } = useParams<{ locale: string }>();
   const { profile, loading: profileLoading } = usePatientProfile();
   const {
     upcomingAppointments,
@@ -37,15 +41,15 @@ export default function PatientAppointmentsPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center max-w-md">
-          <h1 className="text-2xl font-bold mb-4">Authentication Required</h1>
+          <h1 className="text-2xl font-bold mb-4">{t('title')}</h1>
           <p className="text-gray-600 mb-6">
-            Please log in to view your appointments.
+            {t('authMessage')}
           </p>
           <a
             href="/login"
             className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
           >
-            Go to Login
+            {t('authGoToLogin')}
           </a>
         </div>
       </div>
@@ -111,7 +115,7 @@ export default function PatientAppointmentsPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">My Appointments</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">{t('title')}</h1>
 
         {appointmentsError && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -120,7 +124,7 @@ export default function PatientAppointmentsPage() {
               onClick={() => refetch()}
               className="mt-2 text-red-600 underline text-sm"
             >
-              Try again
+              {t('errorRetry')}
             </button>
           </div>
         )}
@@ -129,7 +133,7 @@ export default function PatientAppointmentsPage() {
           <div className="flex justify-center py-12">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading appointments...</p>
+              <p className="text-gray-600">{t('loading')}</p>
             </div>
           </div>
         ) : (
@@ -137,10 +141,10 @@ export default function PatientAppointmentsPage() {
             {/* UPCOMING */}
             <section className="mb-12">
               <h2 className="text-2xl font-bold mb-4">
-                📅 Upcoming Appointments ({upcomingAppointments.length})
+                {t('upcomingTitle', { count: upcomingAppointments.length })}
               </h2>
               {upcomingAppointments.length === 0 ? (
-                <p className="text-gray-600">You have no upcoming appointments</p>
+                <p className="text-gray-600">{t('upcomingEmpty')}</p>
               ) : (
                 upcomingAppointments.map((apt) => (
                   <AppointmentCard
@@ -157,10 +161,10 @@ export default function PatientAppointmentsPage() {
             {/* PAST */}
             <section>
               <h2 className="text-2xl font-bold mb-4">
-                ✅ Past Appointments ({pastAppointments.length})
+                {t('pastTitle', { count: pastAppointments.length })}
               </h2>
               {pastAppointments.length === 0 ? (
-                <p className="text-gray-600">You have no past appointments yet</p>
+                <p className="text-gray-600">{t('pastEmpty')}</p>
               ) : (
                 pastAppointments.map((apt) => (
                   <AppointmentCard
@@ -193,13 +197,25 @@ function AppointmentCard({
   isUpcoming?: boolean;
 }) {
   const date = new Date(appointment.appointmentTime);
+  const t = useTranslations('patient.appointments');
+  const { locale } = useParams<{ locale: string }>();
 
   return (
     <div className="bg-white p-6 rounded-lg border mb-4">
-      <h3 className="font-semibold">Dr. {appointment.doctorName}</h3>
-      <p>
-        {date.toLocaleDateString()} - {date.toLocaleTimeString()}
+      <div className="flex items-center justify-between mb-1">
+        <h3 className="font-semibold">
+          {t('cardDoctorPrefix', { name: appointment.doctorName || 'N/A' })}
+        </h3>
+        <span className="text-xs px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+          {appointment.status}
+        </span>
+      </div>
+      <p className="text-sm text-gray-700">
+        {date.toLocaleDateString(String(locale))} · {date.toLocaleTimeString(String(locale), { hour: '2-digit', minute: '2-digit' })}
       </p>
+      {appointment.facilityName && (
+        <p className="text-xs text-gray-500 mt-1">{appointment.facilityName}</p>
+      )}
       <div className="flex gap-2 mt-4">
         {isUpcoming && (
           <>
@@ -207,13 +223,13 @@ function AppointmentCard({
               onClick={onReschedule}
               className="px-3 py-1 text-sm bg-yellow-100 rounded"
             >
-              Reschedule
+                {t('cardReschedule')}
             </button>
             <button
               onClick={onCancel}
               className="px-3 py-1 text-sm bg-red-100 rounded"
             >
-              Cancel
+                {t('cardCancel')}
             </button>
           </>
         )}
@@ -222,7 +238,7 @@ function AppointmentCard({
             onClick={onReview}
             className="px-3 py-1 text-sm bg-green-100 rounded"
           >
-            Review
+            {t('cardReview')}
           </button>
         )}
       </div>

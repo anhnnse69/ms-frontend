@@ -13,6 +13,7 @@ import {
   Appointment,
   SearchDoctorsResponse,
   DoctorDetail,
+  Doctor,
   FavoriteRequest,
   Favorite,
   GetFavoritesResponse,
@@ -21,6 +22,55 @@ import {
   RescheduleAppointmentRequest,
   ApiResponse,
 } from '@/types/patient';
+
+// ============================
+// MOMO PAYMENTS
+// ============================
+
+export interface CreateMomoPaymentResult {
+  appointmentId: string;
+  payUrl: string;
+  orderId: string;
+  requestId: string;
+}
+
+// Normalize raw appointment dto from backend into our Appointment model
+function mapAppointmentDto(raw: any): Appointment {
+  if (!raw) {
+    const nowIso = new Date().toISOString();
+    return {
+      id: '',
+      doctorId: '',
+      doctorName: '',
+      facilityId: '',
+      facilityName: '',
+      specialtyId: '',
+      specialtyName: '',
+      appointmentTime: nowIso,
+      status: 'Scheduled',
+      notes: '',
+      createdAt: nowIso,
+    };
+  }
+
+  const appointmentTime =
+    raw.appointmentTime ?? raw.AppointmentTime ?? new Date().toISOString();
+
+  return {
+    id: raw.id ?? raw.Id ?? '',
+    doctorId: raw.doctorId ?? raw.DoctorId ?? '',
+    doctorName: raw.doctorName ?? raw.DoctorName ?? '',
+    facilityId: raw.facilityId ?? raw.FacilityId ?? '',
+    facilityName: raw.facilityName ?? raw.FacilityName ?? '',
+    specialtyId: raw.specialtyId ?? raw.SpecialtyId ?? '',
+    specialtyName: raw.specialtyName ?? raw.SpecialtyName ?? '',
+    appointmentTime,
+    status:
+      (raw.status ?? raw.Status ?? 'Scheduled') as Appointment['status'],
+    notes: raw.notes ?? raw.Notes ?? '',
+    createdAt: raw.createdAt ?? raw.CreatedAt ?? appointmentTime,
+  };
+}
 
 /**
  * ============================
@@ -36,24 +86,29 @@ export const getPatientAppointments = async (): Promise<Appointment[]> => {
   try {
     const response = await apiClient.get('/getpatientappointment/me/appointments');
 
-    const res = response.data;
-    console.log('🔥 RAW APPOINTMENTS:', res);
+    const payload: any = response.data;
+    console.log('🔥 RAW APPOINTMENTS:', payload);
 
-    if (!res) return [];
+    if (!payload) return [];
 
-    const rawData = res.data;
+    // Expected: ApiResponse<List<GetPatientAppointmentsResponse>>
+    let list: any[] | null = null;
 
-    // Case 1: array
-    if (Array.isArray(rawData)) {
-      return rawData;
+    if (Array.isArray(payload)) {
+      list = payload;
+    } else if (Array.isArray(payload.data)) {
+      list = payload.data;
+    } else if (
+      payload.data &&
+      Array.isArray((payload.data as any).appointments)
+    ) {
+      // Fallback for shape { data: { appointments: [...] } }
+      list = (payload.data as any).appointments;
     }
 
-    // Case 2: single object
-    if (rawData && typeof rawData === 'object') {
-      return [rawData];
-    }
+    if (!list) return [];
 
-    return [];
+    return list.map((item) => mapAppointmentDto(item));
   } catch (error) {
     console.error('❌ getPatientAppointments failed:', error);
     throw handleApiError(error, 'Fetch appointments failed');
@@ -68,18 +123,89 @@ export const bookAppointment = async (
   request: BookAppointmentRequest
 ): Promise<Appointment> => {
   try {
-    const response = await apiClient.post<ApiResponse<Appointment>>(
+    const response = await apiClient.post(
       '/patient/appointments',
       request
     );
 
-    if (response.data.success && response.data.data) {
-      return response.data.data;
+    const payload: any = response.data;
+
+    // Case 1: Standard ApiResponse<Appointment>
+    if (payload && typeof payload === 'object' && 'success' in payload) {
+      const api = payload as ApiResponse<Appointment>;
+      if (api.success && api.data) {
+        return api.data;
+      }
+      throw new Error(api.message || 'Failed to book appointment');
     }
 
-    throw new Error(response.data.message || 'Failed to book appointment');
+    // Case 2: Backend shape { codeMessage, data: { id, status, ... }, meta }
+    if (payload && typeof payload === 'object' && payload.data) {
+      const d = payload.data as any;
+
+      const appointment: Appointment = {
+        id: d.id ?? '',
+        doctorId: d.doctorId ?? request.doctorId,
+        doctorName: d.doctorName ?? '',
+        facilityId: d.facilityId ?? request.facilityId,
+        facilityName: d.facilityName ?? '',
+        specialtyId: d.specialtyId ?? request.specialtyId,
+        specialtyName: d.specialtyName ?? '',
+        appointmentTime: d.appointmentTime ?? request.appointmentTime,
+        status: (d.status as Appointment['status']) ?? 'Scheduled',
+        notes: d.notes ?? request.notes,
+        createdAt: d.createdAt ?? new Date().toISOString(),
+      };
+
+      return appointment;
+    }
+
+    // Fallback: treat 200 without known shape as success with minimal data
+    const fallback: Appointment = {
+      id: '',
+      doctorId: request.doctorId,
+      doctorName: '',
+      facilityId: request.facilityId,
+      facilityName: '',
+      specialtyId: request.specialtyId,
+      specialtyName: '',
+      appointmentTime: request.appointmentTime,
+      status: 'Scheduled',
+      notes: request.notes,
+      createdAt: new Date().toISOString(),
+    };
+
+    return fallback;
   } catch (error) {
     throw handleApiError(error, 'Book appointment failed');
+  }
+};
+
+/**
+ * Create MoMo payment session for an appointment
+ * POST /payments/momo/create
+ */
+export const createMomoPayment = async (
+  appointmentId: string,
+  orderInfo?: string
+): Promise<CreateMomoPaymentResult> => {
+  try {
+    const response = await apiClient.post('/payments/momo/create', {
+      appointmentId,
+      orderInfo,
+    });
+
+    const payload: any = response.data;
+    const d = payload?.data ?? payload;
+
+    return {
+      appointmentId: d.appointmentId ?? appointmentId,
+      payUrl: d.payUrl,
+      orderId: d.orderId,
+      requestId: d.requestId,
+    };
+  } catch (error) {
+    throw handleApiError(error, 'Create MoMo payment failed');
   }
 };
 
@@ -140,6 +266,78 @@ export interface SearchDoctorsParams {
   size?: number;
 }
 
+// Normalize raw doctor dto from backend into our Doctor model
+function mapDoctorDto(raw: any): Doctor {
+  if (!raw) {
+    return {
+      id: '',
+      name: '',
+      email: '',
+      specialty: '',
+      specialtyId: '',
+      facility: '',
+      facilityId: '',
+      license: '',
+      experience: 0,
+    };
+  }
+
+  const specialtyName =
+    typeof raw.specialty === 'string'
+      ? raw.specialty
+      : raw.specialty?.name ?? raw.specialtyName ?? '';
+  const specialtyId =
+    typeof raw.specialty === 'object'
+      ? raw.specialty?.id ?? ''
+      : raw.specialtyId ?? '';
+
+  // Facilities can be array of objects or single string
+  let facilityName = '';
+  let facilityId = '';
+  if (typeof raw.facility === 'string') {
+    facilityName = raw.facility;
+  } else if (Array.isArray(raw.facilities) && raw.facilities.length > 0) {
+    const first = raw.facilities[0];
+    facilityName = first?.name ?? first?.facilityName ?? '';
+    facilityId = first?.id ?? first?.facilityId ?? '';
+  } else {
+    facilityName = raw.facilityName ?? '';
+    facilityId = raw.facilityId ?? '';
+  }
+
+  const rating =
+    typeof raw.rating === 'number'
+      ? raw.rating
+      : typeof raw.averageRating === 'number'
+      ? raw.averageRating
+      : undefined;
+
+  const reviewCount =
+    typeof raw.reviewCount === 'number'
+      ? raw.reviewCount
+      : typeof raw.totalReviews === 'number'
+      ? raw.totalReviews
+      : Array.isArray(raw.reviews)
+      ? raw.reviews.length
+      : undefined;
+
+  return {
+    id: raw.id ?? raw.doctorId ?? '',
+    name: raw.name ?? raw.fullName ?? raw.displayName ?? '',
+    email: raw.email ?? '',
+    specialty: specialtyName,
+    specialtyId,
+    facility: facilityName,
+    facilityId,
+    license: raw.license ?? raw.position ?? '',
+    experience: raw.experience ?? raw.experienceYears ?? 0,
+    avatarUrl: raw.avatarUrl ?? raw.avatar ?? undefined,
+    rating,
+    reviewCount,
+    bio: raw.bio ?? raw.about ?? undefined,
+  };
+}
+
 /**
  * Search doctors
  * GET /patient/doctors
@@ -148,16 +346,52 @@ export const searchDoctors = async (
   params?: SearchDoctorsParams
 ): Promise<SearchDoctorsResponse> => {
   try {
-    const response = await apiClient.get<ApiResponse<SearchDoctorsResponse>>(
+    const response = await apiClient.get(
       '/patient/doctors',
       { params: params || {} }
     );
 
-    if (response.data.success && response.data.data) {
-      return response.data.data;
+    const payload: any = response.data;
+
+    // Backend standard: { codeMessage, data: DoctorDto[], meta }
+    let rawDoctors: any[] = [];
+    let meta: any = undefined;
+
+    if (Array.isArray(payload)) {
+      rawDoctors = payload;
+    } else if (Array.isArray(payload?.data)) {
+      rawDoctors = payload.data;
+      meta = payload.meta;
+    } else if (Array.isArray(payload?.data?.doctors)) {
+      rawDoctors = payload.data.doctors;
+      meta = payload.data.meta ?? payload.meta;
+    } else if (Array.isArray(payload?.doctors)) {
+      rawDoctors = payload.doctors;
+      meta = payload.meta;
+    } else if ((payload as ApiResponse<SearchDoctorsResponse>)?.success && (payload as ApiResponse<SearchDoctorsResponse>).data) {
+      // Legacy ApiResponse<T> shape with success flag
+      const data = (payload as ApiResponse<SearchDoctorsResponse>).data as any;
+      rawDoctors = Array.isArray(data?.doctors) ? data.doctors : Array.isArray(data) ? data : [];
+      meta = data?.meta ?? payload.meta;
+    } else {
+      console.warn('Unexpected searchDoctors response shape', payload);
+      rawDoctors = [];
     }
 
-    throw new Error(response.data.message || 'Failed to search doctors');
+    const doctors = rawDoctors.map(mapDoctorDto);
+
+    const page = meta?.page ?? params?.page ?? 1;
+    const size = meta?.size ?? params?.size ?? doctors.length;
+    const total = meta?.total ?? doctors.length;
+    const totalPages = meta?.totalPages ?? (size > 0 ? Math.max(1, Math.ceil(total / size)) : 1);
+
+    return {
+      doctors,
+      totalCount: total,
+      page,
+      size,
+      totalPages,
+    };
   } catch (error) {
     throw handleApiError(error, 'Search doctors failed');
   }
@@ -169,15 +403,51 @@ export const searchDoctors = async (
  */
 export const getDoctorDetail = async (doctorId: string): Promise<DoctorDetail> => {
   try {
-    const response = await apiClient.get<ApiResponse<DoctorDetail>>(
+    const response = await apiClient.get(
       `/patient/doctors/${doctorId}`
     );
 
-    if (response.data.success && response.data.data) {
-      return response.data.data;
+    const payload: any = response.data;
+
+    // Standard: { codeMessage, data: DoctorDto, meta }
+    let rawDoctor: any = null;
+
+    if (payload && typeof payload === 'object') {
+      if (payload.data) {
+        rawDoctor = payload.data;
+      } else if ((payload as ApiResponse<DoctorDetail>).success && (payload as ApiResponse<DoctorDetail>).data) {
+        rawDoctor = (payload as ApiResponse<DoctorDetail>).data;
+      } else {
+        rawDoctor = payload;
+      }
+    } else {
+      rawDoctor = payload;
     }
 
-    throw new Error(response.data.message || 'Failed to fetch doctor details');
+      const baseDoctor = mapDoctorDto(rawDoctor) as DoctorDetail;
+
+      // Preserve any extra detail fields if backend provides them
+      if (rawDoctor) {
+        baseDoctor.about = rawDoctor.about ?? baseDoctor.about;
+        baseDoctor.qualifications = rawDoctor.qualifications ?? baseDoctor.qualifications;
+        baseDoctor.reviews = rawDoctor.reviews ?? baseDoctor.reviews;
+        baseDoctor.availableSlots = rawDoctor.availableSlots ?? baseDoctor.availableSlots;
+
+        // New backend shape: specialties/facilities arrays
+        if (Array.isArray(rawDoctor.specialties) && rawDoctor.specialties.length > 0) {
+          const primarySpec = rawDoctor.specialties[0];
+          baseDoctor.specialty = primarySpec?.name ?? baseDoctor.specialty;
+          baseDoctor.specialtyId = primarySpec?.id ?? baseDoctor.specialtyId;
+        }
+
+        if (Array.isArray(rawDoctor.facilities) && rawDoctor.facilities.length > 0) {
+          const primaryFacility = rawDoctor.facilities[0];
+          baseDoctor.facility = primaryFacility?.name ?? baseDoctor.facility;
+          baseDoctor.facilityId = primaryFacility?.id ?? baseDoctor.facilityId;
+        }
+      }
+
+      return baseDoctor;
   } catch (error) {
     throw handleApiError(error, 'Fetch doctor details failed');
   }

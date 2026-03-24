@@ -25,7 +25,13 @@ export const useAuth = () => {
               parsedUser = { ...parsedUser, ...fullProfile }; // merge profile
               localStorage.setItem('user', JSON.stringify(parsedUser));
             } catch (err) {
-              console.error('Failed to fetch patient profile', err);
+              const message = err instanceof Error ? err.message : String(err);
+              if (message === 'APP_MESSAGE_4020') {
+                // Profile not found / invalid for current user -> ghi log nhẹ, không báo lỗi to
+                console.warn('Patient profile not found for current user', err);
+              } else {
+                console.error('Failed to fetch patient profile', err);
+              }
             }
           }
           if (parsedUser.role === 'Manager') {

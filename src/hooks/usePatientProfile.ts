@@ -44,7 +44,12 @@ export const usePatientProfile = (): UsePatientProfileReturn => {
       setIsAuthenticated(true);
     } catch (err) {
       const error = err instanceof Error ? err : new Error('Unknown error');
-      console.error('❌ Profile fetch error:', error.message);
+      // APP_MESSAGE_4020 = profile not found / invalid for current user -> log nhẹ, không hiển thị lỗi to
+      if (error.message === 'APP_MESSAGE_4020') {
+        console.warn('⚠️ Profile not found for current user');
+      } else {
+        console.error('❌ Profile fetch error:', error.message);
+      }
       setError(error);
       setIsAuthenticated(false);
       setProfile(null);

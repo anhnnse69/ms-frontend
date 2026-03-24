@@ -1,7 +1,8 @@
 {
     "breadcrumb": {
         "home": "Trang chủ",
-        "doctors": "Tìm bác sĩ"
+        "doctors": "Tìm bác sĩ",
+        "doctorDetail": "Thông tin bác sĩ"
     },
     "bookAppointment": "Đăng ký khám",
     "sections": {
@@ -9,7 +10,8 @@
         "services": "Dịch vụ chuyên môn",
         "overallRating": "Tổng quan",
         "reviewStats": "Chi tiết lượt đánh giá",
-        "reviews": "Nhận xét về Bác sĩ"
+        "reviews": "Nhận xét về Bác sĩ",
+        "introductionEmpty": "Thông tin đang được cập nhật."
     },
     "rating": {
         "outOf5": "trên 5",
@@ -30,6 +32,10 @@
     },
     "reviews": {
         "date": "Ngày",
-        "viewMore": "Xem thêm"
+        "viewMore": "Xem thêm",
+        "empty": "Chưa có đánh giá nào."
+    },
+    "errors": {
+        "doctorNotFound": "Không tìm thấy thông tin bác sĩ."
     }
 }

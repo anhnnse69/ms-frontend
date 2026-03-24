@@ -2,19 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-
-// Mock reviews data
-const getMockReviews = (doctorId: string) => ({
-    doctorId,
-    totalReviews: 111,
-    reviews: [
-        { id: 1, rating: 5, date: "12-11-2025", comment: "" },
-        { id: 2, rating: 5, date: "18-10-2025", comment: "" },
-        { id: 3, rating: 5, date: "08-10-2025", comment: "" },
-        { id: 4, rating: 5, date: "04-10-2025", comment: "" },
-        { id: 5, rating: 5, date: "28-09-2025", comment: "" },
-    ],
-});
+import { useDoctorDetail } from "@/hooks/useDoctorDetail";
+import { Review } from "@/types/patient";
 
 interface DoctorReviewsProps {
     doctorId: string;
@@ -61,13 +50,45 @@ function ArrowRightIcon() {
 
 export function DoctorReviews({ doctorId, locale }: DoctorReviewsProps) {
     const t = useTranslations("doctorProfile");
-    const data = getMockReviews(doctorId);
+    const { doctor, isLoading, error } = useDoctorDetail(doctorId);
     const [expanded, setExpanded] = useState(true);
     const [visibleReviews, setVisibleReviews] = useState(5);
+
+    const reviews: Review[] = doctor?.reviews || [];
+    const totalReviews = doctor?.reviewCount ?? reviews.length;
 
     const handleViewMore = () => {
         setVisibleReviews((prev) => prev + 5);
     };
+
+    if (isLoading) {
+        return (
+            <div className="mt-4 bg-white rounded-lg shadow-sm border border-gray-100 p-4">
+                <div className="h-20 bg-gray-100 rounded animate-pulse" />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="mt-4 bg-white rounded-lg shadow-sm border border-gray-100 p-4">
+                <p className="text-sm text-red-500">{error}</p>
+            </div>
+        );
+    }
+
+    if (!doctor || reviews.length === 0) {
+        return (
+            <div className="mt-4 bg-white rounded-lg shadow-sm border border-gray-100 p-4">
+                <h2 className="text-lg font-bold text-[#0076c0] mb-1">
+                    {t("sections.reviews")} (0)
+                </h2>
+                <p className="text-sm text-gray-500">
+                    {t("reviews.empty", { defaultValue: "There are no reviews yet." })}
+                </p>
+            </div>
+        );
+    }
 
     return (
         <div className="mt-4 bg-white rounded-lg shadow-sm border border-gray-100">
@@ -77,7 +98,7 @@ export function DoctorReviews({ doctorId, locale }: DoctorReviewsProps) {
                 className="w-full flex items-center justify-between p-4 text-left border-b border-gray-100"
             >
                 <h2 className="text-lg font-bold text-[#0076c0]">
-                    {t("sections.reviews")} ({data.totalReviews})
+                    {t("sections.reviews")} ({totalReviews})
                 </h2>
                 <ChevronIcon expanded={expanded} />
             </button>
@@ -85,12 +106,12 @@ export function DoctorReviews({ doctorId, locale }: DoctorReviewsProps) {
             {/* Reviews List */}
             {expanded && (
                 <div className="divide-y divide-gray-100">
-                    {data.reviews.slice(0, visibleReviews).map((review) => (
+                    {reviews.slice(0, visibleReviews).map((review) => (
                         <div key={review.id} className="p-4">
                             <div className="flex items-center justify-between">
                                 <StarRating rating={review.rating} />
                                 <span className="text-sm text-gray-500">
-                                    {t("reviews.date")}: {review.date}
+                                    {t("reviews.date")}: {new Date(review.createdAt).toLocaleDateString(locale)}
                                 </span>
                             </div>
                             {review.comment && (
@@ -100,7 +121,7 @@ export function DoctorReviews({ doctorId, locale }: DoctorReviewsProps) {
                     ))}
 
                     {/* View More Button */}
-                    {visibleReviews < data.totalReviews && (
+                    {visibleReviews < reviews.length && (
                         <div className="p-4">
                             <button
                                 onClick={handleViewMore}

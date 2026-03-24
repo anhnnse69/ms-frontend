@@ -51,7 +51,7 @@ export interface Appointment {
   specialtyId: string;
   specialtyName: string;
   appointmentTime: string;
-  status: 'Scheduled' | 'Completed' | 'Cancelled' | 'Rescheduled';
+  status: 'Scheduled' | 'Completed' | 'Cancelled' | 'Rescheduled' | 'PendingConfirmation';
   notes?: string;
   createdAt: string;
 }

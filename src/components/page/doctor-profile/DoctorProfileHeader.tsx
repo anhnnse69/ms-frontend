@@ -3,18 +3,7 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
-
-const VINMEC_BASE_URL = "https://www.vinmec.com";
-
-// Mock doctor data - will be replaced with API call
-const getMockDoctor = (id: string) => ({
-    id,
-    name: "Hoàng Đăng Mịch",
-    degree: "Giáo sư, Tiến sĩ, Bác sĩ",
-    imageUrl: `${VINMEC_BASE_URL}/static/uploads/small_bac_si_hoang_dang_mich_vinmec_03f2edc4fd.jpg`,
-    rating: 4.8,
-    reviewCount: 111,
-});
+import { useDoctorDetail } from "@/hooks/useDoctorDetail";
 
 interface DoctorProfileHeaderProps {
     doctorId: string;
@@ -36,21 +25,57 @@ function StarIcon({ filled }: { filled: boolean }) {
 function CalendarIcon() {
     return (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
         </svg>
     );
 }
 
 export function DoctorProfileHeader({ doctorId, locale }: DoctorProfileHeaderProps) {
     const t = useTranslations("doctorProfile");
-    const doctor = getMockDoctor(doctorId);
+    const { doctor, isLoading, error } = useDoctorDetail(doctorId);
     const bookingUrl = `/${locale}/booking?doctor=${doctorId}`;
 
     const breadcrumbItems = [
         { label: t("breadcrumb.home"), href: "/" },
         { label: t("breadcrumb.doctors"), href: "/doctors" },
-        { label: `${doctor.degree}, ${doctor.name}` },
+        {
+            label:
+                doctor?.name ||
+                t("breadcrumb.doctorDetail", { defaultValue: "Doctor detail" }),
+        },
     ];
+
+    if (isLoading) {
+        return (
+            <div className="bg-white border-b border-gray-200">
+                <div className="max-w-277.5 mx-auto px-4 py-6">
+                    <Breadcrumb items={breadcrumbItems} />
+                    <div className="h-32 bg-gray-100 rounded-lg animate-pulse mt-4" />
+                </div>
+            </div>
+        );
+    }
+
+    if (error || !doctor) {
+        return (
+            <div className="bg-white border-b border-gray-200">
+                <div className="max-w-277.5 mx-auto px-4 py-6">
+                    <Breadcrumb items={breadcrumbItems} />
+                    <p className="text-red-500 text-sm mt-4">
+                        {error ||
+                            t("errors.doctorNotFound", {
+                                defaultValue: "Doctor information not available.",
+                            })}
+                    </p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-white border-b border-gray-200">
@@ -64,7 +89,7 @@ export function DoctorProfileHeader({ doctorId, locale }: DoctorProfileHeaderPro
                     <div className="shrink-0">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={doctor.imageUrl}
+                            src={doctor.avatarUrl || "/assets/images/doctor-placeholder.png"}
                             alt={doctor.name}
                             className="w-40 h-52 md:w-48 md:h-64 object-cover rounded-lg shadow-md"
                         />
@@ -72,7 +97,9 @@ export function DoctorProfileHeader({ doctorId, locale }: DoctorProfileHeaderPro
 
                     {/* Doctor Info */}
                     <div className="flex-1">
-                        <p className="text-sm text-gray-500 mb-1">{doctor.degree}</p>
+                        {doctor.specialty && (
+                            <p className="text-sm text-gray-500 mb-1">{doctor.specialty}</p>
+                        )}
                         <h1 className="text-2xl md:text-3xl font-bold text-[#0076c0] mb-3">
                             {doctor.name}
                         </h1>
@@ -81,16 +108,22 @@ export function DoctorProfileHeader({ doctorId, locale }: DoctorProfileHeaderPro
                         <div className="flex items-center gap-2 mb-2">
                             <div className="flex items-center">
                                 {[1, 2, 3, 4, 5].map((star) => (
-                                    <StarIcon key={star} filled={star <= Math.round(doctor.rating)} />
+                                    <StarIcon
+                                        key={star}
+                                        filled={star <= Math.round(doctor.rating || 0)}
+                                    />
                                 ))}
                             </div>
                             <span className="text-sm text-gray-600">
-                                <span className="font-semibold">{doctor.rating}</span> {t("rating.outOf5")}
+                                <span className="font-semibold">
+                                    {doctor.rating?.toFixed(1) ?? "-"}
+                                </span>{" "}
+                                {t("rating.outOf5")}
                             </span>
                         </div>
 
                         <p className="text-sm text-gray-500 mb-4">
-                            (+{doctor.reviewCount} {t("rating.reviews")})
+                            (+{doctor.reviewCount ?? 0} {t("rating.reviews")})
                         </p>
 
                         {/* Booking Button */}

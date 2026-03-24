@@ -10,7 +10,8 @@ interface PageContainerProps {
 export function PageContainer({ children }: PageContainerProps) {
     const pathname = usePathname();
 
-    const isDashboardRoute = pathname?.includes("/admin") || pathname?.includes("/manager") || pathname?.includes("/doctor");
+    const segments = pathname?.split("/") ?? [];
+    const isDashboardRoute = segments.includes("admin") || segments.includes("manager") || segments.includes("doctor");
 
     return (
         <main className={isDashboardRoute ? "min-h-screen" : "pt-40 min-h-screen"}>

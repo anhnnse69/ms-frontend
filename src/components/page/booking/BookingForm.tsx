@@ -1,40 +1,18 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
+import { searchDoctors, getDoctorDetail } from "@/services/api/patient.api";
+import { Doctor } from "@/types/patient";
 
 const VINMEC_BASE_URL = "https://www.vinmec.com";
 
-// Hospital data
-const HOSPITALS = [
-    { id: "times-city", name: "Bệnh viện Đa khoa Quốc tế Vinmec Times City" },
-    { id: "central-park", name: "Bệnh viện Đa khoa Quốc tế Vinmec Central Park" },
-    { id: "ha-long", name: "Bệnh viện Đa khoa Quốc tế Vinmec Hạ Long" },
-    { id: "nha-trang", name: "Bệnh viện Đa khoa Vinmec Nha Trang" },
-    { id: "da-nang", name: "Bệnh viện Đa khoa Vinmec Đà Nẵng" },
-    { id: "smart-city", name: "Bệnh viện Đa khoa Vinmec Smart City" },
-    { id: "phu-quoc", name: "Bệnh viện Đa khoa Vinmec Phú Quốc" },
-];
-
-// Specialty data
-const SPECIALTIES = [
-    { id: "emergency", name: "Cấp cứu" },
-    { id: "cardiology", name: "Tim mạch" },
-    { id: "oncology", name: "Ung bướu" },
-    { id: "pediatrics", name: "Nhi khoa" },
-    { id: "gastroenterology", name: "Tiêu hóa - Gan mật" },
-    { id: "neurology", name: "Thần kinh" },
-    { id: "orthopedics", name: "Chấn thương chỉnh hình" },
-    { id: "ophthalmology", name: "Mắt" },
-    { id: "dental", name: "Nha khoa" },
-    { id: "womens-health", name: "Sức khỏe phụ nữ" },
-];
-
-// Generate next 7 days
+// Generate today + next 2 days
 const generateDateOptions = () => {
     const dates = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 3; i++) {
         const date = new Date();
         date.setDate(date.getDate() + i);
         dates.push({
@@ -45,6 +23,24 @@ const generateDateOptions = () => {
         });
     }
     return dates;
+};
+
+type BookingDraftStorage = {
+    hospitalId: string;
+    hospitalName: string;
+    date: string; // YYYY-MM-DD (local)
+    datetimeLocal: string; // YYYY-MM-DDTHH:mm (local, default time)
+    specialtyId: string;
+    specialtyName: string;
+    doctorId?: string;
+    doctorName?: string;
+    isForeigner: boolean;
+    fullName: string;
+    birthDate: string;
+    gender: string;
+    phone: string;
+    email?: string;
+    reason: string;
 };
 
 function CalendarIcon() {
@@ -58,10 +54,14 @@ function CalendarIcon() {
 export function BookingForm() {
     const t = useTranslations("booking");
     const tc = useTranslations("common");
+    const { locale } = useParams<{ locale: string }>();
+    const router = useRouter();
 
     // Form state
     const [hospital, setHospital] = useState("");
     const [selectedDate, setSelectedDate] = useState(0);
+    const [useOtherDate, setUseOtherDate] = useState(false);
+    const [otherDate, setOtherDate] = useState("");
     const [specialty, setSpecialty] = useState("");
     const [doctor, setDoctor] = useState("");
     const [isForeigner, setIsForeigner] = useState(false);
@@ -76,40 +76,226 @@ export function BookingForm() {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const [formError, setFormError] = useState<string | null>(null);
+
+    const [allDoctors, setAllDoctors] = useState<Doctor[]>([]);
+    const [isLoadingDoctors, setIsLoadingDoctors] = useState(false);
+
     const dateOptions = generateDateOptions();
+
+    // Dynamic hospital & specialty options built from doctor data (same source as doctor list page)
+    const hospitalOptions = useMemo(
+        () => {
+            const map = new Map<string, { id: string; name: string }>();
+            allDoctors.forEach((d) => {
+                // Prefer real facilityId from backend; fallback to facility name if needed
+                if (d.facilityId && d.facility) {
+                    if (!map.has(d.facilityId)) {
+                        map.set(d.facilityId, { id: d.facilityId, name: d.facility });
+                    }
+                } else if (d.facility) {
+                    const key = d.facility.trim();
+                    if (key && !map.has(key)) {
+                        map.set(key, { id: key, name: d.facility });
+                    }
+                }
+            });
+            return Array.from(map.values());
+        },
+        [allDoctors]
+    );
+
+    const specialtyOptions = useMemo(
+        () => {
+            const map = new Map<string, { id: string; name: string }>();
+            allDoctors.forEach((d) => {
+                // Prefer real specialtyId from backend; fallback to specialty name if needed
+                if (d.specialtyId && d.specialty) {
+                    if (!map.has(d.specialtyId)) {
+                        map.set(d.specialtyId, { id: d.specialtyId, name: d.specialty });
+                    }
+                } else if (d.specialty) {
+                    const key = d.specialty.trim();
+                    if (key && !map.has(key)) {
+                        map.set(key, { id: key, name: d.specialty });
+                    }
+                }
+            });
+            return Array.from(map.values());
+        },
+        [allDoctors]
+    );
+
+    // Specialties available within selected hospital (clinic)
+    const filteredSpecialtyOptions = useMemo(
+        () => {
+            const map = new Map<string, { id: string; name: string }>();
+            allDoctors.forEach((d) => {
+                // If a hospital is selected, only consider doctors belonging to that facility
+                if (hospital) {
+                    const matchesFacilityId = d.facilityId && d.facilityId === hospital;
+                    const selectedHospital = hospitalOptions.find((h) => h.id === hospital);
+                    const matchesFacilityName = !d.facilityId && d.facility && selectedHospital && d.facility === selectedHospital.name;
+                    if (!matchesFacilityId && !matchesFacilityName) {
+                        return;
+                    }
+                }
+
+                if (d.specialtyId && d.specialty) {
+                    if (!map.has(d.specialtyId)) {
+                        map.set(d.specialtyId, { id: d.specialtyId, name: d.specialty });
+                    }
+                } else if (d.specialty) {
+                    const key = d.specialty.trim();
+                    if (key && !map.has(key)) {
+                        map.set(key, { id: key, name: d.specialty });
+                    }
+                }
+            });
+            // If no hospital is selected, fall back to all specialties
+            const result = Array.from(map.values());
+            return hospital ? result : specialtyOptions;
+        },
+        [allDoctors, hospital, hospitalOptions, specialtyOptions]
+    );
+
+    // Doctors filtered by selected hospital and specialty
+    const filteredDoctors = useMemo(
+        () => {
+            return allDoctors.filter((d) => {
+                // filter by hospital / facility first
+                if (hospital) {
+                    const matchesFacilityId = d.facilityId && d.facilityId === hospital;
+                    const selectedHospital = hospitalOptions.find((h) => h.id === hospital);
+                    const matchesFacilityName = !d.facilityId && d.facility && selectedHospital && d.facility === selectedHospital.name;
+                    if (!matchesFacilityId && !matchesFacilityName) {
+                        return false;
+                    }
+                }
+
+                // then filter by specialty (if selected)
+                if (specialty) {
+                    if (d.specialtyId) {
+                        return d.specialtyId === specialty;
+                    }
+                    const selectedSpec = specialtyOptions.find((s) => s.id === specialty) ?? filteredSpecialtyOptions.find((s) => s.id === specialty);
+                    if (!selectedSpec) return true;
+                    return d.specialty?.toLowerCase().includes(selectedSpec.name.toLowerCase());
+                }
+
+                return true;
+            });
+        },
+        [allDoctors, hospital, specialty, hospitalOptions, specialtyOptions, filteredSpecialtyOptions]
+    );
+
+    const todayStr = (() => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = (today.getMonth() + 1).toString().padStart(2, "0");
+        const day = today.getDate().toString().padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    })();
 
     const breadcrumbItems = [
         { label: t("breadcrumbHome"), href: "/" },
         { label: t("title") },
     ];
 
+    // Load available doctors once so the doctor dropdown can be populated
+    useEffect(() => {
+        const loadDoctors = async () => {
+            try {
+                setIsLoadingDoctors(true);
+                const res = await searchDoctors({ page: 1, size: 100 });
+                setAllDoctors(res.doctors || []);
+            } catch (error) {
+                console.warn("Failed to load doctors for booking form", error);
+                setAllDoctors([]);
+            } finally {
+                setIsLoadingDoctors(false);
+            }
+        };
+
+        loadDoctors();
+    }, []);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setFormError(null);
         if (!agreePolicy) {
-            alert(t("pleaseAgreePolicy"));
+            setFormError(t("pleaseAgreePolicy"));
             return;
         }
+
+        // Resolve selected appointment date
+        const dates = dateOptions;
+        let selectedDateObj: Date | null = null;
+
+        if (useOtherDate) {
+            if (!otherDate) {
+                setFormError("Please select an appointment date.");
+                return;
+            }
+            selectedDateObj = new Date(otherDate);
+        } else {
+            selectedDateObj = dates[selectedDate]?.date ?? null;
+        }
+
+        if (!selectedDateObj || Number.isNaN(selectedDateObj.getTime())) {
+            setFormError("Please select an appointment date.");
+            return;
+        }
+
+        const year = selectedDateObj.getFullYear();
+        const month = (selectedDateObj.getMonth() + 1).toString().padStart(2, "0");
+        const day = selectedDateObj.getDate().toString().padStart(2, "0");
+        const dateStr = `${year}-${month}-${day}`;
+        // Default time in local time (09:00) - user can adjust on the next step
+        const defaultTime = "09:00";
+        const datetimeLocal = `${dateStr}T${defaultTime}`;
+
+        // If user is not logged in, redirect to login page
+        if (typeof window !== "undefined") {
+            const hospitalInfo = hospitalOptions.find((h) => h.id === hospital);
+            const specialtyInfo = specialtyOptions.find((s) => s.id === specialty);
+            const doctorInfo = allDoctors.find((d) => d.id === doctor);
+
+            const draft: BookingDraftStorage = {
+                hospitalId: hospital,
+                hospitalName: hospitalInfo?.name || "",
+                date: dateStr,
+                datetimeLocal,
+                specialtyId: specialty,
+                specialtyName: specialtyInfo?.name || "",
+                doctorId: doctor || undefined,
+                doctorName: doctorInfo?.name,
+                isForeigner,
+                fullName,
+                birthDate,
+                gender,
+                phone,
+                email: email || undefined,
+                reason,
+            };
+
+            try {
+                window.localStorage.setItem("bookingDraft", JSON.stringify(draft));
+            } catch (error) {
+                console.warn("Failed to persist booking draft", error);
+            }
+
+            const accessToken = localStorage.getItem("accessToken");
+            if (!accessToken) {
+                router.push(`/${locale}/login`);
+                return;
+            }
+        }
+        // For now, delegate real booking flow to the authenticated
+        // patient booking page which is already integrated with the
+        // /patient/appointments API.
         setIsLoading(true);
-
-        // TODO: Implement actual booking logic
-        console.log("Booking data:", {
-            hospital,
-            date: dateOptions[selectedDate].date,
-            specialty,
-            doctor,
-            isForeigner,
-            fullName,
-            birthDate,
-            gender,
-            phone,
-            email,
-            reason,
-        });
-
-        setTimeout(() => {
-            setIsLoading(false);
-            alert(t("bookingSuccess"));
-        }, 1500);
+        router.push(`/${locale}/patient/book-appointment?fromMarketingBooking=1`);
     };
 
     return (
@@ -119,8 +305,13 @@ export function BookingForm() {
 
             {/* Booking Form */}
             <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm p-6 md:p-8 mt-4">
+                {formError && (
+                    <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                        {formError}
+                    </div>
+                )}
                 {/* Appointment Details Section */}
-                <h2 className="text-xl font-bold text-[#0076c0] mb-6 pb-2 border-b-2 border-[#0076c0]">
+                <h2 className="text-xl font-bold text-blue-600 mb-6 pb-2 border-b-2 border-blue-600">
                     {t("appointmentDetails")}
                 </h2>
 
@@ -132,12 +323,18 @@ export function BookingForm() {
                         </label>
                         <select
                             value={hospital}
-                            onChange={(e) => setHospital(e.target.value)}
+                            onChange={(e) => {
+								const value = e.target.value;
+								setHospital(value);
+								// reset dependent fields when hospital changes
+								setSpecialty("");
+								setDoctor("");
+							}}
                             required
                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076c0] focus:border-[#0076c0] text-gray-900 bg-white"
                         >
                             <option value="">{t("selectHospital")}</option>
-                            {HOSPITALS.map((h) => (
+                            {hospitalOptions.map((h) => (
                                 <option key={h.id} value={h.id}>
                                     {h.name}
                                 </option>
@@ -155,11 +352,14 @@ export function BookingForm() {
                                 <button
                                     key={idx}
                                     type="button"
-                                    onClick={() => setSelectedDate(idx)}
+                                    onClick={() => {
+                                        setUseOtherDate(false);
+                                        setSelectedDate(idx);
+                                    }}
                                     className={`shrink-0 px-4 py-2 rounded-lg border text-center transition-colors ${
                                         selectedDate === idx
-                                            ? "bg-[#0076c0] text-white border-[#0076c0]"
-                                            : "bg-white text-gray-700 border-gray-300 hover:border-[#0076c0]"
+                                            ? "bg-[#005a94] text-white border-[#005a94]"
+                                            : "bg-white text-gray-700 border-gray-300 hover:border-blue-600"
                                     }`}
                                 >
                                     <div className="text-lg font-bold">{d.day}/{d.month}</div>
@@ -168,27 +368,53 @@ export function BookingForm() {
                             ))}
                             <button
                                 type="button"
-                                className="shrink-0 px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:border-[#0076c0] flex flex-col items-center justify-center"
+                                onClick={() => {
+                                    setUseOtherDate(true);
+                                    setSelectedDate(-1);
+                                }}
+                                className={`shrink-0 px-4 py-2 rounded-lg border flex flex-col items-center justify-center transition-colors ${
+                                    useOtherDate
+                                        ? "bg-[#005a94] text-white border-[#005a94]"
+                                        : "bg-white text-gray-700 border-gray-300 hover:border-blue-600"
+                                }`}
                             >
                                 <CalendarIcon />
                                 <span className="text-xs mt-1">{t("otherDate")}</span>
                             </button>
                         </div>
+                        {useOtherDate && (
+                            <div className="mt-3">
+                                <input
+                                    type="date"
+                                    value={otherDate}
+                                    onChange={(e) => setOtherDate(e.target.value)}
+                                    min={todayStr}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900"
+                                />
+                                <p className="mt-1 text-xs text-gray-500">{t("appointmentDate")}</p>
+                            </div>
+                        )}
                     </div>
 
                     {/* Specialty Selection */}
                     <div>
-                        <label className="block text-sm font-medium text-[#0076c0] mb-2">
+                        <label className="block text-sm font-medium text-blue-600 mb-2">
                             {t("specialty")} <span className="text-red-500">*</span>
                         </label>
                         <select
                             value={specialty}
-                            onChange={(e) => setSpecialty(e.target.value)}
+                            onChange={(e) => {
+								const value = e.target.value;
+								setSpecialty(value);
+								// when specialty changes, clear doctor selection
+								setDoctor("");
+							}}
                             required
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076c0] focus:border-[#0076c0] text-gray-900 bg-white"
+                            disabled={!hospital || filteredSpecialtyOptions.length === 0}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900 bg-white"
                         >
                             <option value="">{t("selectSpecialty")}</option>
-                            {SPECIALTIES.map((s) => (
+                            {filteredSpecialtyOptions.map((s) => (
                                 <option key={s.id} value={s.id}>
                                     {s.name}
                                 </option>
@@ -198,15 +424,27 @@ export function BookingForm() {
 
                     {/* Doctor Selection */}
                     <div>
-                        <label className="block text-sm font-medium text-[#0076c0] mb-2">
+                        <label className="block text-sm font-medium text-blue-600 mb-2">
                             {t("doctor")}
                         </label>
                         <select
                             value={doctor}
                             onChange={(e) => setDoctor(e.target.value)}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076c0] focus:border-[#0076c0] text-gray-900 bg-white"
+                            disabled={isLoadingDoctors || allDoctors.length === 0 || !specialty}
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900 bg-white disabled:bg-gray-50 disabled:text-gray-400"
                         >
-                            <option value="">{t("selectDoctor")}</option>
+                            <option value="">
+                                {isLoadingDoctors
+                                    ? t("selectDoctor")
+                                    : allDoctors.length === 0
+                                    ? t("selectDoctor")
+                                    : t("selectDoctor")}
+                            </option>
+                            {filteredDoctors.map((d) => (
+                                    <option key={d.id} value={d.id}>
+                                        {d.name} {d.specialty ? `- ${d.specialty}` : ""}
+                                    </option>
+                                ))}
                         </select>
                     </div>
                 </div>
@@ -230,14 +468,14 @@ export function BookingForm() {
                 </p>
 
                 {/* Customer Information Section */}
-                <h2 className="text-xl font-bold text-[#0076c0] mb-6 pb-2 border-b-2 border-[#0076c0]">
+                <h2 className="text-xl font-bold text-blue-600 mb-6 pb-2 border-b-2 border-blue-600">
                     {t("customerInfo")}
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     {/* Full Name */}
                     <div>
-                        <label className="block text-sm font-medium text-[#0076c0] mb-2">
+                        <label className="block text-sm font-medium text-blue-600 mb-2">
                             {tc("fullName")} <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -260,7 +498,7 @@ export function BookingForm() {
                                     value="male"
                                     checked={gender === "male"}
                                     onChange={(e) => setGender(e.target.value)}
-                                    className="w-4 h-4 text-[#0076c0] border-gray-300 focus:ring-[#0076c0]"
+                                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-600"
                                 />
                                 <span className="text-sm text-gray-700">{t("male")}</span>
                             </label>
@@ -271,13 +509,13 @@ export function BookingForm() {
                                     value="female"
                                     checked={gender === "female"}
                                     onChange={(e) => setGender(e.target.value)}
-                                    className="w-4 h-4 text-[#0076c0] border-gray-300 focus:ring-[#0076c0]"
+                                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-600"
                                 />
                                 <span className="text-sm text-gray-700">{t("female")}</span>
                             </label>
                         </div>
                         <div className="flex-1">
-                            <label className="block text-sm font-medium text-[#0076c0] mb-2">
+                            <label className="block text-sm font-medium text-blue-600 mb-2">
                                 {t("birthDate")} <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -285,14 +523,15 @@ export function BookingForm() {
                                 value={birthDate}
                                 onChange={(e) => setBirthDate(e.target.value)}
                                 required
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076c0] focus:border-[#0076c0] text-gray-900"
+                                max={todayStr}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900"
                             />
                         </div>
                     </div>
 
                     {/* Phone */}
                     <div>
-                        <label className="block text-sm font-medium text-[#0076c0] mb-2">
+                        <label className="block text-sm font-medium text-blue-600 mb-2">
                             {t("phone")} <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -301,13 +540,13 @@ export function BookingForm() {
                             onChange={(e) => setPhone(e.target.value)}
                             required
                             placeholder={t("phonePlaceholder")}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076c0] focus:border-[#0076c0] text-gray-900"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900"
                         />
                     </div>
 
                     {/* Email */}
                     <div>
-                        <label className="block text-sm font-medium text-[#0076c0] mb-2">
+                        <label className="block text-sm font-medium text-blue-600 mb-2">
                             {tc("email")}
                         </label>
                         <input
@@ -315,7 +554,7 @@ export function BookingForm() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder={t("emailPlaceholder")}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076c0] focus:border-[#0076c0] text-gray-900"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900"
                         />
                     </div>
                 </div>
@@ -327,7 +566,7 @@ export function BookingForm() {
 
                 {/* Reason */}
                 <div className="mb-6">
-                    <label className="block text-sm font-medium text-[#0076c0] mb-2">
+                    <label className="block text-sm font-medium text-blue-600 mb-2">
                         {t("reason")} <span className="text-red-500">*</span>
                     </label>
                     <textarea
@@ -336,7 +575,7 @@ export function BookingForm() {
                         required
                         rows={4}
                         placeholder={t("reasonPlaceholder")}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076c0] focus:border-[#0076c0] text-gray-900 resize-none"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900 resize-none"
                     />
                 </div>
 
@@ -347,7 +586,7 @@ export function BookingForm() {
                             type="checkbox"
                             checked={agreePolicy}
                             onChange={(e) => setAgreePolicy(e.target.checked)}
-                            className="w-4 h-4 mt-1 text-[#0076c0] border-gray-300 rounded focus:ring-[#0076c0]"
+                            className="w-4 h-4 mt-1 text-blue-600 border-gray-300 rounded focus:ring-blue-600"
                         />
                         <span className="text-sm text-gray-700">
                             {t("agreePolicyText")}{" "}
@@ -355,7 +594,7 @@ export function BookingForm() {
                                 href={`${VINMEC_BASE_URL}/vie/chinh-sach-bao-ve-du-lieu-ca-nhan-cua-vinmec/`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[#0076c0] hover:underline"
+                                className="text-blue-600 hover:underline"
                             >
                                 {t("privacyPolicy")}
                             </a>
@@ -369,7 +608,7 @@ export function BookingForm() {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="inline-flex items-center justify-center px-12 py-4 bg-[#00a651] hover:bg-[#008c44] text-white font-medium text-lg rounded-full shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="inline-flex items-center justify-center px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg rounded-full shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isLoading ? t("submitting") : t("submit")}
                     </button>
