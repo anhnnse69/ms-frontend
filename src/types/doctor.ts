@@ -18,6 +18,17 @@ export const STATUS_MAP: { [key: number]: AppointmentStatus } = {
   6: 'NoShow',
 };
 
+// Reverse mapping from AppointmentStatus to numeric value
+export const STATUS_TO_CODE_MAP: { [key in AppointmentStatus]: number } = {
+  'PendingConfirmation': 0,
+  'Confirmed': 1,
+  'CheckedIn': 2,
+  'InProgress': 3,
+  'Completed': 4,
+  'Cancelled': 5,
+  'NoShow': 6,
+};
+
 export interface DoctorAppointment {
   appointmentId: string;
   patientName: string;
