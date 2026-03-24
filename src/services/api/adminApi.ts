@@ -5,12 +5,14 @@ import { AdminUser, Doctor, Facility, Specialty, CreateUserRequest, UpdateUserRe
 export const adminUsersApi = {
     // Get all users with pagination
     getAll: async (page: number = 1, size: number = 10) => {
-		const response = await apiClient().get<ApiResponse<AdminUser[]>>(
+		const axiosResponse = await apiClient().get<ApiResponse<AdminUser[]>>(
             `/admin/users?page=${page}&size=${size}`
         );
-        console.log('Raw API Response:', response);
-        
-        // Handle different response structures
+        console.log('Raw API Response:', axiosResponse);
+
+        const response = axiosResponse.data as any;
+
+        // Handle different response body structures
         if (Array.isArray(response)) {
             // Direct array response
             const result: ApiResponse<AdminUser[]> = {
@@ -28,8 +30,8 @@ export const adminUsersApi = {
             };
             return result;
         } else if (response && typeof response === 'object' && 'data' in response) {
-            // Standard API response
-            return response as unknown as ApiResponse<AdminUser[]>;
+            // Standard wrapped API response from backend
+            return response as ApiResponse<AdminUser[]>;
         } else {
             // Fallback
             const result: ApiResponse<AdminUser[]> = {
@@ -89,12 +91,14 @@ export const adminUsersApi = {
 export const adminDoctorsApi = {
     // Get all doctors with pagination
     getAll: async (page: number = 1, size: number = 10) => {
-		const response = await apiClient().get<ApiResponse<Doctor[]>>(
+		const axiosResponse = await apiClient().get<ApiResponse<Doctor[]>>(
             `/admin/doctors?page=${page}&size=${size}`
         );
-        console.log('Raw Doctors API Response:', response);
-        
-        // Handle different response structures
+        console.log('Raw Doctors API Response:', axiosResponse);
+
+        const response = axiosResponse.data as any;
+
+        // Handle different response body structures
         if (Array.isArray(response)) {
             // Direct array response
             const result: ApiResponse<Doctor[]> = {
@@ -112,8 +116,8 @@ export const adminDoctorsApi = {
             };
             return result;
         } else if (response && typeof response === 'object' && 'data' in response) {
-            // Standard API response
-            return response as unknown as ApiResponse<Doctor[]>;
+            // Standard wrapped API response from backend
+            return response as ApiResponse<Doctor[]>;
         } else {
             // Fallback
             const result: ApiResponse<Doctor[]> = {
@@ -173,12 +177,14 @@ export const adminDoctorsApi = {
 export const adminFacilitiesApi = {
     // Get all facilities with pagination
     getAll: async (page: number = 1, size: number = 10) => {
-		const response = await apiClient().get<ApiResponse<Facility[]>>(
+		const axiosResponse = await apiClient().get<ApiResponse<Facility[]>>(
             `/admin/facilities?page=${page}&size=${size}`
         );
-        console.log('Raw Facilities API Response:', response);
-        
-        // Handle different response structures
+        console.log('Raw Facilities API Response:', axiosResponse);
+
+        const response = axiosResponse.data as any;
+
+        // Handle different response body structures
         if (Array.isArray(response)) {
             // Direct array response
             const result: ApiResponse<Facility[]> = {
@@ -196,8 +202,8 @@ export const adminFacilitiesApi = {
             };
             return result;
         } else if (response && typeof response === 'object' && 'data' in response) {
-            // Standard API response
-            return response as unknown as ApiResponse<Facility[]>;
+            // Standard wrapped API response from backend
+            return response as ApiResponse<Facility[]>;
         } else {
             // Fallback
             const result: ApiResponse<Facility[]> = {
@@ -262,12 +268,14 @@ export const adminFacilitiesApi = {
 export const adminSpecialtiesApi = {
     // Get all specialties with pagination
     getAll: async (page: number = 1, size: number = 10) => {
-		const response = await apiClient().get<ApiResponse<Specialty[]>>(
+		const axiosResponse = await apiClient().get<ApiResponse<Specialty[]>>(
             `/admin/specialties?page=${page}&size=${size}`
         );
-        console.log('Raw Specialties API Response:', response);
-        
-        // Handle different response structures
+        console.log('Raw Specialties API Response:', axiosResponse);
+
+        const response = axiosResponse.data as any;
+
+        // Handle different response body structures
         if (Array.isArray(response)) {
             // Direct array response
             const result: ApiResponse<Specialty[]> = {
@@ -285,8 +293,8 @@ export const adminSpecialtiesApi = {
             };
             return result;
         } else if (response && typeof response === 'object' && 'data' in response) {
-            // Standard API response
-            return response as unknown as ApiResponse<Specialty[]>;
+            // Standard wrapped API response from backend
+            return response as ApiResponse<Specialty[]>;
         } else {
             // Fallback
             const result: ApiResponse<Specialty[]> = {

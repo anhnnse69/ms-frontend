@@ -7,6 +7,7 @@ interface DataTableProps<T> {
     data: T[];
     onEdit?: (item: T) => void;
     onDelete?: (item: T) => void;
+    onRowClick?: (item: T) => void;
     isLoading?: boolean;
     emptyMessage?: string;
 }
@@ -23,6 +24,7 @@ export function DataTable<T extends { id?: string }>({
     data,
     onEdit,
     onDelete,
+    onRowClick,
     isLoading,
     emptyMessage = 'Không có dữ liệu',
 }: DataTableProps<T>) {
@@ -59,7 +61,11 @@ export function DataTable<T extends { id?: string }>({
                         </tr>
                     ) : (
                         data.map((item, rowIndex) => (
-                            <tr key={item.id || rowIndex} className="hover:bg-gray-50 transition-colors">
+                            <tr
+                                key={item.id || rowIndex}
+                                className={`hover:bg-gray-50 transition-colors ${onRowClick ? 'cursor-pointer' : ''}`}
+                                onClick={onRowClick ? () => onRowClick(item) : undefined}
+                            >
                                 {columns.map((column) => (
                                     <td key={String(column.key)} className={`px-6 py-4 text-sm text-gray-700 ${column.className || ''}`}>
                                         {column.render ? column.render(item[column.key], item) : String(item[column.key] || '-')}

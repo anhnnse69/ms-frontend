@@ -16,6 +16,26 @@ export default function FacilitiesPage() {
     const [pageSize, setPageSize] = useState(10);
     const [total, setTotal] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedFacility, setSelectedFacility] = useState<Facility | null>(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editFacility, setEditFacility] = useState<Facility | null>(null);
+
+    const handleDelete = async (facility: Facility) => {
+        if (!facility.id) {
+            alert('Không tìm thấy ID cơ sở');
+            return;
+        }
+        if (window.confirm(`Bạn chắc chắn muốn xóa cơ sở ${facility.nameVi}?`)) {
+            try {
+                await adminFacilitiesApi.delete(facility.id);
+                setFacilities((prev) => prev.filter((f) => f.id !== facility.id));
+                alert('Xóa cơ sở thành công');
+            } catch (error) {
+                console.error('Failed to delete facility:', error);
+                alert('Lỗi khi xóa cơ sở');
+            }
+        }
+    };
 
     useEffect(() => {
         if (!isAdmin || isLoading) return;
@@ -56,18 +76,6 @@ export default function FacilitiesPage() {
         const timer = setTimeout(() => fetchFacilities(), 500);
         return () => clearTimeout(timer);
     }, [isAdmin, isLoading, page, pageSize, searchTerm]);
-
-    const handleDelete = async (facility: Facility) => {
-        if (window.confirm(`Bạn chắc chắn muốn xóa cơ sở ${facility.nameVi}?`)) {
-            try {
-                await adminFacilitiesApi.delete(facility.id!);
-                setFacilities(facilities.filter((f) => f.id !== facility.id));
-                alert('Xóa cơ sở thành công');
-            } catch (error) {
-                alert('Lỗi khi xóa cơ sở');
-            }
-        }
-    };
 
     if (isLoading) {
         return (
@@ -135,7 +143,11 @@ export default function FacilitiesPage() {
                         columns={tableColumns}
                         data={facilities}
                         isLoading={facilitiesLoading}
-                        onEdit={(facility) => (window.location.href = `/admin/facilities/${facility.id}`)}
+                        onEdit={(facility) => {
+                            setSelectedFacility(facility);
+                            setEditFacility(facility);
+                            setShowEditModal(true);
+                        }}
                         onDelete={handleDelete}
                         emptyMessage="Không có cơ sở nào"
                     />
@@ -163,6 +175,160 @@ export default function FacilitiesPage() {
                         </button>
                     </div>
                 </div>
+
+                {showEditModal && selectedFacility && (
+                    <div
+						className="fixed inset-0 m-0 bg-gray-500/40 backdrop-blur-sm flex items-center justify-center z-50"
+                        onClick={() => {
+                            setShowEditModal(false);
+                            setSelectedFacility(null);
+                            setEditFacility(null);
+                        }}
+                    >
+                        <div
+                            className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <h3 className="text-xl font-bold mb-4">Chỉnh sửa cơ sở</h3>
+
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Tên tiếng Việt</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                        value={editFacility?.nameVi ?? ''}
+                                        onChange={(e) =>
+                                            setEditFacility((prev) =>
+                                                prev ? { ...prev, nameVi: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Tên tiếng Anh</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                        value={editFacility?.nameEn ?? ''}
+                                        onChange={(e) =>
+                                            setEditFacility((prev) =>
+                                                prev ? { ...prev, nameEn: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Địa chỉ</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                        value={editFacility?.address ?? ''}
+                                        onChange={(e) =>
+                                            setEditFacility((prev) =>
+                                                prev ? { ...prev, address: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Điện thoại</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                        value={editFacility?.phone ?? ''}
+                                        onChange={(e) =>
+                                            setEditFacility((prev) =>
+                                                prev ? { ...prev, phone: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <input
+                                        type="email"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                        value={editFacility?.email ?? ''}
+                                        onChange={(e) =>
+                                            setEditFacility((prev) =>
+                                                prev ? { ...prev, email: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Thành phố</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                        value={editFacility?.city ?? ''}
+                                        onChange={(e) =>
+                                            setEditFacility((prev) =>
+                                                prev ? { ...prev, city: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="flex justify-end gap-3 mt-6">
+                                <button
+                                    type="button"
+                                    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm font-medium"
+                                    onClick={() => {
+                                        setShowEditModal(false);
+                                        setSelectedFacility(null);
+                                        setEditFacility(null);
+                                    }}
+                                >
+                                    Hủy
+                                </button>
+                                <button
+                                    type="button"
+                                    className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 text-sm font-medium"
+                                    onClick={async () => {
+                                        if (!selectedFacility || !editFacility) return;
+                                        if (!selectedFacility.id) {
+                                            alert('Không tìm thấy ID cơ sở');
+                                            return;
+                                        }
+                                        try {
+                                            setFacilitiesLoading(true);
+                                            await adminFacilitiesApi.update(selectedFacility.id, {
+                                                NameVi: editFacility.nameVi,
+                                                NameEn: editFacility.nameEn,
+                                                Address: editFacility.address,
+                                                Phone: editFacility.phone,
+                                                Email: editFacility.email,
+                                                City: editFacility.city,
+                                            } as any);
+
+                                            setFacilities((prev) =>
+                                                prev.map((f) =>
+                                                    f.id === selectedFacility.id
+                                                        ? { ...f, ...editFacility }
+                                                        : f
+                                                )
+                                            );
+
+                                            setShowEditModal(false);
+                                            setSelectedFacility(null);
+                                            setEditFacility(null);
+                                        } catch (error) {
+                                            console.error('Failed to update facility:', error);
+                                            alert('Lỗi khi cập nhật cơ sở');
+                                        } finally {
+                                            setFacilitiesLoading(false);
+                                        }
+                                    }}
+                                >
+                                    Lưu thay đổi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </AdminLayout>
     );

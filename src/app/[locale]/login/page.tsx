@@ -52,17 +52,19 @@ export default function LoginPage() {
             return;
         }
 
-        switch (user?.role) {
-            case "ITAdmin":
+        const role = (user?.role || "").toString().trim().toLowerCase();
+
+        switch (role) {
+            case "itadmin":
                 router.push(`/${locale}/admin`);
                 break;
-            case "Manager":
+            case "manager":
                 router.push(`/${locale}/manager`);
                 break;
-            case "Doctor":
+            case "doctor":
                 router.push(`/${locale}/doctor`);
                 break;
-            case "Patient":
+            case "patient":
             default:
                 router.push(`/${locale}`);
                 break;
