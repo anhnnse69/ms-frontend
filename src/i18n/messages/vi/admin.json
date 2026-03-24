@@ -1,0 +1,20 @@
+{
+  "sidebar": {
+    "brand": "MedixSystem",
+    "dashboard": "Bảng điều khiển",
+    "users": "Quản lý Người dùng",
+    "doctors": "Quản lý Bác sĩ",
+    "facilities": "Quản lý Cơ sở Y tế",
+    "specialties": "Quản lý Chuyên khoa"
+  },
+  "profile": {
+    "initial": "A",
+    "name": "Admin",
+    "role": "Quản trị viên"
+  },
+  "topbar": {
+    "title": "Hệ thống Quản lý Y tế",
+    "subtitle": "Chào mừng Quản trị viên",
+    "logout": "Đăng xuất"
+  }
+}

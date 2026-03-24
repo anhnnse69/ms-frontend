@@ -2,103 +2,13 @@
 
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { DoctorCard, DoctorInfo } from "@/components/common/DoctorCard";
+import { searchDoctors } from "@/services/api/patient.api";
+import { Doctor } from "@/types/patient";
 
 const VINMEC_BASE_URL = "https://www.vinmec.com";
-
-// Mock data - In production, this would come from an API
-const MOCK_DOCTORS: DoctorInfo[] = [
-    {
-        id: "1",
-        name: "Hoàng Đăng Mịch",
-        degree: "Giáo sư, Tiến sĩ, Bác sĩ",
-        specialty: "Nội tiết",
-        hospital: "Khoa Khám bệnh & Nội khoa, Bệnh viện Đa khoa Vinmec Hải Phòng",
-        hospitalUrl: `${VINMEC_BASE_URL}/vie/co-so-y-te/khoa-kham-benh-and-noi-khoa-benh-vien-da-khoa-vinmec-hai-phong`,
-        imageUrl: `${VINMEC_BASE_URL}/static/uploads/small_bac_si_hoang_dang_mich_vinmec_03f2edc4fd.jpg`,
-        rating: 4.8,
-    },
-    {
-        id: "2",
-        name: "Đỗ Tất Cường",
-        degree: "Giáo sư, Tiến sĩ, Bác sĩ",
-        specialty: "Tim mạch",
-        hospital: "Trung tâm hồi sức và cấp cứu - Bệnh viện Đa khoa Vinmec Smart City",
-        hospitalUrl: `${VINMEC_BASE_URL}/vie/co-so-y-te/khoa-hoi-suc-cap-cuu-benh-vien-da-khoa-vinmec-smart-city`,
-        imageUrl: `${VINMEC_BASE_URL}/static/uploads/small_28_02_2019_09_02_38_828416_jpeg_5ee29e2e57.jpg`,
-    },
-    {
-        id: "3",
-        name: "Nguyễn Thanh Liêm",
-        degree: "Giáo sư, Tiến sĩ, Bác sĩ",
-        specialty: "Nhi",
-        hospital: "Trung tâm Y học tái tạo & Trị liệu tế bào",
-        hospitalUrl: `${VINMEC_BASE_URL}/vie/co-so-y-te/khoa-y-hoc-tai-tao--tri-lieu-te-bao-benh-vien-da-khoa-quoc-te-vinmec-times-city`,
-        imageUrl: `${VINMEC_BASE_URL}/static/uploads/small_20_06_2023_05_41_48_828145_jpeg_8ee5a8d83b.jpg`,
-    },
-    {
-        id: "4",
-        name: "Trần Trung Dũng",
-        degree: "Giáo sư, Tiến sĩ, Bác sĩ",
-        specialty: "Ngoại chấn thương chỉnh hình",
-        hospital: "Trung tâm Cơ xương khớp và Chấn thương chỉnh hình - Bệnh viện Đa khoa Quốc tế Vinmec Times City",
-        hospitalUrl: `${VINMEC_BASE_URL}/vie/co-so-y-te/trung-tam-chan-thuong-chinh-hinh--y-hoc-the-thao-benh-vien-da-khoa-quoc-te-vinmec-times-city`,
-        imageUrl: `${VINMEC_BASE_URL}/static/uploads/small_20_06_2023_06_00_22_191160_jpeg_5c37ea6abc.jpg`,
-        rating: 4.5,
-    },
-    {
-        id: "5",
-        name: "Philippe Macaire",
-        degree: "Giáo sư, Tiến sĩ, Bác sĩ",
-        specialty: "Gây mê - điều trị đau",
-        hospital: "Khoa Gây mê giảm đau - Bệnh viện Đa khoa Quốc tế Vinmec Times City",
-        hospitalUrl: `${VINMEC_BASE_URL}/vie/co-so-y-te/khoa-gay-me-giam-dau-benh-vien-da-khoa-quoc-te-vinmec-times-city`,
-        imageUrl: `${VINMEC_BASE_URL}/static/uploads/small_bac_si_philippe_macaire_319e03c215.jpg`,
-    },
-    {
-        id: "6",
-        name: "Phạm Nhật An",
-        degree: "Giáo sư, Tiến sĩ, Bác sĩ",
-        specialty: "Nhi",
-        hospital: "Trung tâm Nhi - Bệnh viện Đa khoa Quốc tế Vinmec Times City",
-        hospitalUrl: `${VINMEC_BASE_URL}/vie/co-so-y-te/trung-tam-nhi-benh-vien-da-khoa-quoc-te-vinmec-times-city`,
-        imageUrl: `${VINMEC_BASE_URL}/static/uploads/small_20_06_2023_05_53_31_732124_jpeg_390b008206.jpg`,
-        rating: 4.9,
-    },
-];
-
-const HOSPITALS = [
-    { id: "times-city", name: "Bệnh viện Đa khoa Quốc tế Vinmec Times City" },
-    { id: "central-park", name: "Bệnh viện Đa khoa Quốc tế Vinmec Central Park" },
-    { id: "smart-city", name: "Bệnh viện Đa khoa Vinmec Smart City" },
-    { id: "hai-phong", name: "Bệnh viện Đa khoa Vinmec Hải Phòng" },
-    { id: "ha-long", name: "Bệnh viện Đa khoa Vinmec Hạ Long" },
-    { id: "da-nang", name: "Bệnh viện Đa khoa Vinmec Đà Nẵng" },
-    { id: "nha-trang", name: "Bệnh viện Đa khoa Vinmec Nha Trang" },
-    { id: "phu-quoc", name: "Bệnh viện Đa khoa Vinmec Phú Quốc" },
-];
-
-const SPECIALTIES = [
-    { id: "nhi", name: "Nhi", nameEn: "Pediatrics" },
-    { id: "tim-mach", name: "Tim mạch", nameEn: "Cardiology" },
-    { id: "noi-tiet", name: "Nội tiết", nameEn: "Endocrinology" },
-    { id: "than-kinh", name: "Thần kinh", nameEn: "Neurology" },
-    { id: "chinh-hinh", name: "Ngoại chấn thương chỉnh hình", nameEn: "Orthopedics" },
-    { id: "gay-me", name: "Gây mê - điều trị đau", nameEn: "Anesthesiology" },
-    { id: "san-phu-khoa", name: "Sản phụ khoa", nameEn: "Obstetrics & Gynecology" },
-    { id: "tieu-hoa", name: "Tiêu hoá", nameEn: "Gastroenterology" },
-];
-
-const DEGREES = [
-    { id: "gs", name: "Giáo sư", nameEn: "Professor" },
-    { id: "pgs", name: "Phó giáo sư", nameEn: "Associate Professor" },
-    { id: "ts", name: "Tiến sĩ", nameEn: "PhD" },
-    { id: "ths", name: "Thạc sĩ", nameEn: "Master" },
-    { id: "bsckii", name: "Bác sĩ CK II", nameEn: "Specialist Doctor II" },
-    { id: "bscki", name: "Bác sĩ CK I", nameEn: "Specialist Doctor I" },
-];
 
 const PAGE_SIZE_OPTIONS = [6, 12, 24, 48];
 
@@ -161,11 +71,13 @@ function FilterSidebar({ icon, label, items, selectedItems, onToggle, locale }: 
 function RatingFilterSidebar({
     selectedRatings,
     onToggle,
-    locale
+    locale,
+    ratingCounts,
 }: {
     selectedRatings: number[];
     onToggle: (rating: number) => void;
     locale: string;
+    ratingCounts?: Record<number, number>;
 }) {
     const [isOpen, setIsOpen] = useState(true);
 
@@ -207,7 +119,7 @@ function RatingFilterSidebar({
                                         <span key={i} className={i < rating ? "text-yellow-400" : "text-gray-300"}>★</span>
                                     ))}
                                 </div>
-                                <span className="text-xs text-gray-500">({locale === "vi" ? "trở lên" : "& up"})</span>
+                                <span className="text-xs text-gray-500">({ratingCounts?.[rating] ?? 0})</span>
                             </label>
                         </li>
                     ))}
@@ -291,19 +203,17 @@ export function DoctorListSection() {
     const t = useTranslations("doctors");
     const { locale } = useParams<{ locale: string }>();
 
+    const [doctors, setDoctors] = useState<Doctor[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedHospitals, setSelectedHospitals] = useState<string[]>([]);
     const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
-    const [selectedDegrees, setSelectedDegrees] = useState<string[]>([]);
     const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(6);
     const [isLoading, setIsLoading] = useState(false);
     const [showMobileFilters, setShowMobileFilters] = useState(false);
-
-    // Mock pagination data - In production, these would come from API
-    const totalItems = MOCK_DOCTORS.length;
-    const totalPages = Math.ceil(totalItems / pageSize);
+    const [error, setError] = useState<string | null>(null);
+    const [appliedSearchQuery, setAppliedSearchQuery] = useState("");
 
     const breadcrumbItems = [
         { label: t("breadcrumbHome"), href: `/${locale}` },
@@ -331,24 +241,139 @@ export function DoctorListSection() {
     const clearAllFilters = () => {
         setSelectedHospitals([]);
         setSelectedSpecialties([]);
-        setSelectedDegrees([]);
         setSelectedRatings([]);
         setSearchQuery("");
         setCurrentPage(1);
     };
 
-    const hasActiveFilters = selectedHospitals.length > 0 || selectedSpecialties.length > 0 ||
-        selectedDegrees.length > 0 || selectedRatings.length > 0 || searchQuery !== "";
+    const hasActiveFilters =
+        selectedHospitals.length > 0 ||
+        selectedSpecialties.length > 0 ||
+        selectedRatings.length > 0 ||
+        searchQuery.trim() !== "";
 
-    // Filter doctors based on all criteria (client-side for mock data)
-    const filteredDoctors = useMemo(() => {
-        return MOCK_DOCTORS.filter((doctor) => {
-            const matchesSearch = searchQuery === "" ||
-                doctor.name.toLowerCase().includes(searchQuery.toLowerCase());
-            // Note: In production, these filters would work with actual filter IDs from API
-            return matchesSearch;
+    // Load doctors from backend whenever applied search changes (and on first render)
+    useEffect(() => {
+        const fetchDoctors = async () => {
+            setIsLoading(true);
+            setError(null);
+            try {
+                const response = await searchDoctors({
+                    keyword: appliedSearchQuery || undefined,
+                    page: 1,
+                    size: 100,
+                });
+                setDoctors(response.doctors || []);
+            } catch (err: any) {
+                setDoctors([]);
+                setError(err?.message || "Failed to load doctors");
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchDoctors();
+    }, [appliedSearchQuery]);
+
+    // Base mapping from API doctors to DoctorCard model
+    const mappedDoctors: DoctorInfo[] = useMemo(
+        () =>
+            doctors.map((doctor) => ({
+                id: doctor.id,
+                name: doctor.name,
+                imageUrl: doctor.avatarUrl || "/assets/images/doctor-placeholder.png",
+                degree: doctor.license || "",
+                specialty: doctor.specialty,
+                hospital: doctor.facility,
+                rating: doctor.rating,
+                ratingCount: doctor.reviewCount,
+            })),
+        [doctors]
+    );
+
+    // Build dynamic filter option lists from loaded doctors
+    const hospitalFilterItems = useMemo(
+        () => {
+            const map = new Map<string, { id: string; name: string }>();
+            mappedDoctors.forEach((d) => {
+                if (d.hospital) {
+                    const key = d.hospital.trim();
+                    if (key && !map.has(key)) {
+                        map.set(key, { id: key, name: key });
+                    }
+                }
+            });
+            return Array.from(map.values());
+        },
+        [mappedDoctors]
+    );
+
+    const specialtyFilterItems = useMemo(
+        () => {
+            const map = new Map<string, { id: string; name: string }>();
+            mappedDoctors.forEach((d) => {
+                if (d.specialty) {
+                    const key = d.specialty.trim();
+                    if (key && !map.has(key)) {
+                        map.set(key, { id: key, name: key });
+                    }
+                }
+            });
+            return Array.from(map.values());
+        },
+        [mappedDoctors]
+    );
+
+    // Build rating counts: for each star N, count doctors with rating <= N
+    const ratingCounts = useMemo(() => {
+        const counts: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+        mappedDoctors.forEach((d) => {
+            const r = d.rating ?? 0;
+            [1, 2, 3, 4, 5].forEach((star) => {
+                if (r <= star) {
+                    counts[star] += 1;
+                }
+            });
         });
-    }, [searchQuery]);
+        return counts;
+    }, [mappedDoctors]);
+
+    // Filter doctors based on all criteria (client-side on API data)
+    const filteredDoctors = useMemo(() => {
+        return mappedDoctors.filter((doctor) => {
+            const matchesSearch =
+                searchQuery.trim() === "" ||
+                doctor.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+            const matchesHospital =
+                selectedHospitals.length === 0 ||
+                selectedHospitals.includes(doctor.hospital);
+
+            const matchesSpecialty =
+                selectedSpecialties.length === 0 ||
+                selectedSpecialties.includes(doctor.specialty);
+
+            const matchesRating =
+                selectedRatings.length === 0 ||
+                (() => {
+                    const maxRating = Math.max(...selectedRatings);
+                    return (doctor.rating ?? 0) <= maxRating;
+                })();
+
+            return (
+                matchesSearch &&
+                matchesHospital &&
+                matchesSpecialty &&
+                matchesRating
+            );
+        });
+    }, [
+        mappedDoctors,
+        searchQuery,
+        selectedHospitals,
+        selectedSpecialties,
+        selectedRatings,
+    ]);
 
     // Paginated doctors (client-side for mock data)
     const paginatedDoctors = useMemo(() => {
@@ -357,10 +382,8 @@ export function DoctorListSection() {
     }, [filteredDoctors, currentPage, pageSize]);
 
     const handleSearch = () => {
-        setIsLoading(true);
         setCurrentPage(1);
-        // Simulate API call
-        setTimeout(() => setIsLoading(false), 300);
+        setAppliedSearchQuery(searchQuery.trim());
     };
 
     const handlePageChange = (page: number) => {
@@ -374,8 +397,8 @@ export function DoctorListSection() {
         <>
             <FilterSidebar
                 icon={`${VINMEC_BASE_URL}/assets/images/doctor/icon-address.svg`}
-                label={locale === "vi" ? "Cơ sở y tế" : "Hospital"}
-                items={HOSPITALS}
+                label={locale === "vi" ? "Cơ sở y tế" : "Medical facility"}
+                items={hospitalFilterItems}
                 selectedItems={selectedHospitals}
                 onToggle={(id) => toggleFilter(selectedHospitals, setSelectedHospitals, id)}
                 locale={locale}
@@ -383,23 +406,16 @@ export function DoctorListSection() {
             <FilterSidebar
                 icon={`${VINMEC_BASE_URL}/assets/images/doctor/icon_chuyenmon.svg`}
                 label={locale === "vi" ? "Chuyên khoa" : "Specialty"}
-                items={SPECIALTIES}
+                items={specialtyFilterItems}
                 selectedItems={selectedSpecialties}
                 onToggle={(id) => toggleFilter(selectedSpecialties, setSelectedSpecialties, id)}
-                locale={locale}
-            />
-            <FilterSidebar
-                icon={`${VINMEC_BASE_URL}/assets/images/doctor/icon_hocvi.svg`}
-                label={locale === "vi" ? "Học vị" : "Degree"}
-                items={DEGREES}
-                selectedItems={selectedDegrees}
-                onToggle={(id) => toggleFilter(selectedDegrees, setSelectedDegrees, id)}
                 locale={locale}
             />
             <RatingFilterSidebar
                 selectedRatings={selectedRatings}
                 onToggle={toggleRating}
                 locale={locale}
+                ratingCounts={ratingCounts}
             />
         </>
     );
@@ -447,7 +463,7 @@ export function DoctorListSection() {
                     {locale === "vi" ? "Bộ lọc" : "Filters"}
                     {hasActiveFilters && (
                         <span className="bg-[#0076c0] text-white text-xs px-2 py-0.5 rounded-full">
-                            {selectedHospitals.length + selectedSpecialties.length + selectedDegrees.length + selectedRatings.length}
+                            {selectedHospitals.length + selectedSpecialties.length + selectedRatings.length}
                         </span>
                     )}
                 </button>
@@ -555,6 +571,10 @@ export function DoctorListSection() {
                             <p className="mt-4 text-gray-500">
                                 {locale === "vi" ? "Đang tải..." : "Loading..."}
                             </p>
+                        </div>
+                    ) : error ? (
+                        <div className="bg-white rounded-lg shadow-sm p-6">
+                            <p className="text-sm text-red-500">{error}</p>
                         </div>
                     ) : paginatedDoctors.length > 0 ? (
                         <>

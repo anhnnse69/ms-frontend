@@ -20,6 +20,7 @@ import { useChangePassword } from '@/hooks/useChangePassword';
 import { useAuth } from '@/hooks/useAuth';
 import { UpdateUserProfileRequest, UserProfile } from '@/types/patient';
 import { changePasswordRequestDto } from '@/types/auth';
+import { Alert } from '@/components/common/Alert';
 
 /**
  * Patient Profile Page Component
@@ -37,11 +38,12 @@ export default function PatientProfilePage() {
       onSuccess: () => {
         // Refetch profile after successful update
         refetch();
-        // Show toast notification (implement your own toaster)
-        showNotification('Profile updated successfully!', 'success');
+        setGlobalMessage('Profile updated successfully!');
+        setGlobalMessageType('success');
       },
       onError: (error) => {
-        showNotification(error.message, 'error');
+        setGlobalMessage(error.message);
+        setGlobalMessageType('error');
       },
     });
 
@@ -49,14 +51,16 @@ export default function PatientProfilePage() {
   const { changePassword: changePasswordFn, loading: changingPassword, error: passwordError, success: passwordSuccess, clearError: clearPasswordError, clearSuccess: clearPasswordSuccess } =
     useChangePassword({
       onSuccess: () => {
-        showNotification('Password changed successfully!', 'success');
+        setGlobalMessage('Password changed successfully!');
+        setGlobalMessageType('success');
         setPasswordForm({
           CurrentPassword: '',
           NewPassword: '',
         });
       },
       onError: (error) => {
-        showNotification(error.message, 'error');
+        setGlobalMessage(error.message);
+        setGlobalMessageType('error');
       },
     });
 
@@ -77,6 +81,10 @@ export default function PatientProfilePage() {
   // Password visibility states
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
+
+  // Global UI message for this page
+  const [globalMessage, setGlobalMessage] = useState<string | null>(null);
+  const [globalMessageType, setGlobalMessageType] = useState<'success' | 'error' | 'info'>('info');
 
   // Update form when profile data loads
   useEffect(() => {
@@ -114,21 +122,25 @@ export default function PatientProfilePage() {
 
     // Validate form data
     if (!formData.displayName.trim()) {
-      showNotification('Display name is required', 'error');
+      setGlobalMessage('Display name is required');
+      setGlobalMessageType('error');
       return;
     }
     if (!formData.fullName.trim()) {
-      showNotification('Full name is required', 'error');
+      setGlobalMessage('Full name is required');
+      setGlobalMessageType('error');
       return;
     }
     if (!formData.phoneNumber.trim()) {
-      showNotification('Phone number is required', 'error');
+      setGlobalMessage('Phone number is required');
+      setGlobalMessageType('error');
       return;
     }
 
     // Phone number validation (basic)
     if (!/^\d{10,15}$/.test(formData.phoneNumber.replace(/\D/g, ''))) {
-      showNotification('Please enter a valid phone number', 'error');
+      setGlobalMessage('Please enter a valid phone number');
+      setGlobalMessageType('error');
       return;
     }
 
@@ -200,25 +212,18 @@ export default function PatientProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
+        {globalMessage && (
+          <div className="mb-6">
+            <Alert variant={globalMessageType}>{globalMessage}</Alert>
+          </div>
+        )}
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
           <p className="mt-2 text-gray-600">Manage your personal information</p>
         </div>
 
-        {/* Success notification */}
-        {success && (
-          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <p className="text-green-700">Profile updated successfully!</p>
-          </div>
-        )}
-
-        {/* Error notification */}
-        {updateError && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-700">{updateError.message}</p>
-          </div>
-        )}
+        {/* Legacy inline notifications kept minimal; global Alert above handles main messaging */}
 
         {/* Profile Form */}
         <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-8 space-y-6">
@@ -494,16 +499,4 @@ export default function PatientProfilePage() {
   );
 }
 
-/**
- * Toast notification helper (placeholder)
- * Should be replaced with your app's actual notification system
- */
-function showNotification(message: string, type: 'success' | 'error') {
-  if (type === 'success') {
-    console.log('✅ Success:', message);
-  } else {
-    console.error('❌ Error:', message);
-  }
-  // TODO: Implement your toast notification system
-  // Example: useToast().showNotification(message, type)
-}
+// Legacy showNotification helper removed in favor of Alert-based UI messaging

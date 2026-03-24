@@ -1,0 +1,20 @@
+{
+  "sidebar": {
+    "brand": "MedixSystem",
+    "dashboard": "Dashboard",
+    "users": "User Management",
+    "doctors": "Doctor Management",
+    "facilities": "Facility Management",
+    "specialties": "Specialty Management"
+  },
+  "profile": {
+    "initial": "A",
+    "name": "Admin",
+    "role": "Administrator"
+  },
+  "topbar": {
+    "title": "Healthcare Management System",
+    "subtitle": "Welcome, Administrator",
+    "logout": "Logout"
+  }
+}

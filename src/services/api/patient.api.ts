@@ -13,6 +13,7 @@ import {
   Appointment,
   SearchDoctorsResponse,
   DoctorDetail,
+  Doctor,
   FavoriteRequest,
   Favorite,
   GetFavoritesResponse,
@@ -140,6 +141,78 @@ export interface SearchDoctorsParams {
   size?: number;
 }
 
+// Normalize raw doctor dto from backend into our Doctor model
+function mapDoctorDto(raw: any): Doctor {
+  if (!raw) {
+    return {
+      id: '',
+      name: '',
+      email: '',
+      specialty: '',
+      specialtyId: '',
+      facility: '',
+      facilityId: '',
+      license: '',
+      experience: 0,
+    };
+  }
+
+  const specialtyName =
+    typeof raw.specialty === 'string'
+      ? raw.specialty
+      : raw.specialty?.name ?? raw.specialtyName ?? '';
+  const specialtyId =
+    typeof raw.specialty === 'object'
+      ? raw.specialty?.id ?? ''
+      : raw.specialtyId ?? '';
+
+  // Facilities can be array of objects or single string
+  let facilityName = '';
+  let facilityId = '';
+  if (typeof raw.facility === 'string') {
+    facilityName = raw.facility;
+  } else if (Array.isArray(raw.facilities) && raw.facilities.length > 0) {
+    const first = raw.facilities[0];
+    facilityName = first?.name ?? first?.facilityName ?? '';
+    facilityId = first?.id ?? first?.facilityId ?? '';
+  } else {
+    facilityName = raw.facilityName ?? '';
+    facilityId = raw.facilityId ?? '';
+  }
+
+  const rating =
+    typeof raw.rating === 'number'
+      ? raw.rating
+      : typeof raw.averageRating === 'number'
+      ? raw.averageRating
+      : undefined;
+
+  const reviewCount =
+    typeof raw.reviewCount === 'number'
+      ? raw.reviewCount
+      : typeof raw.totalReviews === 'number'
+      ? raw.totalReviews
+      : Array.isArray(raw.reviews)
+      ? raw.reviews.length
+      : undefined;
+
+  return {
+    id: raw.id ?? raw.doctorId ?? '',
+    name: raw.name ?? raw.fullName ?? raw.displayName ?? '',
+    email: raw.email ?? '',
+    specialty: specialtyName,
+    specialtyId,
+    facility: facilityName,
+    facilityId,
+    license: raw.license ?? raw.position ?? '',
+    experience: raw.experience ?? raw.experienceYears ?? 0,
+    avatarUrl: raw.avatarUrl ?? raw.avatar ?? undefined,
+    rating,
+    reviewCount,
+    bio: raw.bio ?? raw.about ?? undefined,
+  };
+}
+
 /**
  * Search doctors
  * GET /patient/doctors
@@ -148,16 +221,52 @@ export const searchDoctors = async (
   params?: SearchDoctorsParams
 ): Promise<SearchDoctorsResponse> => {
   try {
-    const response = await apiClient.get<ApiResponse<SearchDoctorsResponse>>(
+    const response = await apiClient.get(
       '/patient/doctors',
       { params: params || {} }
     );
 
-    if (response.data.success && response.data.data) {
-      return response.data.data;
+    const payload: any = response.data;
+
+    // Backend standard: { codeMessage, data: DoctorDto[], meta }
+    let rawDoctors: any[] = [];
+    let meta: any = undefined;
+
+    if (Array.isArray(payload)) {
+      rawDoctors = payload;
+    } else if (Array.isArray(payload?.data)) {
+      rawDoctors = payload.data;
+      meta = payload.meta;
+    } else if (Array.isArray(payload?.data?.doctors)) {
+      rawDoctors = payload.data.doctors;
+      meta = payload.data.meta ?? payload.meta;
+    } else if (Array.isArray(payload?.doctors)) {
+      rawDoctors = payload.doctors;
+      meta = payload.meta;
+    } else if ((payload as ApiResponse<SearchDoctorsResponse>)?.success && (payload as ApiResponse<SearchDoctorsResponse>).data) {
+      // Legacy ApiResponse<T> shape with success flag
+      const data = (payload as ApiResponse<SearchDoctorsResponse>).data as any;
+      rawDoctors = Array.isArray(data?.doctors) ? data.doctors : Array.isArray(data) ? data : [];
+      meta = data?.meta ?? payload.meta;
+    } else {
+      console.warn('Unexpected searchDoctors response shape', payload);
+      rawDoctors = [];
     }
 
-    throw new Error(response.data.message || 'Failed to search doctors');
+    const doctors = rawDoctors.map(mapDoctorDto);
+
+    const page = meta?.page ?? params?.page ?? 1;
+    const size = meta?.size ?? params?.size ?? doctors.length;
+    const total = meta?.total ?? doctors.length;
+    const totalPages = meta?.totalPages ?? (size > 0 ? Math.max(1, Math.ceil(total / size)) : 1);
+
+    return {
+      doctors,
+      totalCount: total,
+      page,
+      size,
+      totalPages,
+    };
   } catch (error) {
     throw handleApiError(error, 'Search doctors failed');
   }
@@ -169,15 +278,38 @@ export const searchDoctors = async (
  */
 export const getDoctorDetail = async (doctorId: string): Promise<DoctorDetail> => {
   try {
-    const response = await apiClient.get<ApiResponse<DoctorDetail>>(
+    const response = await apiClient.get(
       `/patient/doctors/${doctorId}`
     );
 
-    if (response.data.success && response.data.data) {
-      return response.data.data;
+    const payload: any = response.data;
+
+    // Standard: { codeMessage, data: DoctorDto, meta }
+    let rawDoctor: any = null;
+
+    if (payload && typeof payload === 'object') {
+      if (payload.data) {
+        rawDoctor = payload.data;
+      } else if ((payload as ApiResponse<DoctorDetail>).success && (payload as ApiResponse<DoctorDetail>).data) {
+        rawDoctor = (payload as ApiResponse<DoctorDetail>).data;
+      } else {
+        rawDoctor = payload;
+      }
+    } else {
+      rawDoctor = payload;
     }
 
-    throw new Error(response.data.message || 'Failed to fetch doctor details');
+    const baseDoctor = mapDoctorDto(rawDoctor) as DoctorDetail;
+
+    // Preserve any extra detail fields if backend provides them
+    if (rawDoctor) {
+      baseDoctor.about = rawDoctor.about ?? baseDoctor.about;
+      baseDoctor.qualifications = rawDoctor.qualifications ?? baseDoctor.qualifications;
+      baseDoctor.reviews = rawDoctor.reviews ?? baseDoctor.reviews;
+      baseDoctor.availableSlots = rawDoctor.availableSlots ?? baseDoctor.availableSlots;
+    }
+
+    return baseDoctor;
   } catch (error) {
     throw handleApiError(error, 'Fetch doctor details failed');
   }

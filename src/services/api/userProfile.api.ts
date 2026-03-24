@@ -6,7 +6,7 @@
  */
 
 import apiClient from './apiClient';
-import { UserProfile, UpdateUserProfileRequest, ApiResponse } from '@/types/patient';
+import { UserProfile, UpdateUserProfileRequest } from '@/types/patient';
 
 /**
  * Get the current authenticated user's profile
@@ -16,50 +16,45 @@ import { UserProfile, UpdateUserProfileRequest, ApiResponse } from '@/types/pati
  */
 export const getUserProfile = async (): Promise<UserProfile> => {
   try {
-    const response = await apiClient.get<ApiResponse<UserProfile> | UserProfile>(
-      '/users/profile'
-    );
+    const response = await apiClient.get('/users/profile');
 
     const responseData = response.data as any;
-    console.log('🔎 getUserProfile responseData:', responseData);
 
-    // 1) Standard ApiResponse shape
+    // Backend ApiResponse<T>: { codeMessage, data, meta }
     if (responseData && typeof responseData === 'object') {
-      if (typeof responseData.success === 'boolean') {
-        if (responseData.success) {
-          const maybeData = responseData.data ?? responseData.Data ?? responseData.result;
-          if (maybeData && typeof maybeData === 'object' && maybeData.id) {
-            return maybeData as UserProfile;
-          }
-          if (responseData.data && typeof responseData.data === 'object' && responseData.data.id) {
-            return responseData.data as UserProfile;
-          }
+      if ('codeMessage' in responseData) {
+        const code = responseData.codeMessage as string | undefined;
+        const data = responseData.data as any;
+
+        // Success case: has data with id
+        if (data && typeof data === 'object' && data.id) {
+          return data as UserProfile;
         }
 
-        throw new Error(responseData.message || 'Failed to fetch profile');
+        // Business error (e.g. APP_MESSAGE_4020) – let caller decide what to do
+        throw new Error(code || 'Failed to fetch profile');
       }
 
-      // 2) Some APIs return wrapper with just 'data' or 'Data'
+      // Fallbacks for any legacy shapes if needed
       const rawData = responseData.data ?? responseData.Data ?? responseData.result;
       if (rawData && typeof rawData === 'object' && rawData.id) {
         return rawData as UserProfile;
       }
 
-      // 3) Some APIs return UserProfile directly
       if (responseData.id && responseData.email) {
         return responseData as UserProfile;
       }
 
-      // 4) Some APIs might wrap in user/userProfile
       const nested = responseData.user ?? responseData.userProfile;
       if (nested && nested.id) {
         return nested as UserProfile;
       }
     }
 
-    throw new Error('Invalid profile response format');
+    throw new Error('Failed to fetch profile');
   } catch (error) {
-    console.error('⚠️ getUserProfile failed:', error);
+    // Use warn to avoid noisy "console error" overlays in dev
+    console.warn('⚠️ getUserProfile failed:', error);
     throw handleProfileApiError(error, 'Fetch profile failed');
   }
 };

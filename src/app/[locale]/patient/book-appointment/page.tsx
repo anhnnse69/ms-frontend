@@ -12,6 +12,7 @@
 'use client';
 
 import { FormEvent, useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { usePatientProfile } from '@/hooks/usePatientProfile';
 import {
   searchDoctors,
@@ -24,6 +25,7 @@ import {
   DoctorDetail,
   BookAppointmentRequest,
 } from '@/types/patient';
+import { Alert } from '@/components/common/Alert';
 
 /**
  * Appointment Booking Page Component
@@ -33,8 +35,10 @@ export default function BookAppointmentPage() {
   // Check authentication
   const { profile, loading: profileLoading } = usePatientProfile();
 
+  const urlSearchParams = useSearchParams();
+
   // Doctor search state
-  const [searchParams, setSearchParams] = useState<SearchDoctorsParams>({
+  const [searchFilters, setSearchFilters] = useState<SearchDoctorsParams>({
     page: 1,
     size: 10,
   });
@@ -54,6 +58,10 @@ export default function BookAppointmentPage() {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingError, setBookingError] = useState<Error | null>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [uiMessage, setUiMessage] = useState<string | null>(null);
+  const [uiMessageType, setUiMessageType] = useState<'success' | 'error' | 'info'>('info');
+
+  const [paymentMethod, setPaymentMethod] = useState<'hospital' | 'momo'>('hospital');
 
   // Step tracking for multi-step form
   type Step = 'search' | 'doctor-detail' | 'confirm';
@@ -66,6 +74,48 @@ export default function BookAppointmentPage() {
     }
   }, [profileLoading]);
 
+  // Prefill from marketing booking page (if applicable)
+  useEffect(() => {
+    const fromMarketing = urlSearchParams.get('fromMarketingBooking') === '1';
+    if (!fromMarketing) return;
+
+    if (typeof window === 'undefined') return;
+
+    try {
+      const raw = window.localStorage.getItem('bookingDraft');
+      if (!raw) return;
+
+      const draft: any = JSON.parse(raw);
+      if (!draft || !draft.doctorId) return;
+
+      const prefillDoctor = async () => {
+        try {
+          setDetailLoading(true);
+          setSelectedDoctorId(draft.doctorId as string);
+          const detail = await getDoctorDetail(draft.doctorId as string);
+          setDoctorDetail(detail);
+
+          if (draft.datetimeLocal) {
+            setAppointmentTime(draft.datetimeLocal as string);
+          }
+          if (draft.reason) {
+            setAppointmentNotes((draft.reason as string) || '');
+          }
+
+          setCurrentStep('confirm');
+        } catch (error) {
+          console.warn('Failed to prefill booking from marketing page', error);
+        } finally {
+          setDetailLoading(false);
+        }
+      };
+
+      prefillDoctor();
+    } catch (error) {
+      console.warn('Invalid bookingDraft in storage', error);
+    }
+  }, [urlSearchParams]);
+
   // 2. Handle doctor search
   const handleSearchDoctors = async () => {
     try {
@@ -73,12 +123,12 @@ export default function BookAppointmentPage() {
       setSearchError(null);
 
       const response = await searchDoctors({
-        keyword: searchParams.keyword,
-        specialtyId: searchParams.specialtyId,
-        facilityId: searchParams.facilityId,
-        location: searchParams.location,
-        page: searchParams.page || 1,
-        size: searchParams.size || 10,
+        keyword: searchFilters.keyword,
+        specialtyId: searchFilters.specialtyId,
+        facilityId: searchFilters.facilityId,
+        location: searchFilters.location,
+        page: searchFilters.page || 1,
+        size: searchFilters.size || 10,
       });
 
       setDoctors(response.doctors);
@@ -141,17 +191,28 @@ export default function BookAppointmentPage() {
       setBookingError(null);
       setBookingSuccess(false);
 
+      const paymentNotePrefix =
+        paymentMethod === 'momo'
+          ? '[Payment method: MoMo]\n'
+          : '[Payment method: Pay at hospital]\n';
+
+      const combinedNotes = appointmentNotes
+        ? `${appointmentNotes}\n\n${paymentNotePrefix}`
+        : paymentNotePrefix;
+
       const bookingRequest: BookAppointmentRequest = {
         facilityId: doctorDetail.facilityId,
         specialtyId: doctorDetail.specialtyId,
         doctorId: selectedDoctorId,
         appointmentTime: selectedTime.toISOString(),
-        notes: appointmentNotes || undefined,
+        notes: combinedNotes,
       };
 
       await bookAppointment(bookingRequest);
 
       setBookingSuccess(true);
+      setUiMessage('Appointment booked successfully!');
+      setUiMessageType('success');
       // Reset form
       setAppointmentTime('');
       setAppointmentNotes('');
@@ -159,8 +220,13 @@ export default function BookAppointmentPage() {
       setSelectedDoctorId(null);
       setCurrentStep('search');
 
-      // Show message
-      showNotification('Appointment booked successfully!', 'success');
+      try {
+        if (typeof window !== 'undefined') {
+          window.localStorage.removeItem('bookingDraft');
+        }
+      } catch (error) {
+        console.warn('Failed to clear bookingDraft from storage', error);
+      }
 
       // Redirect after a delay
       setTimeout(() => {
@@ -170,6 +236,8 @@ export default function BookAppointmentPage() {
       const error =
         err instanceof Error ? err : new Error('Failed to book appointment');
       setBookingError(error);
+      setUiMessage(error.message);
+      setUiMessageType('error');
     } finally {
       setBookingLoading(false);
     }
@@ -199,6 +267,11 @@ export default function BookAppointmentPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
+        {uiMessage && (
+          <div className="mb-4 flex justify-center">
+            <Alert variant={uiMessageType}>{uiMessage}</Alert>
+          </div>
+        )}
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Book an Appointment</h1>
@@ -250,9 +323,9 @@ export default function BookAppointmentPage() {
                 <input
                   type="text"
                   id="keyword"
-                  value={searchParams.keyword || ''}
+                  value={searchFilters.keyword || ''}
                   onChange={(e) =>
-                    setSearchParams((prev) => ({
+                    setSearchFilters((prev) => ({
                       ...prev,
                       keyword: e.target.value,
                       page: 1,
@@ -271,9 +344,9 @@ export default function BookAppointmentPage() {
                 <input
                   type="text"
                   id="location"
-                  value={searchParams.location || ''}
+                  value={searchFilters.location || ''}
                   onChange={(e) =>
-                    setSearchParams((prev) => ({
+                    setSearchFilters((prev) => ({
                       ...prev,
                       location: e.target.value,
                       page: 1,
@@ -474,6 +547,26 @@ export default function BookAppointmentPage() {
               <p className="text-sm text-gray-600">{doctorDetail.specialty}</p>
             </div>
 
+            {/* Pricing (estimated) */}
+            {typeof doctorDetail.experience === 'number' && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <p className="text-sm font-medium text-gray-800 mb-1">Estimated Consultation Fee</p>
+                <p className="text-lg font-semibold text-gray-900">
+                  {new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                    maximumFractionDigits: 0,
+                  }).format(
+                    // Simple heuristic: base 300k + 10k per year of experience
+                    300000 + (doctorDetail.experience || 0) * 10000
+                  )}
+                </p>
+                <p className="mt-1 text-xs text-gray-600">
+                  Final price may vary depending on specific services.
+                </p>
+              </div>
+            )}
+
             {/* Appointment time */}
             <div>
               <label htmlFor="appointmentTime" className="block text-sm font-medium text-gray-700 mb-1">
@@ -489,6 +582,39 @@ export default function BookAppointmentPage() {
                 required
               />
               <p className="mt-1 text-xs text-gray-500">Select a future date and time</p>
+            </div>
+
+            {/* Payment method */}
+            <div>
+              <p className="block text-sm font-medium text-gray-700 mb-2">Payment Method</p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <label className="inline-flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="hospital"
+                    checked={paymentMethod === 'hospital'}
+                    onChange={() => setPaymentMethod('hospital')}
+                    className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                  />
+                  <span className="text-sm text-gray-700">Pay at Hospital</span>
+                </label>
+                <label className="inline-flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="momo"
+                    checked={paymentMethod === 'momo'}
+                    onChange={() => setPaymentMethod('momo')}
+                    className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                  />
+                  <span className="text-sm text-gray-700">MoMo e-wallet (coming soon)</span>
+                </label>
+              </div>
+              <p className="mt-1 text-xs text-gray-500">
+                Your payment preference will be recorded in the appointment notes. Online MoMo
+                payment integration can be added later.
+              </p>
             </div>
 
             {/* Notes */}
@@ -526,9 +652,13 @@ export default function BookAppointmentPage() {
               <button
                 type="submit"
                 disabled={bookingLoading || bookingSuccess}
-                className="flex-1 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
+                className="flex-1 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
               >
-                {bookingLoading ? 'Booking...' : 'Confirm & Book'}
+                {bookingLoading
+                  ? 'Booking...'
+                  : paymentMethod === 'momo'
+                  ? 'Confirm & Proceed to MoMo'
+                  : 'Confirm & Book'}
               </button>
               <button
                 type="button"
