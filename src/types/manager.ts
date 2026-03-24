@@ -63,3 +63,124 @@ export interface ManagerApiResponse<T> {
   data: T;
   meta: ManagerMeta;
 }
+
+// ========== REPORT REQUEST ==========
+export interface AppointmentReportRequest {
+  facilityId: string;
+  type?: 'day' | 'month' | 'year';
+  date?: string; // ISO (yyyy-mm-dd)
+}
+
+// ========== REPORT RESPONSE ==========
+export interface AppointmentReport {
+  pending: number;
+  confirmed: number;
+  checkedIn: number;
+  inProgress: number;
+  completed: number;
+  cancelled: number;
+  noShow: number;
+  total: number;
+}
+
+export interface Doctor {
+  id: string;
+  displayName: string;
+  fullName: string;
+  academicTitleVi: string;
+  avatarUrl: string;
+  specialtyName: string;
+  yearsOfExperience: number;
+  averageRating: number;
+}
+
+export interface DoctorResponse {
+  codeMessage: string;
+  data: Doctor[];
+  meta: {
+    page: number;
+    size: number;
+    total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrevious: boolean;
+  };
+}
+
+// types/doctorSchedule.ts
+export interface ScheduleSlot {
+  dayOfWeek: number; // 0-6
+  startTime: string; // "08:00:00"
+  endTime: string;
+  slotDurationMinutes: number;
+}
+
+export interface DoctorSchedule {
+  doctorId: string;
+  doctorName: string;
+  schedules: ScheduleSlot[];
+}
+
+export interface DoctorScheduleResponse {
+  codeMessage: string;
+  data: DoctorSchedule[];
+  meta: {
+    page: number;
+    size: number;
+    total: number;
+  };
+}
+
+// types/pendingAppointment.ts
+
+export interface PendingAppointment {
+  appointmentId: string;
+  appointmentTime: string;
+  patientName: string;
+  phoneNumber: string;
+  doctorName?: string;
+  facilityName: string;
+  specialtyName: string;
+  status: number;
+  patientId: string;
+}
+
+export interface PendingAppointmentResponse {
+  codeMessage: string;
+  data: PendingAppointment[];
+  meta: {
+    page: number;
+    size: number;
+    total: number;
+  };
+}
+
+export interface UpdateFacilityRequest {
+  id: string;
+  nameVi: string;
+  nameEn: string;
+  descriptionVi: string;
+  descriptionEn: string;
+  logoUrl?: string;
+  address: string;
+  phone: string;
+  email: string;
+  city: string;
+  type: number; 
+}
+
+export interface UpdateFacilityResponse {
+  codeMessage: string;
+  data: boolean;
+}
+
+export type SendNotificationRequest = {
+  appointmentId: string;
+  patientId: string;
+  titleVi: string;
+  titleEn: string;
+  contentVi: string;
+  contentEn: string;
+  type: number;
+  channel: number;
+};
