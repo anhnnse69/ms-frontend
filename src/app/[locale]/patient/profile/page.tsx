@@ -21,12 +21,15 @@ import { useAuth } from '@/hooks/useAuth';
 import { UpdateUserProfileRequest, UserProfile } from '@/types/patient';
 import { changePasswordRequestDto } from '@/types/auth';
 import { Alert } from '@/components/common/Alert';
+import { useTranslations } from 'next-intl';
 
 /**
  * Patient Profile Page Component
  * Page URL: /patient/profile (or /[locale]/patient/profile)
  */
 export default function PatientProfilePage() {
+  const tAuth = useTranslations('patient.auth');
+  const tProfile = useTranslations('patient.profile');
   // Fetch current profile
   const { profile, loading, error, refetch, isAuthenticated } = usePatientProfile();
   const { logout } = useAuth();
@@ -38,7 +41,7 @@ export default function PatientProfilePage() {
       onSuccess: () => {
         // Refetch profile after successful update
         refetch();
-        setGlobalMessage('Profile updated successfully!');
+        setGlobalMessage(tProfile('updateSuccess'));
         setGlobalMessageType('success');
       },
       onError: (error) => {
@@ -51,7 +54,7 @@ export default function PatientProfilePage() {
   const { changePassword: changePasswordFn, loading: changingPassword, error: passwordError, success: passwordSuccess, clearError: clearPasswordError, clearSuccess: clearPasswordSuccess } =
     useChangePassword({
       onSuccess: () => {
-        setGlobalMessage('Password changed successfully!');
+        setGlobalMessage(tProfile('passwordChangeSuccess'));
         setGlobalMessageType('success');
         setPasswordForm({
           CurrentPassword: '',
@@ -122,24 +125,24 @@ export default function PatientProfilePage() {
 
     // Validate form data
     if (!formData.displayName.trim()) {
-      setGlobalMessage('Display name is required');
+      setGlobalMessage(tProfile('displayNameRequired'));
       setGlobalMessageType('error');
       return;
     }
     if (!formData.fullName.trim()) {
-      setGlobalMessage('Full name is required');
+      setGlobalMessage(tProfile('fullNameRequired'));
       setGlobalMessageType('error');
       return;
     }
     if (!formData.phoneNumber.trim()) {
-      setGlobalMessage('Phone number is required');
+      setGlobalMessage(tProfile('phoneRequired'));
       setGlobalMessageType('error');
       return;
     }
 
     // Phone number validation (basic)
     if (!/^\d{10,15}$/.test(formData.phoneNumber.replace(/\D/g, ''))) {
-      setGlobalMessage('Please enter a valid phone number');
+      setGlobalMessage(tProfile('phoneInvalid'));
       setGlobalMessageType('error');
       return;
     }
@@ -166,7 +169,7 @@ export default function PatientProfilePage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading profile...</p>
+          <p className="text-gray-600">{tProfile('loading')}</p>
         </div>
       </div>
     );
@@ -177,13 +180,13 @@ export default function PatientProfilePage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Authentication Required</h1>
-          <p className="text-gray-600 mb-6">Please log in to view your profile.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">{tAuth('requiredTitle')}</h1>
+          <p className="text-gray-600 mb-6">{tAuth('profileMessage')}</p>
           <a
             href="/login"
             className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
           >
-            Go to Login
+            {tAuth('goToLogin')}
           </a>
         </div>
       </div>
@@ -195,13 +198,13 @@ export default function PatientProfilePage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Error</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">{tProfile('errorTitle')}</h1>
           <p className="text-red-600 mb-6">{error.message}</p>
           <button
             onClick={() => refetch()}
             className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
           >
-            Try Again
+            {tProfile('tryAgain')}
           </button>
         </div>
       </div>
@@ -219,32 +222,16 @@ export default function PatientProfilePage() {
         )}
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-          <p className="mt-2 text-gray-600">Manage your personal information</p>
+          <h1 className="text-3xl font-bold text-gray-900">{tProfile('title')}</h1>
+          <p className="mt-2 text-gray-600">{tProfile('subtitle')}</p>
         </div>
-
-        {/* Legacy inline notifications kept minimal; global Alert above handles main messaging */}
 
         {/* Profile Form */}
         <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-8 space-y-6">
-          {/* User ID (read-only) */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              User ID
-            </label>
-            <input
-              type="text"
-              value={profile?.id || ''}
-              disabled
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
-            />
-            <p className="mt-1 text-xs text-gray-500">Read-only field</p>
-          </div>
-
           {/* Email (read-only) */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email
+              {tProfile('emailLabel')}
             </label>
             <input
               type="email"
@@ -258,7 +245,7 @@ export default function PatientProfilePage() {
           {/* Display Name (editable) */}
           <div>
             <label htmlFor="displayName" className="block text-sm font-medium text-gray-700 mb-1">
-              Display Name *
+              {tProfile('displayNameLabel') ?? 'Display Name *'}
             </label>
             <input
               type="text"
@@ -276,7 +263,7 @@ export default function PatientProfilePage() {
           {/* Full Name (editable) */}
           <div>
             <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
-              Full Name *
+              {tProfile('fullNameLabel')}
             </label>
             <input
               type="text"
@@ -294,7 +281,7 @@ export default function PatientProfilePage() {
           {/* Phone Number (editable) */}
           <div>
             <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 mb-1">
-              Phone Number *
+              {tProfile('phoneLabel')}
             </label>
             <input
               type="tel"
@@ -313,7 +300,7 @@ export default function PatientProfilePage() {
           {/* Avatar URL (editable) */}
           <div>
             <label htmlFor="avatarUrl" className="block text-sm font-medium text-gray-700 mb-1">
-              Avatar URL
+              {tProfile('avatarUrlLabel')}
             </label>
             <input
               type="url"
@@ -323,15 +310,15 @@ export default function PatientProfilePage() {
               onChange={handleInputChange}
               disabled={updating}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:bg-gray-50 disabled:cursor-not-allowed"
-              placeholder="https://example.com/avatar.jpg"
+              placeholder={tProfile('avatarPlaceholder')}
             />
-            <p className="mt-1 text-xs text-gray-500">Leave blank for no avatar</p>
+            <p className="mt-1 text-xs text-gray-500">{tProfile('avatarHelp')}</p>
           </div>
 
           {/* Avatar Preview */}
           {formData.avatarUrl && (
             <div>
-              <p className="text-sm font-medium text-gray-700 mb-2">Avatar Preview</p>
+              <p className="text-sm font-medium text-gray-700 mb-2">{tProfile('avatarPreview')}</p>
               <img
                 src={formData.avatarUrl}
                 alt="Avatar preview"
@@ -340,7 +327,7 @@ export default function PatientProfilePage() {
                   (e.target as HTMLImageElement).style.display = 'none';
                 }}
               />
-              <p className="mt-2 text-xs text-gray-500">If the image doesn't load, check the URL</p>
+              <p className="mt-2 text-xs text-gray-500">{tProfile('avatarError')}</p>
             </div>
           )}
 
@@ -351,7 +338,7 @@ export default function PatientProfilePage() {
               disabled={updating}
               className="flex-1 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
             >
-              {updating ? 'Saving...' : 'Save Changes'}
+              {updating ? tProfile('saving') : tProfile('save')}
             </button>
             <button
               type="button"
@@ -368,19 +355,19 @@ export default function PatientProfilePage() {
               disabled={updating}
               className="flex-1 bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition disabled:cursor-not-allowed font-medium"
             >
-              Discard Changes
+              {tProfile('discard')}
             </button>
           </div>
         </form>
 
         {/* Password Change Form */}
         <div className="mt-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Change Password</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{tProfile('passwordSectionTitle')}</h2>
           <form onSubmit={handlePasswordSubmit} className="bg-white shadow rounded-lg p-8 space-y-6">
             {/* Success notification */}
             {passwordSuccess && (
               <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-green-700">Password changed successfully!</p>
+                <p className="text-green-700">{tProfile('passwordChangeSuccess')}</p>
               </div>
             )}
 
@@ -394,7 +381,7 @@ export default function PatientProfilePage() {
             {/* Current Password */}
             <div>
               <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                Current Password *
+                {tProfile('currentPasswordLabel')}
               </label>
               <div className="relative">
                 <input
@@ -412,7 +399,7 @@ export default function PatientProfilePage() {
                   type="button"
                   onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                  aria-label={showCurrentPassword ? "Hide password" : "Show password"}
+                  aria-label={showCurrentPassword ? tProfile('passwordHide') : tProfile('passwordShow')}
                 >
                   {showCurrentPassword ? (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -428,13 +415,13 @@ export default function PatientProfilePage() {
                   )}
                 </button>
               </div>
-              <p className="mt-1 text-xs text-gray-500">Enter your current password (minimum 8 characters)</p>
+              <p className="mt-1 text-xs text-gray-500">{tProfile('currentPasswordHelp')}</p>
             </div>
 
             {/* New Password */}
             <div>
               <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                New Password *
+                {tProfile('newPasswordLabel')}
               </label>
               <div className="relative">
                 <input
@@ -452,7 +439,7 @@ export default function PatientProfilePage() {
                   type="button"
                   onClick={() => setShowNewPassword(!showNewPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                  aria-label={showNewPassword ? "Hide password" : "Show password"}
+                  aria-label={showNewPassword ? tProfile('passwordHide') : tProfile('passwordShow')}
                 >
                   {showNewPassword ? (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -468,7 +455,7 @@ export default function PatientProfilePage() {
                   )}
                 </button>
               </div>
-              <p className="mt-1 text-xs text-gray-500">Enter a new password (minimum 8 characters, different from current)</p>
+              <p className="mt-1 text-xs text-gray-500">{tProfile('newPasswordHelp')}</p>
             </div>
 
             {/* Form Actions */}
@@ -478,7 +465,7 @@ export default function PatientProfilePage() {
                 disabled={changingPassword}
                 className="w-full bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
               >
-                {changingPassword ? 'Changing Password...' : 'Change Password'}
+                {changingPassword ? tProfile('passwordSubmitting') : tProfile('passwordSubmit')}
               </button>
             </div>
           </form>
@@ -486,12 +473,12 @@ export default function PatientProfilePage() {
 
         {/* Additional Info */}
         <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h3 className="text-sm font-medium text-blue-900 mb-2">ℹ️ About Your Profile</h3>
+          <h3 className="text-sm font-medium text-blue-900 mb-2">{tProfile('aboutTitle')}</h3>
           <ul className="text-sm text-blue-800 space-y-1">
-            <li>• User ID and Email are read-only and linked to your account</li>
-            <li>• Changes are saved immediately to the server</li>
-            <li>• Your profile is required to book medical appointments</li>
-            <li>• Doctors and facilities will only see your display name</li>
+            <li>{tProfile('aboutItem1')}</li>
+            <li>{tProfile('aboutItem2')}</li>
+            <li>{tProfile('aboutItem3')}</li>
+            <li>{tProfile('aboutItem4')}</li>
           </ul>
         </div>
       </div>

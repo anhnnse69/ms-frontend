@@ -16,6 +16,9 @@ export default function UsersPage() {
     const [pageSize, setPageSize] = useState(10);
     const [total, setTotal] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedUser, setSelectedUser] = useState<AdminUser | null>(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editUser, setEditUser] = useState<AdminUser | null>(null);
 
     useEffect(() => {
         if (!isAdmin || isLoading) return;
@@ -65,7 +68,7 @@ export default function UsersPage() {
         if (window.confirm(`Bạn chắc chắn muốn xóa người dùng ${user.displayName}?`)) {
             try {
                 await adminUsersApi.delete(user.id);
-                setUsers(users.filter((u) => u.id !== user.id));
+                setUsers((prev) => prev.filter((u) => u.id !== user.id));
                 alert('Xóa người dùng thành công');
             } catch (error) {
                 console.error('Failed to delete user:', error);
@@ -108,26 +111,6 @@ export default function UsersPage() {
                 </Badge>
             ),
         },
-        {
-            key: 'actions' as any,
-            label: 'Hành động',
-            render: (_: any, row: AdminUser) => (
-                <div className="flex space-x-2">
-                    <Link
-                        href={`/admin/users/${row.id}/edit`}
-                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                    >
-                        Sửa
-                    </Link>
-                    <button
-                        onClick={() => handleDelete(row)}
-                        className="text-red-600 hover:text-red-800 text-sm font-medium"
-                    >
-                        Xóa
-                    </button>
-                </div>
-            ),
-        },
     ];
 
     return (
@@ -167,11 +150,121 @@ export default function UsersPage() {
                         columns={tableColumns}
                         data={users}
                         isLoading={usersLoading}
-                        onEdit={(user) => (window.location.href = `/admin/users/${user.id}`)}
+                        onEdit={(user) => {
+                            setSelectedUser(user);
+                            setEditUser(user);
+                            setShowEditModal(true);
+                        }}
                         onDelete={handleDelete}
                         emptyMessage="Không có người dùng nào"
                     />
                 </div>
+
+                {showEditModal && selectedUser && (
+                    <div
+						className="fixed inset-0 m-0 bg-gray-500/40 backdrop-blur-sm flex items-center justify-center z-50"
+                        onClick={() => {
+                            setShowEditModal(false);
+                            setSelectedUser(null);
+                            setEditUser(null);
+                        }}
+                    >
+                        <div
+                            className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <h3 className="text-xl font-bold mb-4">Chỉnh sửa người dùng</h3>
+
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Tên hiển thị</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={editUser?.displayName ?? ''}
+                                        onChange={(e) =>
+                                            setEditUser((prev) =>
+                                                prev ? { ...prev, displayName: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <input
+                                        type="email"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={editUser?.email ?? ''}
+                                        onChange={(e) =>
+                                            setEditUser((prev) =>
+                                                prev ? { ...prev, email: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Tên đăng nhập</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={editUser?.username ?? ''}
+                                        onChange={(e) =>
+                                            setEditUser((prev) =>
+                                                prev ? { ...prev, username: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="flex justify-end gap-3 mt-6">
+                                <button
+                                    type="button"
+                                    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm font-medium"
+                                    onClick={() => {
+                                        setShowEditModal(false);
+                                        setSelectedUser(null);
+                                        setEditUser(null);
+                                    }}
+                                >
+                                    Hủy
+                                </button>
+                                <button
+                                    type="button"
+                                    className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 text-sm font-medium"
+                                    onClick={async () => {
+                                        if (!selectedUser || !editUser) return;
+                                        try {
+                                            setUsersLoading(true);
+                                            await adminUsersApi.update(selectedUser.id, {
+                                                DisplayName: editUser.displayName,
+                                                Email: editUser.email,
+                                                Username: editUser.username,
+                                            } as any);
+
+                                            setUsers((prev) =>
+                                                prev.map((u) =>
+                                                    u.id === selectedUser.id ? { ...u, ...editUser } : u
+                                                )
+                                            );
+
+                                            setShowEditModal(false);
+                                            setSelectedUser(null);
+                                            setEditUser(null);
+                                        } catch (error) {
+                                            console.error('Failed to update user:', error);
+                                            alert('Lỗi khi cập nhật người dùng');
+                                        } finally {
+                                            setUsersLoading(false);
+                                        }
+                                    }}
+                                >
+                                    Lưu thay đổi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Pagination */}
                 <div className="flex items-center justify-between bg-white rounded-lg shadow-sm p-4">

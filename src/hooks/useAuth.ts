@@ -9,6 +9,9 @@ export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
 
+  const normalizeRole = (role?: string) =>
+    role?.toString().trim().toLowerCase() || '';
+
   useEffect(() => {
     const checkAuth = async () => {
       if (typeof window !== 'undefined') {
@@ -19,7 +22,7 @@ export const useAuth = () => {
           let parsedUser = JSON.parse(storedUser);
 
           // Nếu là Patient, fetch full profile để có patientId, displayName, avatarUrl
-          if (parsedUser.role === 'Patient') {
+          if (normalizeRole(parsedUser.role) === 'patient') {
             try {
               const fullProfile = await getUserProfile(); // ✅ đúng API
               parsedUser = { ...parsedUser, ...fullProfile }; // merge profile
@@ -34,7 +37,7 @@ export const useAuth = () => {
               }
             }
           }
-          if (parsedUser.role === 'Manager') {
+          if (normalizeRole(parsedUser.role) === 'manager') {
             try {
               const profile = await getUserProfile();
 
@@ -52,7 +55,7 @@ export const useAuth = () => {
           }
 
           setUser(parsedUser);
-          setIsAdmin(parsedUser.role === 'ITAdmin');
+          setIsAdmin(normalizeRole(parsedUser.role) === 'itadmin');
         } else {
           setUser(null);
           setIsAdmin(false);
@@ -76,7 +79,7 @@ export const useAuth = () => {
               const merged = { ...parsed, ...customEvent.detail };
               localStorage.setItem('user', JSON.stringify(merged));
               setUser(merged);
-              setIsAdmin(merged.role === 'ITAdmin');
+              setIsAdmin(normalizeRole(merged.role) === 'itadmin');
               return;
             } catch {}
           }
@@ -129,10 +132,10 @@ export const useManagerCheck = () => {
             const parsedUser: CurrentUser = JSON.parse(storedUser);
 
             const normalizeRole = (role?: string) =>
-                role?.toString().trim().toLowerCase() || '';
+              role?.toString().trim().toLowerCase() || '';
 
             setUser(parsedUser);
-            setIsManager(normalizeRole(parsedUser.role) === 'Manager');
+            setIsManager(normalizeRole(parsedUser.role) === 'manager');
             setIsLoading(false);
         };
 
@@ -155,7 +158,7 @@ export const useManagerCheck = () => {
         hasManagerAccess:
             !isLoading &&
             isManager &&
-            user?.role?.toLowerCase() === 'Manager',
+              user?.role?.toLowerCase() === 'manager',
     };
 };
 export const useDoctorCheck = () => {
@@ -180,10 +183,10 @@ export const useDoctorCheck = () => {
             const parsedUser: CurrentUser = JSON.parse(storedUser);
 
             const normalizeRole = (role?: string) =>
-                role?.toString().trim().toLowerCase() || '';
+              role?.toString().trim().toLowerCase() || '';
 
             setUser(parsedUser);
-            setIsDoctor(normalizeRole(parsedUser.role) === 'Doctor');
+            setIsDoctor(normalizeRole(parsedUser.role) === 'doctor');
             setIsLoading(false);
         };
 
@@ -206,7 +209,7 @@ export const useDoctorCheck = () => {
         hasDoctorAccess:
             !isLoading &&
             isDoctor &&
-            user?.role?.toLowerCase() === 'Doctor',
+              user?.role?.toLowerCase() === 'doctor',
     };
 };
 

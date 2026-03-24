@@ -41,13 +41,13 @@ export const apiClient = () => {
         }
     );
 
-    // Add response interceptor to extract data from axios response
+    // Add response interceptor mainly for logging; keep full axios response
     instance.interceptors.response.use(
         (response) => {
             // Log the raw response for debugging
             console.log('Raw axios response:', response);
-            // Return the actual data from the response
-            return response.data;
+            // Return full axios response so callers can access .data, .status, etc.
+            return response;
         },
         (error) => {
             console.error('API Error:', error);

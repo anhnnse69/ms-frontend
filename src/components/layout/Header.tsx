@@ -37,8 +37,8 @@ function VinmecLogo() {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="https://www.vinmec.com/static/uploads/Logo_Vinmec_System_c725c14ffd.png"
-      alt="Vinmec International Hospital System"
+      src="/medix_logo.jpg"
+      alt="Medix System"
       className="h-14 w-auto"
     />
   );
@@ -52,6 +52,9 @@ export function Header() {
   const [searchVal, setSearchVal] = useState("");
   const { user, isLoading, isAdmin, logout } = useAuth();
   const pathname = usePathname();
+
+  const normalizeRole = (role?: string) =>
+    role?.toString().trim().toLowerCase() || "";
 
   const displayUser = user; // Avoid triggering profile fetch in header, use useAuth storage state.
   const getDisplayName = () => {
@@ -177,7 +180,7 @@ export function Header() {
                     </Link>
                   )}
 
-                  {!isAdmin && user?.role === "Manager" && (
+                  {!isAdmin && normalizeRole(user?.role) === "manager" && (
                     <Link
                       href={`/${locale}/manager`}
                       className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
@@ -186,7 +189,7 @@ export function Header() {
                     </Link>
                   )}
 
-                  {!isAdmin && user?.role === "Doctor" && (
+                  {!isAdmin && normalizeRole(user?.role) === "doctor" && (
                     <Link
                       href={`/${locale}/doctor`}
                       className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
@@ -195,7 +198,7 @@ export function Header() {
                     </Link>
                   )}
 
-                  {!isAdmin && user?.role === "Patient" && (
+                  {!isAdmin && normalizeRole(user?.role) === "patient" && (
                     <>
                       <Link
                         href={`/${locale}/patient/profile`}

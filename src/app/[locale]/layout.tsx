@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   description:
     "Hệ thống bệnh viện Vinmec – chăm sóc sức khỏe đẳng cấp quốc tế với đội ngũ chuyên gia hàng đầu và trang thiết bị hiện đại nhất.",
   icons: {
-    icon: "/vinmec-logo.png",
+    icon: "/medix_logo.jpg",
     shortcut: "https://www.vinmec.com/static/uploads/Logo_Vinmec_System_c725c14ffd.png",
     apple: "https://www.vinmec.com/static/uploads/Logo_Vinmec_System_c725c14ffd.png",
   },

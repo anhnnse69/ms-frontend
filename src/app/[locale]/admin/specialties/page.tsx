@@ -16,6 +16,26 @@ export default function SpecialtiesPage() {
     const [pageSize, setPageSize] = useState(10);
     const [total, setTotal] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedSpecialty, setSelectedSpecialty] = useState<Specialty | null>(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editSpecialty, setEditSpecialty] = useState<Specialty | null>(null);
+
+    const handleDelete = async (specialty: Specialty) => {
+        if (!specialty.id) {
+            alert('Không tìm thấy ID chuyên khoa');
+            return;
+        }
+        if (window.confirm(`Bạn chắc chắn muốn xóa chuyên khoa ${specialty.nameVi}?`)) {
+            try {
+                await adminSpecialtiesApi.delete(specialty.id);
+                setSpecialties((prev) => prev.filter((s) => s.id !== specialty.id));
+                alert('Xóa chuyên khoa thành công');
+            } catch (error) {
+                console.error('Failed to delete specialty:', error);
+                alert('Lỗi khi xóa chuyên khoa');
+            }
+        }
+    };
 
     useEffect(() => {
         if (!isAdmin || isLoading) return;
@@ -55,18 +75,6 @@ export default function SpecialtiesPage() {
         const timer = setTimeout(() => fetchSpecialties(), 500);
         return () => clearTimeout(timer);
     }, [isAdmin, isLoading, page, pageSize, searchTerm]);
-
-    const handleDelete = async (specialty: Specialty) => {
-        if (window.confirm(`Bạn chắc chắn muốn xóa chuyên khoa ${specialty.nameVi}?`)) {
-            try {
-                await adminSpecialtiesApi.delete(specialty.id!);
-                setSpecialties(specialties.filter((s) => s.id !== specialty.id));
-                alert('Xóa chuyên khoa thành công');
-            } catch (error) {
-                alert('Lỗi khi xóa chuyên khoa');
-            }
-        }
-    };
 
     if (isLoading) {
         return (
@@ -129,7 +137,11 @@ export default function SpecialtiesPage() {
                         columns={tableColumns}
                         data={specialties}
                         isLoading={specialtiesLoading}
-                        onEdit={(specialty) => (window.location.href = `/admin/specialties/${specialty.id}`)}
+                        onEdit={(specialty) => {
+                            setSelectedSpecialty(specialty);
+                            setEditSpecialty(specialty);
+                            setShowEditModal(true);
+                        }}
                         onDelete={handleDelete}
                         emptyMessage="Không có chuyên khoa nào"
                     />
@@ -157,6 +169,136 @@ export default function SpecialtiesPage() {
                         </button>
                     </div>
                 </div>
+
+                {showEditModal && selectedSpecialty && (
+                    <div
+						className="fixed inset-0 m-0 bg-gray-500/40 backdrop-blur-sm flex items-center justify-center z-50"
+                        onClick={() => {
+                            setShowEditModal(false);
+                            setSelectedSpecialty(null);
+                            setEditSpecialty(null);
+                        }}
+                    >
+                        <div
+                            className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <h3 className="text-xl font-bold mb-4">Chỉnh sửa chuyên khoa</h3>
+
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Tên (VI)</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                        value={editSpecialty?.nameVi ?? ''}
+                                        onChange={(e) =>
+                                            setEditSpecialty((prev) =>
+                                                prev ? { ...prev, nameVi: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Tên (EN)</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                        value={editSpecialty?.nameEn ?? ''}
+                                        onChange={(e) =>
+                                            setEditSpecialty((prev) =>
+                                                prev ? { ...prev, nameEn: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Mô tả (VI)</label>
+                                    <textarea
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                        rows={3}
+                                        value={editSpecialty?.descriptionVi ?? ''}
+                                        onChange={(e) =>
+                                            setEditSpecialty((prev) =>
+                                                prev
+                                                    ? { ...prev, descriptionVi: e.target.value }
+                                                    : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Mô tả (EN)</label>
+                                    <textarea
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                        rows={3}
+                                        value={editSpecialty?.descriptionEn ?? ''}
+                                        onChange={(e) =>
+                                            setEditSpecialty((prev) =>
+                                                prev
+                                                    ? { ...prev, descriptionEn: e.target.value }
+                                                    : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="flex justify-end gap-3 mt-6">
+                                <button
+                                    type="button"
+                                    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm font-medium"
+                                    onClick={() => {
+                                        setShowEditModal(false);
+                                        setSelectedSpecialty(null);
+                                        setEditSpecialty(null);
+                                    }}
+                                >
+                                    Hủy
+                                </button>
+                                <button
+                                    type="button"
+                                    className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 text-sm font-medium"
+                                    onClick={async () => {
+                                        if (!selectedSpecialty || !editSpecialty) return;
+                                        if (!selectedSpecialty.id) {
+                                            alert('Không tìm thấy ID chuyên khoa');
+                                            return;
+                                        }
+                                        try {
+                                            setSpecialtiesLoading(true);
+                                            await adminSpecialtiesApi.update(selectedSpecialty.id, {
+                                                NameVi: editSpecialty.nameVi,
+                                                NameEn: editSpecialty.nameEn,
+                                                DescriptionVi: editSpecialty.descriptionVi,
+                                                DescriptionEn: editSpecialty.descriptionEn,
+                                            } as any);
+
+                                            setSpecialties((prev) =>
+                                                prev.map((s) =>
+                                                    s.id === selectedSpecialty.id
+                                                        ? { ...s, ...editSpecialty }
+                                                        : s
+                                                )
+                                            );
+
+                                            setShowEditModal(false);
+                                            setSelectedSpecialty(null);
+                                            setEditSpecialty(null);
+                                        } catch (error) {
+                                            console.error('Failed to update specialty:', error);
+                                            alert('Lỗi khi cập nhật chuyên khoa');
+                                        } finally {
+                                            setSpecialtiesLoading(false);
+                                        }
+                                    }}
+                                >
+                                    Lưu thay đổi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </AdminLayout>
     );
