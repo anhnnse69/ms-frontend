@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileHUD } from "@/components/layout/MobileHUD";
 import { PageContainer } from "@/components/layout/PageContainer";
+import { WeatherChatWrapper } from "@/components/common/WeatherChatWrapper";
 import "@/app/globals.css";
 
 const geistSans = Geist({
@@ -54,6 +55,7 @@ export default async function LocaleLayout({
           <PageContainer>{children}</PageContainer>
           <Footer />
           <MobileHUD />
+          <WeatherChatWrapper />
         </NextIntlClientProvider>
       </body>
     </html>
