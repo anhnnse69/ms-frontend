@@ -136,3 +136,54 @@ export const useManagerCheck = () => {
             user?.role?.toLowerCase() === 'Manager',
     };
 };
+export const useDoctorCheck = () => {
+    const [user, setUser] = useState<CurrentUser | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isDoctor, setIsDoctor] = useState(false);
+
+    useEffect(() => {
+        const checkAuth = () => {
+            if (typeof window === 'undefined') return;
+
+            const storedUser = localStorage.getItem('user');
+            const token = localStorage.getItem('accessToken');
+
+            if (!storedUser || !token) {
+                setUser(null);
+                setIsDoctor(false);
+                setIsLoading(false);
+                return;
+            }
+
+            const parsedUser: CurrentUser = JSON.parse(storedUser);
+
+            const normalizeRole = (role?: string) =>
+                role?.toString().trim().toLowerCase() || '';
+
+            setUser(parsedUser);
+            setIsDoctor(normalizeRole(parsedUser.role) === 'Doctor');
+            setIsLoading(false);
+        };
+
+        checkAuth();
+
+        const handleAuthChanged = () => {
+            checkAuth();
+        };
+
+        window.addEventListener('auth-changed', handleAuthChanged);
+        return () => {
+            window.removeEventListener('auth-changed', handleAuthChanged);
+        };
+    }, []);
+
+    return {
+        user,
+        isLoading,
+        isDoctor,
+        hasDoctorAccess:
+            !isLoading &&
+            isDoctor &&
+            user?.role?.toLowerCase() === 'Doctor',
+    };
+};
