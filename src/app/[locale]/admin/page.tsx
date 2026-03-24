@@ -48,10 +48,10 @@ export default function AdminDashboard() {
                 ]);
 
                 setStats({
-                    totalUsers: usersRes.data?.totalCount || 0,
-                    totalDoctors: doctorsRes.data?.totalCount || 0,
-                    totalFacilities: facilitiesRes.data?.totalCount || 0,
-                    totalSpecialties: specialtiesRes.data?.totalCount || 0,
+                    totalUsers: usersRes.meta?.totalCount || 0,
+                    totalDoctors: doctorsRes.meta?.totalCount || 0,
+                    totalFacilities: facilitiesRes.meta?.totalCount || 0,
+                    totalSpecialties: specialtiesRes.meta?.totalCount || 0,
                 });
             } catch (error) {
                 console.error('Failed to fetch stats:', error);

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import AdminLayout from '@/components/layout/AdminLayout';
 import { adminFacilitiesApi } from '@/services/api/adminApi';
 import { useAdminCheck } from '@/hooks/useAuth';
+import { CreateFacilityRequest, FacilityType, ApiResponse } from '@/types/admin';
 
 interface FormErrors {
     [key: string]: string;
@@ -12,16 +13,17 @@ interface FormErrors {
 
 export default function CreateFacilityPage() {
     const { isAdmin, isLoading } = useAdminCheck();
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<CreateFacilityRequest>({
         nameVi: '',
         nameEn: '',
+        descriptionVi: '',
+        descriptionEn: '',
+        logoUrl: '',
         address: '',
         phone: '',
         email: '',
         city: '',
-        type: '',
-        status: 'Active',
-        logo: '',
+        type: FacilityType.Hospital,
     });
     const [errors, setErrors] = useState<FormErrors>({});
     const [submitting, setSubmitting] = useState(false);
@@ -35,7 +37,6 @@ export default function CreateFacilityPage() {
         if (!formData.email.trim()) newErrors.email = 'Email không được để trống';
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'Email không hợp lệ';
         if (!formData.city.trim()) newErrors.city = 'Thành phố không được để trống';
-        if (!formData.type.trim()) newErrors.type = 'Loại cơ sở không được để trống';
         return newErrors;
     };
 
@@ -49,11 +50,33 @@ export default function CreateFacilityPage() {
 
         try {
             setSubmitting(true);
-            await adminFacilitiesApi.create(formData);
-            alert('Tạo cơ sở thành công');
-            window.location.href = '/admin/facilities';
+            
+            // Convert to PascalCase for backend
+            const pascalCaseRequest = {
+                NameVi: formData.nameVi,
+                NameEn: formData.nameEn,
+                DescriptionVi: formData.descriptionVi,
+                DescriptionEn: formData.descriptionEn,
+                LogoUrl: formData.logoUrl || "", // Send empty string instead of null
+                Address: formData.address,
+                Phone: formData.phone,
+                Email: formData.email,
+                City: formData.city,
+                Type: formData.type
+            };
+            
+            const response = await adminFacilitiesApi.create(pascalCaseRequest);
+            console.log('Create Facility Response:', response);
+            
+            if (response.codeMessage === "APP_MESSAGE_2000") {
+                alert('Tạo cơ sở y tế thành công');
+                window.location.href = '/admin/facilities';
+            } else {
+                alert(`Lỗi: ${response.codeMessage || 'Không thể tạo cơ sở y tế'}`);
+            }
         } catch (error: any) {
-            alert(`Lỗi: ${error.response?.data?.message || 'Không thể tạo cơ sở'}`);
+            console.error('Create facility error:', error);
+            alert(`Lỗi: ${error.response?.data?.message || error.message || 'Không thể tạo cơ sở y tế'}`);
         } finally {
             setSubmitting(false);
         }
@@ -136,14 +159,16 @@ export default function CreateFacilityPage() {
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Loại cơ sở</label>
-                            <input
-                                type="text"
+                            <select
                                 value={formData.type}
-                                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${errors.type ? 'border-red-500' : 'border-gray-300 focus:ring-blue-500'
-                                    }`}
-                            />
-                            {errors.type && <p className="text-red-500 text-xs mt-1">{errors.type}</p>}
+                                onChange={(e) => setFormData({ ...formData, type: parseInt(e.target.value) as FacilityType })}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                <option value={FacilityType.Hospital}>Bệnh viện</option>
+                                <option value={FacilityType.Clinic}>Phòng khám</option>
+                                <option value={FacilityType.DiagnosticCenter}>Trung tâm chẩn đoán</option>
+                                <option value={FacilityType.VaccinationCenter}>Trung tâm tiêm chủng</option>
+                            </select>
                         </div>
 
                         <div>
@@ -169,6 +194,42 @@ export default function CreateFacilityPage() {
                             />
                             {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                         </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Mô tả (Tiếng Việt)</label>
+                            <textarea
+                                rows={3}
+                                value={formData.descriptionVi}
+                                onChange={(e) => setFormData({ ...formData, descriptionVi: e.target.value })}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Mô tả về cơ sở y tế..."
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Mô tả (Tiếng Anh)</label>
+                            <textarea
+                                rows={3}
+                                value={formData.descriptionEn}
+                                onChange={(e) => setFormData({ ...formData, descriptionEn: e.target.value })}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Facility description..."
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Logo URL</label>
+                        <input
+                            type="url"
+                            value={formData.logoUrl}
+                            onChange={(e) => setFormData({ ...formData, logoUrl: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="https://..."
+                        />
+                        <p className="text-sm text-gray-500 mt-1">URL của logo cơ sở y tế (không bắt buộc)</p>
                     </div>
 
                     <div className="flex gap-4 pt-4 border-t border-gray-200">

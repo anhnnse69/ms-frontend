@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import AdminLayout from '@/components/layout/AdminLayout';
 import { DataTable, Badge } from '@/components/ui/AdminDataTable';
 import { adminSpecialtiesApi } from '@/services/api/adminApi';
-import { Specialty, PaginatedResponse, ApiResponse } from '@/types/admin';
+import { Specialty, ApiResponse } from '@/types/admin';
 import Link from 'next/link';
 import { useAdminCheck } from '@/hooks/useAuth';
 
@@ -23,15 +23,27 @@ export default function SpecialtiesPage() {
         const fetchSpecialties = async () => {
             try {
                 setSpecialtiesLoading(true);
-                const response: ApiResponse<PaginatedResponse<Specialty>> = await adminSpecialtiesApi.getAll(page, pageSize);
-                if (response.isSuccess && response.data) {
-                    const filteredSpecialties = response.data.items.filter(
+                const response: ApiResponse<Specialty[]> = await adminSpecialtiesApi.getAll(page, pageSize);
+                console.log('Specialties API Response:', response);
+                console.log('Is success:', response.isSuccess);
+                console.log('Response data:', response.data);
+                console.log('Full response object:', JSON.stringify(response, null, 2));
+
+                const isSuccess = response.isSuccess || response.codeMessage === "APP_MESSAGE_2000";
+
+                if (isSuccess && response.data) {
+                    console.log('Specialties data:', response.data);
+                    console.log('Response meta:', response.meta);
+
+                    const filteredSpecialties = response.data.filter(
                         (specialty) =>
                             specialty.nameVi.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             specialty.nameEn.toLowerCase().includes(searchTerm.toLowerCase())
                     );
                     setSpecialties(filteredSpecialties);
-                    setTotal(response.data.totalCount);
+                    setTotal(response.meta?.totalCount || response.meta?.total || 0);
+                } else {
+                    console.log('Response not successful or no data. isSuccess:', response.isSuccess, 'codeMessage:', response.codeMessage, 'data:', response.data);
                 }
             } catch (error) {
                 console.error('Failed to fetch specialties:', error);

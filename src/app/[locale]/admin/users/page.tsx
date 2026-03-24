@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import AdminLayout from '@/components/layout/AdminLayout';
 import { DataTable, Badge } from '@/components/ui/AdminDataTable';
 import { adminUsersApi } from '@/services/api/adminApi';
-import { AdminUser, PaginatedResponse, ApiResponse } from '@/types/admin';
+import { AdminUser, ApiResponse } from '@/types/admin';
 import Link from 'next/link';
 import { useAdminCheck } from '@/hooks/useAuth';
 
@@ -23,16 +23,32 @@ export default function UsersPage() {
         const fetchUsers = async () => {
             try {
                 setUsersLoading(true);
-                const response: ApiResponse<PaginatedResponse<AdminUser>> = await adminUsersApi.getAll(page, pageSize);
-                if (response.isSuccess && response.data) {
-                    const filteredUsers = response.data.items.filter(
+                const response: ApiResponse<AdminUser[]> = await adminUsersApi.getAll(page, pageSize);
+                console.log('Users API Response:', response);
+                console.log('Is success:', response.isSuccess);
+                console.log('Response data:', response.data);
+                console.log('Full response object:', JSON.stringify(response, null, 2));
+
+                const isSuccess = response.isSuccess || response.codeMessage === "APP_MESSAGE_2000";
+
+                if (isSuccess && response.data) {
+                    console.log('Users data:', response.data);
+                    console.log('Response meta:', response.meta);
+
+                    const usersWithId = response.data.map(user => ({
+                        ...user,
+                        id: user.id || (user as any).Id
+                    }));
+
+                    const filteredUsers = usersWithId.filter(
                         (user) =>
                             user.displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            user.username.toLowerCase().includes(searchTerm.toLowerCase())
+                            user.email.toLowerCase().includes(searchTerm.toLowerCase())
                     );
                     setUsers(filteredUsers);
-                    setTotal(response.data.totalCount);
+                    setTotal(response.meta?.totalCount || response.meta?.total || 0);
+                } else {
+                    console.log('Response not successful or no data. isSuccess:', response.isSuccess, 'codeMessage:', response.codeMessage, 'data:', response.data);
                 }
             } catch (error) {
                 console.error('Failed to fetch users:', error);
@@ -71,11 +87,11 @@ export default function UsersPage() {
     if (!isAdmin) return null;
 
     const tableColumns = [
-        { key: 'displayName' as const, label: 'Tên hiển thị' },
-        { key: 'email' as const, label: 'Email' },
-        { key: 'username' as const, label: 'Tên đăng nhập' },
+        { key: 'displayName' as keyof AdminUser, label: 'Tên hiển thị' },
+        { key: 'email' as keyof AdminUser, label: 'Email' },
+        { key: 'username' as keyof AdminUser, label: 'Tên đăng nhập' },
         {
-            key: 'role' as const,
+            key: 'role' as keyof AdminUser,
             label: 'Vai trò',
             render: (value: string) => (
                 <Badge variant={value === 'ITAdmin' ? 'danger' : 'info'}>
@@ -84,12 +100,32 @@ export default function UsersPage() {
             ),
         },
         {
-            key: 'isDeleted' as const,
+            key: 'isDeleted' as keyof AdminUser,
             label: 'Trạng thái',
             render: (value: boolean) => (
                 <Badge variant={value ? 'danger' : 'success'}>
                     {value ? 'Đã xóa' : 'Hoạt động'}
                 </Badge>
+            ),
+        },
+        {
+            key: 'actions' as any,
+            label: 'Hành động',
+            render: (_: any, row: AdminUser) => (
+                <div className="flex space-x-2">
+                    <Link
+                        href={`/admin/users/${row.id}/edit`}
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    >
+                        Sửa
+                    </Link>
+                    <button
+                        onClick={() => handleDelete(row)}
+                        className="text-red-600 hover:text-red-800 text-sm font-medium"
+                    >
+                        Xóa
+                    </button>
+                </div>
             ),
         },
     ];

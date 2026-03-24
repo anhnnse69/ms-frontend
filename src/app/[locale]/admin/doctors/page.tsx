@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import AdminLayout from '@/components/layout/AdminLayout';
 import { DataTable, Badge } from '@/components/ui/AdminDataTable';
 import { adminDoctorsApi } from '@/services/api/adminApi';
-import { Doctor, PaginatedResponse, ApiResponse } from '@/types/admin';
+import { Doctor, ApiResponse } from '@/types/admin';
 import Link from 'next/link';
 import { useAdminCheck } from '@/hooks/useAuth';
 
@@ -23,16 +23,35 @@ export default function DoctorsPage() {
         const fetchDoctors = async () => {
             try {
                 setDoctorsLoading(true);
-                const response: ApiResponse<PaginatedResponse<Doctor>> = await adminDoctorsApi.getAll(page, pageSize);
-                if (response.isSuccess && response.data) {
-                    const filteredDoctors = response.data.items.filter(
+                const response: ApiResponse<Doctor[]> = await adminDoctorsApi.getAll(page, pageSize);
+                console.log('Doctors API Response:', response);
+                console.log('Is success:', response.isSuccess);
+                console.log('Response data:', response.data);
+                console.log('Full response object:', JSON.stringify(response, null, 2));
+                
+                // Check for different success indicators
+                const isSuccess = response.isSuccess || response.codeMessage === "APP_MESSAGE_2000";
+                
+                if (isSuccess && response.data) {
+                    console.log('Users data:', response.data);
+                    console.log('Response meta:', response.meta);
+                    
+                    // Handle both id and Id fields from backend
+                    const doctorsWithId = response.data.map(doctor => ({
+                        ...doctor,
+                        id: doctor.id || (doctor as any).Id
+                    }));
+                    
+                    const filteredDoctors = doctorsWithId.filter(
                         (doctor) =>
                             doctor.displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             doctor.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             doctor.specialty.toLowerCase().includes(searchTerm.toLowerCase())
                     );
                     setDoctors(filteredDoctors);
-                    setTotal(response.data.totalCount);
+                    setTotal(response.meta?.totalCount || response.meta?.total || 0);
+                } else {
+                    console.log('Response not successful or no data. isSuccess:', response.isSuccess, 'codeMessage:', response.codeMessage, 'data:', response.data);
                 }
             } catch (error) {
                 console.error('Failed to fetch doctors:', error);
@@ -71,12 +90,12 @@ export default function DoctorsPage() {
     if (!isAdmin) return null;
 
     const tableColumns = [
-        { key: 'displayName' as const, label: 'Tên hiển thị' },
-        { key: 'email' as const, label: 'Email' },
-        { key: 'specialty' as const, label: 'Chuyên khoa' },
-        { key: 'yearsOfExperience' as const, label: 'Kinh nghiệm (năm)' },
+        { key: 'displayName' as keyof Doctor, label: 'Tên hiển thị' },
+        { key: 'email' as keyof Doctor, label: 'Email' },
+        { key: 'specialty' as keyof Doctor, label: 'Chuyên khoa' },
+        { key: 'yearsOfExperience' as keyof Doctor, label: 'Kinh nghiệm (năm)' },
         {
-            key: 'averageRating' as const,
+            key: 'averageRating' as keyof Doctor,
             label: 'Xếp hạng',
             render: (value: number, item: Doctor) => (
                 <span>
@@ -85,12 +104,32 @@ export default function DoctorsPage() {
             ),
         },
         {
-            key: 'isDeleted' as const,
+            key: 'isDeleted' as keyof Doctor,
             label: 'Trạng thái',
             render: (value: boolean) => (
                 <Badge variant={value ? 'danger' : 'success'}>
                     {value ? 'Đã xóa' : 'Hoạt động'}
                 </Badge>
+            ),
+        },
+        {
+            key: 'actions' as any,
+            label: 'Hành động',
+            render: (_: any, row: Doctor) => (
+                <div className="flex space-x-2">
+                    <Link
+                        href={`/admin/doctors/${row.id}/edit`}
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    >
+                        Sửa
+                    </Link>
+                    <button
+                        onClick={() => handleDelete(row)}
+                        className="text-red-600 hover:text-red-800 text-sm font-medium"
+                    >
+                        Xóa
+                    </button>
+                </div>
             ),
         },
     ];

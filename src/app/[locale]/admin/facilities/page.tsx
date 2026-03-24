@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import AdminLayout from '@/components/layout/AdminLayout';
 import { DataTable, Badge } from '@/components/ui/AdminDataTable';
 import { adminFacilitiesApi } from '@/services/api/adminApi';
-import { Facility, PaginatedResponse, ApiResponse } from '@/types/admin';
+import { Facility, ApiResponse } from '@/types/admin';
 import Link from 'next/link';
 import { useAdminCheck } from '@/hooks/useAuth';
 
@@ -23,16 +23,28 @@ export default function FacilitiesPage() {
         const fetchFacilities = async () => {
             try {
                 setFacilitiesLoading(true);
-                const response: ApiResponse<PaginatedResponse<Facility>> = await adminFacilitiesApi.getAll(page, pageSize);
-                if (response.isSuccess && response.data) {
-                    const filteredFacilities = response.data.items.filter(
+                const response: ApiResponse<Facility[]> = await adminFacilitiesApi.getAll(page, pageSize);
+                console.log('Facilities API Response:', response);
+                console.log('Is success:', response.isSuccess);
+                console.log('Response data:', response.data);
+                console.log('Full response object:', JSON.stringify(response, null, 2));
+
+                const isSuccess = response.isSuccess || response.codeMessage === "APP_MESSAGE_2000";
+
+                if (isSuccess && response.data) {
+                    console.log('Facilities data:', response.data);
+                    console.log('Response meta:', response.meta);
+
+                    const filteredFacilities = response.data.filter(
                         (facility) =>
                             facility.nameVi.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             facility.nameEn.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             facility.address.toLowerCase().includes(searchTerm.toLowerCase())
                     );
                     setFacilities(filteredFacilities);
-                    setTotal(response.data.totalCount);
+                    setTotal(response.meta?.totalCount || response.meta?.total || 0);
+                } else {
+                    console.log('Response not successful or no data. isSuccess:', response.isSuccess, 'codeMessage:', response.codeMessage, 'data:', response.data);
                 }
             } catch (error) {
                 console.error('Failed to fetch facilities:', error);
@@ -70,17 +82,20 @@ export default function FacilitiesPage() {
     if (!isAdmin) return null;
 
     const tableColumns = [
-        { key: 'nameVi' as const, label: 'Tên (VI)' },
-        { key: 'address' as const, label: 'Địa chỉ' },
-        { key: 'city' as const, label: 'Thành phố' },
-        { key: 'type' as const, label: 'Loại' },
-        { key: 'phone' as const, label: 'Điện thoại' },
+        { key: 'nameVi' as keyof Facility, label: 'Tên tiếng Việt' },
+        { key: 'nameEn' as keyof Facility, label: 'Tên tiếng Anh' },
+        { key: 'address' as keyof Facility, label: 'Địa chỉ' },
+        { key: 'phone' as keyof Facility, label: 'Điện thoại' },
+        { key: 'email' as keyof Facility, label: 'Email' },
+        { key: 'city' as keyof Facility, label: 'Thành phố' },
         {
-            key: 'isDeleted' as const,
-            label: 'Trạng thái',
-            render: (value: boolean) => (
-                <Badge variant={value ? 'danger' : 'success'}>
-                    {value ? 'Đã xóa' : 'Hoạt động'}
+            key: 'type' as keyof Facility,
+            label: 'Loại',
+            render: (value: string) => (
+                <Badge variant={value === 'Hospital' ? 'info' : 'info'}>
+                    {value === 'Hospital' ? 'Bệnh viện' : 
+                     value === 'Clinic' ? 'Phòng khám' :
+                     value === 'DiagnosticCenter' ? 'Trung tâm chẩn đoán' : 'Trung tâm tiêm chủng'}
                 </Badge>
             ),
         },
