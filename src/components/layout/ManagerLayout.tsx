@@ -23,8 +23,8 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
         icon: '👨‍⚕️',
     },
     {
-        label: 'Quản lý Cơ sở Y tế',
-        href: '/manager/facilities',
+        label: 'Quản lý Lịch Hẹn',
+        href: '/manager/appointments',
         icon: '🏥',
     },
     {

@@ -28,6 +28,22 @@ export const useAuth = () => {
               console.error('Failed to fetch patient profile', err);
             }
           }
+          if (parsedUser.role === 'Manager') {
+            try {
+              const profile = await getUserProfile();
+
+              console.log('PROFILE:', profile); // debug
+
+              parsedUser = {
+                ...parsedUser,
+                ...profile, // ✅ FIX CHÍNH Ở ĐÂY
+              };
+
+              localStorage.setItem('user', JSON.stringify(parsedUser));
+            } catch (err) {
+              console.error('Failed to fetch manager profile', err);
+            }
+          }
 
           setUser(parsedUser);
           setIsAdmin(parsedUser.role === 'ITAdmin');
