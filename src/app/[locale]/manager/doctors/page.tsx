@@ -2,12 +2,15 @@
 
 import React, { useState } from 'react';
 import ManagerLayout from '@/components/layout/ManagerLayout';
-import { useAppointments } from '@/hooks/useManagerAppointments';
+import { useManagerCheck } from '@/hooks/useAuth';
+import { useDoctors } from '@/hooks/useManagerDoctors';
 
-export default function AppointmentPage() {
+export default function DoctorListPage() {
+  const { user } = useManagerCheck();
   const [page, setPage] = useState(1);
 
-  const { data, loading, meta } = useAppointments({
+  const { data: doctors, loading, meta } = useDoctors({
+    facilityId: user?.facilityId,
     page,
     size: 10,
   });
@@ -17,23 +20,23 @@ export default function AppointmentPage() {
 
   return (
     <ManagerLayout>
-      <div className="space-y-6">
+      <div className="space-y-8">
         {/* ===== Header ===== */}
         <div>
           <h2 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
-            📅 Quản lý Lịch hẹn
+            👨‍⚕️ Quản lý Bác sĩ
           </h2>
           <p className="text-gray-500 mt-1">
-            Danh sách lịch hẹn theo cơ sở
+            Danh sách bác sĩ theo cơ sở
           </p>
         </div>
 
         {/* ===== Content Card ===== */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
-          {/* Top info */}
+          {/* ===== Meta ===== */}
           <div className="p-4 border-b flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div className="text-sm text-gray-500">
-              Tổng: <span className="font-semibold text-gray-700">{meta.total}</span> lịch hẹn
+              Tổng: <span className="font-semibold text-gray-700">{meta.total}</span> bác sĩ
             </div>
 
             <div className="text-sm text-gray-500">
@@ -52,52 +55,63 @@ export default function AppointmentPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gray-50 text-gray-600 text-xs uppercase">
-                    <th className="p-3 text-left">ID</th>
-                    <th className="p-3 text-left">Bệnh nhân</th>
                     <th className="p-3 text-left">Bác sĩ</th>
-                    <th className="p-3 text-left">Thời gian</th>
-                    <th className="p-3 text-left">Trạng thái</th>
-                    <th className="p-3 text-left">Ghi chú</th>
+                    <th className="p-3 text-left">Chuyên khoa</th>
+                    <th className="p-3 text-left">Kinh nghiệm</th>
+                    <th className="p-3 text-left">Đánh giá</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {data.length === 0 ? (
+                  {doctors.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="p-6 text-center text-gray-400">
-                        Không có dữ liệu
+                      <td colSpan={4} className="p-6 text-center text-gray-400">
+                        Không có bác sĩ
                       </td>
                     </tr>
                   ) : (
-                    data.map((item) => (
+                    doctors.map((doc) => (
                       <tr
-                        key={item.id}
+                        key={doc.id}
                         className="border-t hover:bg-gray-50 transition"
                       >
-                        <td className="p-3 font-medium text-gray-700">
-                          #{item.id}
-                        </td>
-
+                        {/* Doctor info */}
                         <td className="p-3">
-                          <div className="font-medium text-gray-800">
-                            {item.patientName}
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={doc.avatarUrl}
+                              alt={doc.fullName}
+                              className="w-11 h-11 rounded-full object-cover border"
+                            />
+
+                            <div>
+                              <p className="font-semibold text-gray-800">
+                                {doc.displayName}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {doc.fullName}
+                              </p>
+                            </div>
                           </div>
                         </td>
 
+                        {/* Specialty */}
                         <td className="p-3 text-gray-700">
-                          {item.doctorName}
+                          {doc.specialtyName}
                         </td>
 
-                        <td className="p-3 text-gray-600 whitespace-nowrap">
-                          {new Date(item.appointmentTime).toLocaleString()}
-                        </td>
-
+                        {/* Experience */}
                         <td className="p-3">
-                          <StatusBadge status={item.status} />
+                          <span className="px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">
+                            {doc.yearsOfExperience} năm
+                          </span>
                         </td>
 
-                        <td className="p-3 text-gray-500 max-w-[200px] truncate">
-                          {item.notes || '-'}
+                        {/* Rating */}
+                        <td className="p-3">
+                          <div className="flex items-center gap-1 text-yellow-500 font-medium">
+                            ⭐ {doc.averageRating.toFixed(1)}
+                          </div>
                         </td>
                       </tr>
                     ))
@@ -130,47 +144,3 @@ export default function AppointmentPage() {
     </ManagerLayout>
   );
 }
-
-// ===== Status Badge =====
-const StatusBadge = ({ status }: { status: string }) => {
-  const map: Record<string, { label: string; style: string }> = {
-    PendingConfirmation: {
-      label: 'Chờ xác nhận',
-      style: 'bg-yellow-100 text-yellow-700',
-    },
-    Confirmed: {
-      label: 'Đã xác nhận',
-      style: 'bg-blue-100 text-blue-700',
-    },
-    CheckedIn: {
-      label: 'Đã check-in',
-      style: 'bg-indigo-100 text-indigo-700',
-    },
-    InProgress: {
-      label: 'Đang khám',
-      style: 'bg-purple-100 text-purple-700',
-    },
-    Completed: {
-      label: 'Hoàn thành',
-      style: 'bg-green-100 text-green-700',
-    },
-    Cancelled: {
-      label: 'Đã hủy',
-      style: 'bg-red-100 text-red-700',
-    },
-    NoShow: {
-      label: 'Không đến',
-      style: 'bg-gray-100 text-gray-700',
-    },
-  };
-
-  const item = map[status];
-
-  return (
-    <span
-      className={`px-3 py-1 rounded-full text-xs font-medium ${item?.style}`}
-    >
-      {item?.label || status}
-    </span>
-  );
-};

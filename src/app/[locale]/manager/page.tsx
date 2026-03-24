@@ -3,66 +3,83 @@
 import React, { useEffect, useState } from 'react';
 import ManagerLayout from '@/components/layout/ManagerLayout';
 import { useManagerCheck } from '@/hooks/useAuth';
-import { useTranslations } from 'next-intl';
+import { managerAppointmentApi } from '@/services/api/manager.api';
+import { mapAppointmentReport } from '@/lib/appointmentReport.mapper';
+import { AppointmentReport } from '@/types/manager';
+import { useFacilitySpecialties } from '@/hooks/useManagerFacilitySpecialties';
 
-interface DashboardStats {
-    totalUsers: number;
-    totalDoctors: number;
-    totalFacilities: number;
-    totalSpecialties: number;
-}
-
-const StatCard = ({ title, value, icon, color }: { title: string; value: number; icon: string; color: string }) => (
-    <div className={`${color} rounded-lg shadow-md p-6 text-white`}>
+// ===== Stat Card =====
+const StatCard = ({
+    title,
+    value,
+    color,
+    icon,
+}: {
+    title: string;
+    value: number;
+    color: string;
+    icon: string;
+}) => (
+    <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition">
         <div className="flex items-center justify-between">
-            <div>
-                <p className="text-sm font-medium opacity-90">{title}</p>
-                <p className="text-3xl font-bold mt-2">{value}</p>
+            <p className="text-sm text-gray-500">{title}</p>
+
+            <div
+                className={`w-9 h-9 flex items-center justify-center rounded-lg text-white text-sm ${color}`}
+            >
+                {icon}
             </div>
-            <div className="text-5xl opacity-30">{icon}</div>
         </div>
+
+        <p className="text-3xl font-bold mt-3 text-gray-800">{value}</p>
     </div>
 );
 
+// ===== Page =====
 export default function ManagerDashboardPage() {
-    const t = useTranslations("common");
-    const { isLoading } = useManagerCheck();
-    const [stats, setStats] = useState<DashboardStats>({
-        totalUsers: 0,
-        totalDoctors: 0,
-        totalFacilities: 0,
-        totalSpecialties: 0,
-    });
-    const [statsLoading, setStatsLoading] = useState(true);
+    const { user, isLoading } = useManagerCheck();
+    const { data: specialties, loading: spLoading } =
+        useFacilitySpecialties(user?.facilityId);
+
+    const [report, setReport] = useState<AppointmentReport | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (isLoading) return;
+        const facilityId = user?.facilityId;
 
-        const fetchStats = async () => {
+        if (!facilityId) {
+            setLoading(false);
+            return;
+        }
+
+        const fetchReport = async () => {
             try {
-                setStatsLoading(true);
-                // Placeholder stats - update with actual API calls if needed
-                setStats({
-                    totalUsers: 0,
-                    totalDoctors: 0,
-                    totalFacilities: 0,
-                    totalSpecialties: 0,
+                setLoading(true);
+                const today = new Date().toISOString().split('T')[0];
+
+                const res = await managerAppointmentApi.getReport({
+                    facilityId,
+                    type: 'year',
+                    date: today,
                 });
-            } catch (error) {
-                console.error('Failed to fetch stats:', error);
+
+                setReport(mapAppointmentReport(res.data));
+            } catch (err) {
+                console.error(err);
             } finally {
-                setStatsLoading(false);
+                setLoading(false);
             }
         };
 
-        fetchStats();
-    }, [isLoading]);
+        fetchReport();
+    }, [user?.facilityId]);
 
-    if (isLoading) {
+    // ===== Loading =====
+    if (isLoading || loading) {
         return (
             <ManagerLayout>
                 <div className="flex justify-center items-center h-64">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+                    <div className="animate-spin h-10 w-10 border-b-2 border-green-600 rounded-full" />
                 </div>
             </ManagerLayout>
         );
@@ -70,58 +87,83 @@ export default function ManagerDashboardPage() {
 
     return (
         <ManagerLayout>
-            <div className="space-y-6">
-                {/* Header */}
+            <div className="space-y-8">
+                {/* ===== Header ===== */}
                 <div>
-                    <h2 className="text-3xl font-bold text-gray-900">{t("managerDashboard")}</h2>
-                    <p className="text-gray-600 mt-1">{t("managerDashboardIntro")}</p>
+                    <h2 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
+                        📊 Dashboard Lịch hẹn
+                    </h2>
+                    <p className="text-gray-500 mt-1">
+                        Tổng quan hoạt động lịch hẹn tại cơ sở
+                    </p>
                 </div>
 
-                {/* Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <StatCard
-                        title="Tổng Người dùng"
-                        value={stats.totalUsers}
-                        icon="👥"
-                        color="bg-gradient-to-br from-green-500 to-green-600"
-                    />
-                    <StatCard
-                        title="Tổng Bác sĩ"
-                        value={stats.totalDoctors}
-                        icon="👨‍⚕️"
-                        color="bg-gradient-to-br from-blue-500 to-blue-600"
-                    />
-                    <StatCard
-                        title="Tổng Cơ sở Y tế"
-                        value={stats.totalFacilities}
-                        icon="🏥"
-                        color="bg-gradient-to-br from-purple-500 to-purple-600"
-                    />
-                    <StatCard
-                        title="Tổng Chuyên khoa"
-                        value={stats.totalSpecialties}
-                        icon="📋"
-                        color="bg-gradient-to-br from-orange-500 to-orange-600"
-                    />
-                </div>
+                {!report ? (
+                    <div className="text-gray-500">Không có dữ liệu</div>
+                ) : (
+                    <>
+                        {/* ===== Tổng ===== */}
+                        <div className="rounded-2xl p-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md">
+                            <p className="text-sm opacity-90">
+                                Tổng lịch hẹn năm nay
+                            </p>
+                            <p className="text-5xl font-bold mt-2">
+                                {report.total}
+                            </p>
+                        </div>
 
-                {/* Quick Actions */}
-                <div className="bg-white rounded-lg shadow-md p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">Hành động nhanh</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <button className="p-4 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors text-left">
-                            <p className="text-sm font-semibold text-green-900">Thêm Người dùng</p>
-                        </button>
-                        <button className="p-4 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors text-left">
-                            <p className="text-sm font-semibold text-blue-900">Thêm Bác sĩ</p>
-                        </button>
-                        <button className="p-4 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-100 transition-colors text-left">
-                            <p className="text-sm font-semibold text-purple-900">Thêm Cơ sở</p>
-                        </button>
-                        <button className="p-4 bg-orange-50 border border-orange-200 rounded-lg hover:bg-orange-100 transition-colors text-left">
-                            <p className="text-sm font-semibold text-orange-900">Thêm Chuyên khoa</p>
-                        </button>
-                    </div>
+                        {/* ===== Stats ===== */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                            <StatCard title="Chờ xác nhận" value={report.pending} color="bg-yellow-500" icon="⏳" />
+                            <StatCard title="Đã xác nhận" value={report.confirmed} color="bg-blue-500" icon="✔️" />
+                            <StatCard title="Đã check-in" value={report.checkedIn} color="bg-indigo-500" icon="📍" />
+                            <StatCard title="Đang khám" value={report.inProgress} color="bg-purple-500" icon="🩺" />
+                            <StatCard title="Hoàn thành" value={report.completed} color="bg-green-500" icon="✅" />
+                            <StatCard title="Đã hủy" value={report.cancelled} color="bg-red-500" icon="❌" />
+                            <StatCard title="Không đến" value={report.noShow} color="bg-gray-400" icon="🚫" />
+                        </div>
+                    </>
+                )}
+
+                {/* ===== Specialties ===== */}
+                <div>
+                    <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                        Chuyên khoa tại cơ sở
+                    </h3>
+
+                    {spLoading ? (
+                        <div className="text-gray-500">
+                            Đang tải chuyên khoa...
+                        </div>
+                    ) : specialties.length === 0 ? (
+                        <div className="text-gray-500">
+                            Không có chuyên khoa
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                            {specialties.map((sp) => (
+                                <div
+                                    key={sp.specialtyId}
+                                    className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition"
+                                >
+                                    <div className="flex items-start gap-3">
+                                        <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center text-green-600 text-lg">
+                                            🏥
+                                        </div>
+
+                                        <div>
+                                            <p className="font-semibold text-gray-800">
+                                                {sp.nameVi}
+                                            </p>
+                                            <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+                                                {sp.descriptionVi}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </ManagerLayout>

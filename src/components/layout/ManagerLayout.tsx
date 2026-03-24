@@ -25,12 +25,27 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     {
         label: 'Quản lý Lịch Hẹn',
         href: '/manager/appointments',
-        icon: '🏥',
+        icon: '📅',
     },
     {
-        label: 'Quản lý Chuyên khoa',
-        href: '/manager/specialties',
-        icon: '📋',
+        label: 'Quản lý Lịch Làm Việc Bác Sĩ',
+        href: '/manager/schedules',
+        icon: '📅',
+    },
+    {
+        label: 'Quản lý Thông Tin Bệnh Nhân',
+        href: '/manager/pending-appointments',
+        icon: '🧑‍🤝‍🧑',
+    },
+    {
+        label: 'Cập nhật Thông Tin Cơ Sở',
+        href: '/manager/update-facility',
+        icon: '🏢',
+    },
+    {
+        label: 'Hiệu Suất Cơ Sơ',
+        href: '/manager/facility-performance',
+        icon: '📈',
     },
 ];
 
