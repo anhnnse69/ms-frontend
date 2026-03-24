@@ -5,10 +5,41 @@ import { AdminUser, Doctor, Facility, Specialty, CreateUserRequest, UpdateUserRe
 export const adminUsersApi = {
     // Get all users with pagination
     getAll: async (page: number = 1, size: number = 10) => {
-		const response = await apiClient().get<ApiResponse<PaginatedResponse<AdminUser>>>(
+		const response = await apiClient().get<ApiResponse<AdminUser[]>>(
             `/admin/users?page=${page}&size=${size}`
         );
-        return response.data;
+        console.log('Raw API Response:', response);
+        
+        // Handle different response structures
+        if (Array.isArray(response)) {
+            // Direct array response
+            const result: ApiResponse<AdminUser[]> = {
+                isSuccess: true,
+                statusCode: 200,
+                message: "Success",
+                data: response,
+                meta: {
+                    pageNumber: page,
+                    pageSize: size,
+                    totalCount: response.length,
+                    hasNextPage: false,
+                    hasPreviousPage: page > 1
+                }
+            };
+            return result;
+        } else if (response && typeof response === 'object' && 'data' in response) {
+            // Standard API response
+            return response as unknown as ApiResponse<AdminUser[]>;
+        } else {
+            // Fallback
+            const result: ApiResponse<AdminUser[]> = {
+                isSuccess: false,
+                statusCode: 500,
+                message: "Invalid response format",
+                data: undefined
+            };
+            return result;
+        }
     },
 
     // Get user by ID
@@ -18,9 +49,22 @@ export const adminUsersApi = {
     },
 
     // Create new user
-    create: async (data: CreateUserRequest) => {
-		const response = await apiClient().post<ApiResponse<AdminUser>>(`/admin/users`, data);
-        return response.data;
+    create: async (data: any) => {
+		const response = await apiClient().post<ApiResponse<string>>(`/admin/users`, data);
+        console.log('Create User Response:', response);
+        
+        // Handle response structure
+        if (response && typeof response === 'object') {
+            return response as unknown as ApiResponse<AdminUser>;
+        } else {
+            // Fallback
+            return {
+                isSuccess: false,
+                statusCode: 500,
+                message: "Invalid response format",
+                data: undefined
+            };
+        }
     },
 
     // Update user
@@ -45,10 +89,41 @@ export const adminUsersApi = {
 export const adminDoctorsApi = {
     // Get all doctors with pagination
     getAll: async (page: number = 1, size: number = 10) => {
-		const response = await apiClient().get<ApiResponse<PaginatedResponse<Doctor>>>(
+		const response = await apiClient().get<ApiResponse<Doctor[]>>(
             `/admin/doctors?page=${page}&size=${size}`
         );
-        return response.data;
+        console.log('Raw Doctors API Response:', response);
+        
+        // Handle different response structures
+        if (Array.isArray(response)) {
+            // Direct array response
+            const result: ApiResponse<Doctor[]> = {
+                isSuccess: true,
+                statusCode: 200,
+                message: "Success",
+                data: response,
+                meta: {
+                    pageNumber: page,
+                    pageSize: size,
+                    totalCount: response.length,
+                    hasNextPage: false,
+                    hasPreviousPage: page > 1
+                }
+            };
+            return result;
+        } else if (response && typeof response === 'object' && 'data' in response) {
+            // Standard API response
+            return response as unknown as ApiResponse<Doctor[]>;
+        } else {
+            // Fallback
+            const result: ApiResponse<Doctor[]> = {
+                isSuccess: false,
+                statusCode: 500,
+                message: "Invalid response format",
+                data: undefined
+            };
+            return result;
+        }
     },
 
     // Get doctor by ID
@@ -58,15 +133,28 @@ export const adminDoctorsApi = {
     },
 
     // Create new doctor
-    create: async (data: CreateDoctorRequest) => {
-		const response = await apiClient().post<ApiResponse<Doctor>>(`/admin/doctors`, data);
-        return response.data;
+    create: async (data: any) => {
+		const response = await apiClient().post<ApiResponse<string>>(`/admin/doctors`, data);
+        console.log('Create Doctor Response:', response);
+        
+        // Handle response structure
+        if (response && typeof response === 'object') {
+            return response as unknown as ApiResponse<Doctor>;
+        } else {
+            // Fallback
+            return {
+                isSuccess: false,
+                statusCode: 500,
+                message: "Invalid response format",
+                data: undefined
+            };
+        }
     },
 
     // Update doctor
-    update: async (id: string, data: UpdateDoctorRequest) => {
+    update: async (data: UpdateDoctorRequest) => {
 		const response = await apiClient().put<ApiResponse<Doctor>>(
-            `/admin/doctors/${id}`,
+            `/admin/doctors`,
             data
         );
         return response.data;
@@ -85,10 +173,41 @@ export const adminDoctorsApi = {
 export const adminFacilitiesApi = {
     // Get all facilities with pagination
     getAll: async (page: number = 1, size: number = 10) => {
-		const response = await apiClient().get<ApiResponse<PaginatedResponse<Facility>>>(
+		const response = await apiClient().get<ApiResponse<Facility[]>>(
             `/admin/facilities?page=${page}&size=${size}`
         );
-        return response.data;
+        console.log('Raw Facilities API Response:', response);
+        
+        // Handle different response structures
+        if (Array.isArray(response)) {
+            // Direct array response
+            const result: ApiResponse<Facility[]> = {
+                isSuccess: true,
+                statusCode: 200,
+                message: "Success",
+                data: response,
+                meta: {
+                    pageNumber: page,
+                    pageSize: size,
+                    totalCount: response.length,
+                    hasNextPage: false,
+                    hasPreviousPage: page > 1
+                }
+            };
+            return result;
+        } else if (response && typeof response === 'object' && 'data' in response) {
+            // Standard API response
+            return response as unknown as ApiResponse<Facility[]>;
+        } else {
+            // Fallback
+            const result: ApiResponse<Facility[]> = {
+                isSuccess: false,
+                statusCode: 500,
+                message: "Invalid response format",
+                data: undefined
+            };
+            return result;
+        }
     },
 
     // Get facility by ID
@@ -100,12 +219,25 @@ export const adminFacilitiesApi = {
     },
 
     // Create new facility
-    create: async (data: CreateFacilityRequest) => {
-		const response = await apiClient().post<ApiResponse<Facility>>(
+    create: async (data: any) => {
+		const response = await apiClient().post<ApiResponse<string>>(
             `/admin/facilities`,
             data
         );
-        return response.data;
+        console.log('Create Facility Response:', response);
+        
+        // Handle response structure
+        if (response && typeof response === 'object') {
+            return response as unknown as ApiResponse<Facility>;
+        } else {
+            // Fallback
+            return {
+                isSuccess: false,
+                statusCode: 500,
+                message: "Invalid response format",
+                data: undefined
+            };
+        }
     },
 
     // Update facility
@@ -130,10 +262,41 @@ export const adminFacilitiesApi = {
 export const adminSpecialtiesApi = {
     // Get all specialties with pagination
     getAll: async (page: number = 1, size: number = 10) => {
-		const response = await apiClient().get<ApiResponse<PaginatedResponse<Specialty>>>(
+		const response = await apiClient().get<ApiResponse<Specialty[]>>(
             `/admin/specialties?page=${page}&size=${size}`
         );
-        return response.data;
+        console.log('Raw Specialties API Response:', response);
+        
+        // Handle different response structures
+        if (Array.isArray(response)) {
+            // Direct array response
+            const result: ApiResponse<Specialty[]> = {
+                isSuccess: true,
+                statusCode: 200,
+                message: "Success",
+                data: response,
+                meta: {
+                    pageNumber: page,
+                    pageSize: size,
+                    totalCount: response.length,
+                    hasNextPage: false,
+                    hasPreviousPage: page > 1
+                }
+            };
+            return result;
+        } else if (response && typeof response === 'object' && 'data' in response) {
+            // Standard API response
+            return response as unknown as ApiResponse<Specialty[]>;
+        } else {
+            // Fallback
+            const result: ApiResponse<Specialty[]> = {
+                isSuccess: false,
+                statusCode: 500,
+                message: "Invalid response format",
+                data: undefined
+            };
+            return result;
+        }
     },
 
     // Get specialty by ID
@@ -145,12 +308,25 @@ export const adminSpecialtiesApi = {
     },
 
     // Create new specialty
-    create: async (data: CreateSpecialtyRequest) => {
-		const response = await apiClient().post<ApiResponse<Specialty>>(
+    create: async (data: any) => {
+		const response = await apiClient().post<ApiResponse<string>>(
             `/admin/specialties`,
             data
         );
-        return response.data;
+        console.log('Create Specialty Response:', response);
+        
+        // Handle response structure
+        if (response && typeof response === 'object') {
+            return response as unknown as ApiResponse<Specialty>;
+        } else {
+            // Fallback
+            return {
+                isSuccess: false,
+                statusCode: 500,
+                message: "Invalid response format",
+                data: undefined
+            };
+        }
     },
 
     // Update specialty

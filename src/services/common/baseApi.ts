@@ -15,13 +15,50 @@ const getAuthToken = () => {
 export const apiClient = () => {
     const token = getAuthToken();
 
-    return axios.create({
+    const instance = axios.create({
         baseURL: API_BASE_URL,
         headers: {
             'Content-Type': 'application/json',
             ...(token && { Authorization: `Bearer ${token}` }),
         },
     });
+
+    // Add request interceptor to log outgoing requests
+    instance.interceptors.request.use(
+        (config) => {
+            console.log('API Request:', {
+                method: config.method?.toUpperCase(),
+                url: config.url,
+                data: config.data,
+                headers: config.headers
+            });
+            console.log('Request Data JSON:', JSON.stringify(config.data, null, 2));
+            return config;
+        },
+        (error) => {
+            console.error('API Request Error:', error);
+            return Promise.reject(error);
+        }
+    );
+
+    // Add response interceptor to extract data from axios response
+    instance.interceptors.response.use(
+        (response) => {
+            // Log the raw response for debugging
+            console.log('Raw axios response:', response);
+            // Return the actual data from the response
+            return response.data;
+        },
+        (error) => {
+            console.error('API Error:', error);
+            console.error('API Error Response:', error.response);
+            console.error('API Error Data:', error.response?.data);
+            console.error('API Error Status:', error.response?.status);
+            return Promise.reject(error);
+        }
+    );
+
+    return instance;
 };
 
 export default apiClient;

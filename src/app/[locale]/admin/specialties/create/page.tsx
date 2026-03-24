@@ -5,6 +5,7 @@ import Link from 'next/link';
 import AdminLayout from '@/components/layout/AdminLayout';
 import { adminSpecialtiesApi } from '@/services/api/adminApi';
 import { useAdminCheck } from '@/hooks/useAuth';
+import { CreateSpecialtyRequest, ApiResponse } from '@/types/admin';
 
 interface FormErrors {
     [key: string]: string;
@@ -12,13 +13,12 @@ interface FormErrors {
 
 export default function CreateSpecialtyPage() {
     const { isAdmin, isLoading } = useAdminCheck();
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<CreateSpecialtyRequest>({
         nameVi: '',
         nameEn: '',
         descriptionVi: '',
         descriptionEn: '',
-        status: 'Active',
-        icon: '',
+        iconUrl: '',
     });
     const [errors, setErrors] = useState<FormErrors>({});
     const [submitting, setSubmitting] = useState(false);
@@ -42,11 +42,30 @@ export default function CreateSpecialtyPage() {
 
         try {
             setSubmitting(true);
-            await adminSpecialtiesApi.create(formData);
-            alert('Tạo chuyên khoa thành công');
-            window.location.href = '/admin/specialties';
+            
+            // Convert to PascalCase for backend
+            const pascalCaseRequest = {
+                NameVi: formData.nameVi,
+                NameEn: formData.nameEn,
+                DescriptionVi: formData.descriptionVi,
+                DescriptionEn: formData.descriptionEn,
+                IconUrl: formData.iconUrl || "" // Always include IconUrl
+            };
+            
+            console.log('Create Specialty Request Data:', pascalCaseRequest);
+            
+            const response = await adminSpecialtiesApi.create(pascalCaseRequest);
+            console.log('Create Specialty Response:', response);
+            
+            if (response.codeMessage === "APP_MESSAGE_2000") {
+                alert('Tạo chuyên khoa thành công');
+                window.location.href = '/admin/specialties';
+            } else {
+                alert(`Lỗi: ${response.codeMessage || 'Không thể tạo chuyên khoa'}`);
+            }
         } catch (error: any) {
-            alert(`Lỗi: ${error.response?.data?.message || 'Không thể tạo chuyên khoa'}`);
+            console.error('Create specialty error:', error);
+            alert(`Lỗi: ${error.response?.data?.message || error.message || 'Không thể tạo chuyên khoa'}`);
         } finally {
             setSubmitting(false);
         }
@@ -126,6 +145,18 @@ export default function CreateSpecialtyPage() {
                             />
                             {errors.descriptionEn && <p className="text-red-500 text-xs mt-1">{errors.descriptionEn}</p>}
                         </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Icon URL</label>
+                        <input
+                            type="url"
+                            value={formData.iconUrl}
+                            onChange={(e) => setFormData({ ...formData, iconUrl: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="https://..."
+                        />
+                        <p className="text-sm text-gray-500 mt-1">URL của icon đại diện cho chuyên khoa (không bắt buộc)</p>
                     </div>
 
                     <div className="flex gap-4 pt-4 border-t border-gray-200">
