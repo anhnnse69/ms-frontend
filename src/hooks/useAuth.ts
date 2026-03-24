@@ -209,3 +209,55 @@ export const useDoctorCheck = () => {
             user?.role?.toLowerCase() === 'Doctor',
     };
 };
+
+export const useAdminCheck = () => {
+    const [user, setUser] = useState<CurrentUser | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const checkAuth = () => {
+            if (typeof window === 'undefined') return;
+
+            const storedUser = localStorage.getItem('user');
+            const token = localStorage.getItem('accessToken');
+
+            if (!storedUser || !token) {
+                setUser(null);
+                setIsAdmin(false);
+                setIsLoading(false);
+                return;
+            }
+
+            const parsedUser: CurrentUser = JSON.parse(storedUser);
+
+            const normalizeRole = (role?: string) =>
+                role?.toString().trim().toLowerCase() || '';
+
+            setUser(parsedUser);
+            setIsAdmin(normalizeRole(parsedUser.role) === 'itadmin'); // ⚠️ chuẩn hoá
+            setIsLoading(false);
+        };
+
+        checkAuth();
+
+        const handleAuthChanged = () => {
+            checkAuth();
+        };
+
+        window.addEventListener('auth-changed', handleAuthChanged);
+        return () => {
+            window.removeEventListener('auth-changed', handleAuthChanged);
+        };
+    }, []);
+
+    return {
+        user,
+        isLoading,
+        isAdmin,
+        hasAdminAccess:
+            !isLoading &&
+            isAdmin &&
+            user?.role?.toLowerCase() === 'itadmin',
+    };
+};

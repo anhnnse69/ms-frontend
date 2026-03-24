@@ -12,6 +12,7 @@ import type {
   RejectAppointmentResponse,
   RejectAppointmentRequest,
 } from '@/types/doctor';
+import { STATUS_TO_CODE_MAP } from '@/types/doctor';
 
 export const doctorApi = {
   getAppointments: async (page = 1, size = 10): Promise<DoctorAppointment[]> => {
@@ -50,25 +51,51 @@ export const doctorApi = {
     return response.data;
   },
 
- getPatientByAppointment: async (appointmentId: string): Promise<DoctorPatient> => {
-  const response = await apiClient().get(`/doctor/appointments/${appointmentId}/patient`);
-  return response.data.data;
-},
+  getPatientByAppointment: async (appointmentId: string): Promise<DoctorPatient> => {
+    const response = await apiClient().get(`/doctor/appointments/${appointmentId}/patient`);
+    return response.data.data;
+  },
+
+  updateAppointmentStatus: async (
+    appointmentId: string,
+    status: AppointmentStatus
+  ) => {
+    const statusCode = STATUS_TO_CODE_MAP[status];
+    const res = await apiClient().post(
+      `/doctor/appointments/${appointmentId}/status`,
+      { status: statusCode }
+    );
+
+    return res.data.data;
+  },
+
+  getMedicalRecord: async (appointmentId: string): Promise<DoctorMedicalRecord> => {
+    const response = await apiClient().get(`/doctor/appointments/${appointmentId}/medical-record`);
+    return response.data.data;
+  },
 
   createMedicalRecord: async (
     appointmentId: string,
     payload: CreateMedicalRecordRequest,
   ): Promise<DoctorMedicalRecord> => {
-    const response = await apiClient().post<DoctorMedicalRecord>(`/doctor/appointments/${appointmentId}/medical-record`, payload);
-    return response.data;
+    const res = await apiClient().post(
+      `/doctor/appointments/${appointmentId}/medical-record`,
+      payload
+    );
+
+    return res.data; //  trả luôn
   },
 
   updateMedicalRecord: async (
     appointmentId: string,
     payload: UpdateMedicalRecordRequest,
   ): Promise<DoctorMedicalRecord> => {
-    const response = await apiClient().put<DoctorMedicalRecord>(`/doctor/appointments/${appointmentId}/medical-record`, payload);
-    return response.data;
+    const res = await apiClient().put(
+      `/doctor/appointments/${appointmentId}/medical-record`,
+      payload
+    );
+
+    return res.data; //  không check success nữa
   },
 
   getAvailabilities: async (page = 1, size = 10): Promise<DoctorAvailabilityResponse> => {

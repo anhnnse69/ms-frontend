@@ -89,6 +89,32 @@ export default function DoctorAppointmentsPage() {
     }
   };
 
+  const onStartProcess = async (id: string) => {
+    try {
+      setLoadingId(id);
+      setError(null);
+
+      console.log('Starting process for:', id);
+
+      await doctorApi.updateAppointmentStatus(id, 'InProgress');
+
+      setSuccessMessage('Lịch hẹn đã chuyển sang trạng thái đang khám!');
+      setTimeout(() => setSuccessMessage(null), 3000);
+
+      await loadAppointments(currentPage, pageSize);
+    } catch (err: any) {
+      console.error('Start process error:', err);
+      const errorMsg = getErrorMessage(err);
+      setError(errorMsg);
+
+      if (isAuthenticationError(err)) {
+        window.location.href = '/login';
+      }
+    } finally {
+      setLoadingId(null);
+    }
+  };
+
   return (
     <DoctorLayout>
       <div className="max-w-6xl mx-auto p-6">
@@ -142,7 +168,7 @@ export default function DoctorAppointmentsPage() {
                 </div>
               </div>
 
-              {/* Phần 1: Xác nhận / Từ chối */}
+               {/* Phần 1: Xác nhận / Từ chối */}
               {getStatusString(item.status) === 'PendingConfirmation' && (
                 <div className="mt-4 p-3 border-t">
                   <h4 className="text-sm font-semibold text-gray-700 mb-2">Xác nhận / Từ chối lịch hẹn</h4>
@@ -164,6 +190,21 @@ export default function DoctorAppointmentsPage() {
                   </div>
                 </div>
               )}
+
+              {/* Phần 2: Chuyển sang InProcess */}
+              {getStatusString(item.status) === 'Confirmed' && (
+                <div className="mt-4 p-3 border-t">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-2">Bắt đầu khám</h4>
+                  <button
+                    className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => onStartProcess(item.appointmentId)}
+                    disabled={loadingId === item.appointmentId}
+                  >
+                    {loadingId === item.appointmentId ? '⏳ Đang xử lý...' : '▶ Bắt đầu khám'}
+                  </button>
+                </div>
+              )}
+              
             </div>
           ))}
         </div>
