@@ -84,3 +84,55 @@ export const useAuth = () => {
 
   return { user, isLoading, isAdmin, logout };
 };
+
+export const useManagerCheck = () => {
+    const [user, setUser] = useState<CurrentUser | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isManager, setIsManager] = useState(false);
+
+    useEffect(() => {
+        const checkAuth = () => {
+            if (typeof window === 'undefined') return;
+
+            const storedUser = localStorage.getItem('user');
+            const token = localStorage.getItem('accessToken');
+
+            if (!storedUser || !token) {
+                setUser(null);
+                setIsManager(false);
+                setIsLoading(false);
+                return;
+            }
+
+            const parsedUser: CurrentUser = JSON.parse(storedUser);
+
+            const normalizeRole = (role?: string) =>
+                role?.toString().trim().toLowerCase() || '';
+
+            setUser(parsedUser);
+            setIsManager(normalizeRole(parsedUser.role) === 'Manager');
+            setIsLoading(false);
+        };
+
+        checkAuth();
+
+        const handleAuthChanged = () => {
+            checkAuth();
+        };
+
+        window.addEventListener('auth-changed', handleAuthChanged);
+        return () => {
+            window.removeEventListener('auth-changed', handleAuthChanged);
+        };
+    }, []);
+
+    return {
+        user,
+        isLoading,
+        isManager,
+        hasManagerAccess:
+            !isLoading &&
+            isManager &&
+            user?.role?.toLowerCase() === 'Manager',
+    };
+};
