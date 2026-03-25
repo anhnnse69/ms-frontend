@@ -4,11 +4,67 @@ import React, { useEffect, useState } from 'react';
 import AdminLayout from '@/components/layout/AdminLayout';
 import { DataTable, Badge } from '@/components/ui/AdminDataTable';
 import { adminUsersApi } from '@/services/api/adminApi';
-import { AdminUser, ApiResponse } from '@/types/admin';
+import { AdminUser, ApiResponse, SystemRole } from '@/types/admin';
 import Link from 'next/link';
 import { useAdminCheck } from '@/hooks/useAuth';
+import { useTranslations } from 'next-intl';
+
+// Map backend codeMessage to localized messages via i18n
+const getMessageFromCode = (code: string | undefined, t: (key: string) => string): string => {
+    if (!code) return '';
+    try {
+        // Messages are stored under common.messages.APP_MESSAGE_xxxx
+        return t(`messages.${code}`);
+    } catch {
+        return '';
+    }
+};
+
+// Build a user-friendly error message from standard API error format
+const getApiErrorMessage = (apiResponse: any, t: (key: string) => string): string => {
+    if (!apiResponse) return '';
+
+    const baseMessage = getMessageFromCode(apiResponse.codeMessage, t);
+    const fieldErrors = apiResponse.data as Record<string, string[]> | undefined;
+
+    if (fieldErrors && typeof fieldErrors === 'object') {
+        for (const [field, codes] of Object.entries(fieldErrors)) {
+            if (!Array.isArray(codes) || codes.length === 0) continue;
+            const code = codes[0];
+            const fieldMessage = getMessageFromCode(code, t);
+            if (!fieldMessage) continue;
+
+            // Map backend field names to localized labels
+            let fieldLabelKey: string | null = null;
+            switch (field) {
+                case 'PhoneNumber':
+                    fieldLabelKey = 'phoneNumber';
+                    break;
+                case 'FullName':
+                    fieldLabelKey = 'fullName';
+                    break;
+                case 'Email':
+                    fieldLabelKey = 'email';
+                    break;
+                case 'Password':
+                case 'PasswordHash':
+                    fieldLabelKey = 'password';
+                    break;
+                default:
+                    fieldLabelKey = null;
+                    break;
+            }
+
+            const fieldLabel = fieldLabelKey ? t(fieldLabelKey) : field;
+            return `${fieldLabel}: ${fieldMessage}`;
+        }
+    }
+
+    return baseMessage;
+};
 
 export default function UsersPage() {
+    const tCommon = useTranslations('common');
     const { isAdmin, isLoading } = useAdminCheck();
     const [users, setUsers] = useState<AdminUser[]>([]);
     const [usersLoading, setUsersLoading] = useState(true);
@@ -43,10 +99,14 @@ export default function UsersPage() {
                         id: user.id || (user as any).Id
                     }));
 
+                    // Hide ITAdmin accounts on the FE and apply search
                     const filteredUsers = usersWithId.filter(
                         (user) =>
-                            user.displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            user.email.toLowerCase().includes(searchTerm.toLowerCase())
+                            user.role !== 'ITAdmin' &&
+                            (
+                                user.displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                user.email.toLowerCase().includes(searchTerm.toLowerCase())
+                            )
                     );
                     setUsers(filteredUsers);
                     setTotal(response.meta?.totalCount || response.meta?.total || 0);
@@ -67,12 +127,19 @@ export default function UsersPage() {
     const handleDelete = async (user: AdminUser) => {
         if (window.confirm(`Bạn chắc chắn muốn xóa người dùng ${user.displayName}?`)) {
             try {
-                await adminUsersApi.delete(user.id);
+                const response = await adminUsersApi.delete(user.id);
                 setUsers((prev) => prev.filter((u) => u.id !== user.id));
-                alert('Xóa người dùng thành công');
+                const message =
+                    getMessageFromCode((response as any)?.codeMessage, tCommon) ||
+                    tCommon('messages.APP_MESSAGE_2000');
+                alert(message);
             } catch (error) {
                 console.error('Failed to delete user:', error);
-                alert('Lỗi khi xóa người dùng');
+                const apiResponse = (error as any)?.response?.data;
+                const message =
+                    getApiErrorMessage(apiResponse, tCommon) ||
+                    tCommon('messages.APP_MESSAGE_4019');
+                alert(message);
             }
         }
     };
@@ -177,6 +244,19 @@ export default function UsersPage() {
 
                             <div className="space-y-4">
                                 <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Họ và tên</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={editUser?.fullName ?? ''}
+                                        onChange={(e) =>
+                                            setEditUser((prev) =>
+                                                prev ? { ...prev, fullName: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Tên hiển thị</label>
                                     <input
                                         type="text"
@@ -215,6 +295,48 @@ export default function UsersPage() {
                                         }
                                     />
                                 </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Số điện thoại</label>
+                                    <input
+                                        type="tel"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={editUser?.phoneNumber ?? ''}
+                                        onChange={(e) =>
+                                            setEditUser((prev) =>
+                                                prev ? { ...prev, phoneNumber: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Avatar URL</label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={editUser?.avatarUrl ?? ''}
+                                        onChange={(e) =>
+                                            setEditUser((prev) =>
+                                                prev ? { ...prev, avatarUrl: e.target.value } : prev
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Vai trò</label>
+                                    <select
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={editUser?.role ?? ''}
+                                        onChange={(e) =>
+                                            setEditUser((prev) =>
+                                                prev ? { ...prev, role: e.target.value } : prev
+                                            )
+                                        }
+                                    >
+                                        <option value="Manager">Quản lý</option>
+                                        <option value="Doctor">Bác sĩ</option>
+                                        <option value="Patient">Bệnh nhân</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div className="flex justify-end gap-3 mt-6">
@@ -236,10 +358,23 @@ export default function UsersPage() {
                                         if (!selectedUser || !editUser) return;
                                         try {
                                             setUsersLoading(true);
+                                            const roleMap: Record<string, SystemRole> = {
+                                                ITAdmin: SystemRole.ITAdmin,
+                                                Manager: SystemRole.Staff,
+                                                Staff: SystemRole.Staff,
+                                                Patient: SystemRole.Patient,
+                                                Doctor: SystemRole.Doctor,
+                                            };
+
                                             await adminUsersApi.update(selectedUser.id, {
+                                                Username: editUser.username,
+                                                FullName: editUser.fullName,
                                                 DisplayName: editUser.displayName,
                                                 Email: editUser.email,
-                                                Username: editUser.username,
+                                                AvatarUrl: editUser.avatarUrl ?? '',
+                                                PhoneNumber: editUser.phoneNumber,
+                                                Role: roleMap[editUser.role] ?? SystemRole.Patient,
+                                                IsDeleted: editUser.isDeleted ?? false,
                                             } as any);
 
                                             setUsers((prev) =>
@@ -248,12 +383,21 @@ export default function UsersPage() {
                                                 )
                                             );
 
+                                            const successMessage =
+                                                getMessageFromCode('APP_MESSAGE_2000', tCommon) ||
+                                                tCommon('messages.APP_MESSAGE_2000');
+                                            alert(successMessage);
+
                                             setShowEditModal(false);
                                             setSelectedUser(null);
                                             setEditUser(null);
                                         } catch (error) {
                                             console.error('Failed to update user:', error);
-                                            alert('Lỗi khi cập nhật người dùng');
+                                            const apiResponse = (error as any)?.response?.data;
+                                            const message =
+                                                getApiErrorMessage(apiResponse, tCommon) ||
+                                                tCommon('messages.APP_MESSAGE_4019');
+                                            alert(message);
                                         } finally {
                                             setUsersLoading(false);
                                         }
