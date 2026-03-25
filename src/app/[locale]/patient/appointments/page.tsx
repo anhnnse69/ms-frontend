@@ -3,12 +3,6 @@
 import React, { useState } from 'react';
 import { usePatientProfile } from '@/hooks/usePatientProfile';
 import { usePatientAppointments } from '@/hooks/usePatientAppointments';
-import {
-  cancelAppointment,
-  rescheduleAppointment,
-  submitReview,
-} from '@/services/api/patient.api';
-import { Appointment, SubmitReviewRequest } from '@/types/patient';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { Alert } from '@/components/common/Alert';
@@ -43,6 +37,11 @@ export default function PatientAppointmentsPage() {
   const [upcomingPage, setUpcomingPage] = useState(1);
   const [pastPage, setPastPage] = useState(1);
 
+  const [upcomingStatusFilter, setUpcomingStatusFilter] = useState<string>('all');
+  const [upcomingSortKey, setUpcomingSortKey] = useState<'dateAsc' | 'dateDesc' | 'statusAsc' | 'statusDesc'>('dateAsc');
+  const [pastStatusFilter, setPastStatusFilter] = useState<string>('all');
+  const [pastSortKey, setPastSortKey] = useState<'dateAsc' | 'dateDesc' | 'statusAsc' | 'statusDesc'>('dateDesc');
+
   const statusStyles: Record<string, string> = {
     Completed: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     Cancelled: 'bg-rose-50 text-rose-700 border-rose-200',
@@ -60,8 +59,8 @@ export default function PatientAppointmentsPage() {
             {t('authMessage')}
           </p>
           <a
-            href="/login"
-            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+            href={`/${locale}/login`}
+            className="inline-block bg-[#0076C0] text-white px-6 py-2 rounded-lg hover:bg-[#005a94] transition"
           >
             {t('authGoToLogin')}
           </a>
@@ -70,76 +69,55 @@ export default function PatientAppointmentsPage() {
     );
   }
 
-  const handleCancel = async () => {
-    if (!cancelingId) return;
-    try {
-      setCancelLoading(true);
-      await cancelAppointment({ appointmentId: cancelingId, reason: cancelReason });
-      setCancelingId(null);
-      setCancelReason('');
-      await refetch();
-    } finally {
-      setCancelLoading(false);
-    }
-  };
-
-  const handleReschedule = async () => {
-    if (!rescheduleId || !newTime) return;
-    try {
-      setRescheduleLoading(true);
-      await rescheduleAppointment({
-        appointmentId: rescheduleId,
-        newAppointmentTime: new Date(newTime).toISOString(),
-      });
-      setRescheduleId(null);
-      setNewTime('');
-      await refetch();
-    } finally {
-      setRescheduleLoading(false);
-    }
-  };
-
-  const handleSubmitReview = async () => {
-    if (!reviewingId) return;
-
-    const appointment = [...upcomingAppointments, ...pastAppointments].find(
-      (apt) => apt.id === reviewingId
-    );
-    if (!appointment) return;
-
-    const reviewRequest: SubmitReviewRequest = {
-      doctorId: appointment.doctorId,
-      appointmentId: reviewingId,
-      rating,
-      comment: reviewComment,
-    };
-
-    try {
-      setReviewLoading(true);
-      await submitReview(reviewRequest);
-      setReviewingId(null);
-      setRating(5);
-      setReviewComment('');
-      await refetch();
-    } finally {
-      setReviewLoading(false);
-    }
-  };
-
-  const upcomingTotalPages = Math.max(
-    1,
-    Math.ceil(upcomingAppointments.length / PAGE_SIZE) || 1
+  const filteredUpcoming = upcomingAppointments.filter(
+    (apt) => upcomingStatusFilter === 'all' || apt.status === upcomingStatusFilter
   );
-  const pastTotalPages = Math.max(1, Math.ceil(pastAppointments.length / PAGE_SIZE) || 1);
+  const sortedUpcoming = [...filteredUpcoming].sort((a, b) => {
+    const timeA = new Date(a.appointmentTime).getTime();
+    const timeB = new Date(b.appointmentTime).getTime();
+    switch (upcomingSortKey) {
+      case 'statusAsc':
+        return (a.status || '').localeCompare(b.status || '');
+      case 'statusDesc':
+        return (b.status || '').localeCompare(a.status || '');
+      case 'dateDesc':
+        return timeB - timeA;
+      case 'dateAsc':
+      default:
+        return timeA - timeB;
+    }
+  });
+
+  const filteredPast = pastAppointments.filter(
+    (apt) => pastStatusFilter === 'all' || apt.status === pastStatusFilter
+  );
+  const sortedPast = [...filteredPast].sort((a, b) => {
+    const timeA = new Date(a.appointmentTime).getTime();
+    const timeB = new Date(b.appointmentTime).getTime();
+    switch (pastSortKey) {
+      case 'statusAsc':
+        return (a.status || '').localeCompare(b.status || '');
+      case 'statusDesc':
+        return (b.status || '').localeCompare(a.status || '');
+      case 'dateAsc':
+        return timeA - timeB;
+      case 'dateDesc':
+      default:
+        return timeB - timeA;
+    }
+  });
+
+  const upcomingTotalPages = Math.max(1, Math.ceil(sortedUpcoming.length / PAGE_SIZE) || 1);
+  const pastTotalPages = Math.max(1, Math.ceil(sortedPast.length / PAGE_SIZE) || 1);
 
   const safeUpcomingPage = Math.min(upcomingPage, upcomingTotalPages);
   const safePastPage = Math.min(pastPage, pastTotalPages);
 
-  const visibleUpcoming = upcomingAppointments.slice(
+  const visibleUpcoming = sortedUpcoming.slice(
     (safeUpcomingPage - 1) * PAGE_SIZE,
     safeUpcomingPage * PAGE_SIZE
   );
-  const visiblePast = pastAppointments.slice(
+  const visiblePast = sortedPast.slice(
     (safePastPage - 1) * PAGE_SIZE,
     safePastPage * PAGE_SIZE
   );
@@ -150,7 +128,7 @@ export default function PatientAppointmentsPage() {
         <header className="mb-8 flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-sky-600 mb-1">
-              MS Medical Scheduling
+              {t('headerBrand')}
             </p>
             <h1 className="text-3xl font-bold text-slate-900">{t('title')}</h1>
           </div>
@@ -162,7 +140,7 @@ export default function PatientAppointmentsPage() {
               <p className="font-medium">
                 {upcomingAppointments.length + pastAppointments.length} appointments
               </p>
-              <p className="text-slate-500">Track and manage your visits</p>
+              <p className="text-slate-500">{t('headerSubtitle')}</p>
             </div>
           </div>
         </header>
@@ -197,17 +175,58 @@ export default function PatientAppointmentsPage() {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-lg font-semibold text-slate-900">
-                    {t('upcomingTitle', { count: upcomingAppointments.length })}
+                    {t('upcomingTitle', { count: sortedUpcoming.length })}
                   </h2>
                   <p className="text-xs text-slate-500 mt-1">
-                    Manage your upcoming doctor visits and changes.
+                    {t('upcomingSubtitle')}
                   </p>
                 </div>
                 <span className="inline-flex items-center justify-center h-7 min-w-[2.25rem] rounded-full bg-sky-50 text-sky-700 text-xs font-semibold border border-sky-100">
-                  {upcomingAppointments.length}
+                  {sortedUpcoming.length}
                 </span>
               </div>
-              {upcomingAppointments.length === 0 ? (
+              <div className="mt-2 mb-2 flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="text-slate-600 font-medium">
+                    {t('filterStatus')}
+                  </span>
+                  <select
+                    value={upcomingStatusFilter}
+                    onChange={(e) => {
+                      setUpcomingStatusFilter(e.target.value);
+                      setUpcomingPage(1);
+                    }}
+                    className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#0076C0] focus:border-[#0076C0]"
+                  >
+                    <option value="all">{t('filterAllStatuses')}</option>
+                    {Object.keys(statusStyles).map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-slate-600 font-medium">
+                    {t('sortLabel')}
+                  </span>
+                  <select
+                    value={upcomingSortKey}
+                    onChange={(e) =>
+                      setUpcomingSortKey(
+                        e.target.value as 'dateAsc' | 'dateDesc' | 'statusAsc' | 'statusDesc',
+                      )
+                    }
+                    className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#0076C0] focus:border-[#0076C0]"
+                  >
+                    <option value="dateAsc">{t('sortDateAsc')}</option>
+                    <option value="dateDesc">{t('sortDateDesc')}</option>
+                    <option value="statusAsc">{t('sortStatusAsc')}</option>
+                    <option value="statusDesc">{t('sortStatusDesc')}</option>
+                  </select>
+                </div>
+              </div>
+              {sortedUpcoming.length === 0 ? (
                 <div className="mt-2 flex flex-1 flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/70 px-4 py-8 text-center">
                   <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm text-slate-500">
                     <FiCalendar className="h-5 w-5 text-slate-500" aria-hidden="true" />
@@ -236,9 +255,6 @@ export default function PatientAppointmentsPage() {
                           </th>
                           <th className="px-4 py-2 text-left font-semibold text-slate-700">
                             {t('tableStatus')}
-                          </th>
-                          <th className="px-4 py-2 text-right font-semibold text-slate-700">
-                            {t('tableActions')}
                           </th>
                         </tr>
                       </thead>
@@ -288,22 +304,6 @@ export default function PatientAppointmentsPage() {
                                   {apt.status}
                                 </span>
                               </td>
-                              <td className="px-4 py-3 align-top text-right">
-                                <div className="flex justify-end gap-2">
-                                  <button
-                                    onClick={() => setRescheduleId(apt.id)}
-                                    className="inline-flex items-center justify-center rounded-full border border-amber-200 bg-white px-3.5 py-1.5 text-xs font-medium text-amber-700 hover:bg-amber-50 transition-colors"
-                                  >
-                                    {t('cardReschedule')}
-                                  </button>
-                                  <button
-                                    onClick={() => setCancelingId(apt.id)}
-                                    className="inline-flex items-center justify-center rounded-full border border-rose-200 bg-white px-3.5 py-1.5 text-xs font-medium text-rose-700 hover:bg-rose-50 transition-colors"
-                                  >
-                                    {t('cardCancel')}
-                                  </button>
-                                </div>
-                              </td>
                             </tr>
                           );
                         })}
@@ -316,6 +316,12 @@ export default function PatientAppointmentsPage() {
                         currentPage={safeUpcomingPage}
                         totalPages={upcomingTotalPages}
                         onPageChange={setUpcomingPage}
+                        prevLabel={t('paginationPrev')}
+                        nextLabel={t('paginationNext')}
+                        infoLabel={t('paginationInfo', {
+                          currentPage: safeUpcomingPage,
+                          totalPages: upcomingTotalPages,
+                        })}
                       />
                     </div>
                   )}
@@ -328,17 +334,58 @@ export default function PatientAppointmentsPage() {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-lg font-semibold text-slate-900">
-                    {t('pastTitle', { count: pastAppointments.length })}
+                    {t('pastTitle', { count: sortedPast.length })}
                   </h2>
                   <p className="text-xs text-slate-500 mt-1">
-                    Review your visit history and share feedback.
+                    {t('pastSubtitle')}
                   </p>
                 </div>
                 <span className="inline-flex items-center justify-center h-7 min-w-[2.25rem] rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-100">
-                  {pastAppointments.length}
+                  {sortedPast.length}
                 </span>
               </div>
-              {pastAppointments.length === 0 ? (
+              <div className="mt-2 mb-2 flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="text-slate-600 font-medium">
+                    {t('filterStatus')}
+                  </span>
+                  <select
+                    value={pastStatusFilter}
+                    onChange={(e) => {
+                      setPastStatusFilter(e.target.value);
+                      setPastPage(1);
+                    }}
+                    className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#0076C0] focus:border-[#0076C0]"
+                  >
+                    <option value="all">{t('filterAllStatuses')}</option>
+                    {Object.keys(statusStyles).map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-slate-600 font-medium">
+                    {t('sortLabel')}
+                  </span>
+                  <select
+                    value={pastSortKey}
+                    onChange={(e) =>
+                      setPastSortKey(
+                        e.target.value as 'dateAsc' | 'dateDesc' | 'statusAsc' | 'statusDesc',
+                      )
+                    }
+                    className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#0076C0] focus:border-[#0076C0]"
+                  >
+                    <option value="dateDesc">{t('sortDateDesc')}</option>
+                    <option value="dateAsc">{t('sortDateAsc')}</option>
+                    <option value="statusAsc">{t('sortStatusAsc')}</option>
+                    <option value="statusDesc">{t('sortStatusDesc')}</option>
+                  </select>
+                </div>
+              </div>
+              {sortedPast.length === 0 ? (
                 <div className="mt-2 flex flex-1 flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/70 px-4 py-8 text-center">
                   <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm text-slate-500">
                     <FiFileText className="h-5 w-5 text-slate-500" aria-hidden="true" />
@@ -367,9 +414,6 @@ export default function PatientAppointmentsPage() {
                           </th>
                           <th className="px-4 py-2 text-left font-semibold text-slate-700">
                             {t('tableStatus')}
-                          </th>
-                          <th className="px-4 py-2 text-right font-semibold text-slate-700">
-                            {t('tableActions')}
                           </th>
                         </tr>
                       </thead>
@@ -419,14 +463,6 @@ export default function PatientAppointmentsPage() {
                                   {apt.status}
                                 </span>
                               </td>
-                              <td className="px-4 py-3 align-top text-right">
-                                <button
-                                  onClick={() => setReviewingId(apt.id)}
-                                  className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-3.5 py-1.5 text-xs font-medium text-emerald-700 hover:bg-emerald-50 transition-colors"
-                                >
-                                  {t('cardReview')}
-                                </button>
-                              </td>
                             </tr>
                           );
                         })}
@@ -439,6 +475,12 @@ export default function PatientAppointmentsPage() {
                         currentPage={safePastPage}
                         totalPages={pastTotalPages}
                         onPageChange={setPastPage}
+                        prevLabel={t('paginationPrev')}
+                        nextLabel={t('paginationNext')}
+                        infoLabel={t('paginationInfo', {
+                          currentPage: safePastPage,
+                          totalPages: pastTotalPages,
+                        })}
                       />
                     </div>
                   )}
@@ -456,10 +498,16 @@ function PaginationControls({
   currentPage,
   totalPages,
   onPageChange,
+  prevLabel,
+  nextLabel,
+  infoLabel,
 }: {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  prevLabel: string;
+  nextLabel: string;
+  infoLabel: string;
 }) {
   const canPrev = currentPage > 1;
   const canNext = currentPage < totalPages;
@@ -476,11 +524,10 @@ function PaginationControls({
             : 'border-slate-100 bg-slate-50 text-slate-400 cursor-not-allowed'
         }`}
       >
-        Previous
+        {prevLabel}
       </button>
       <span className="text-xs text-slate-500">
-        Page <span className="font-semibold text-slate-700">{currentPage}</span> of{' '}
-        <span className="font-semibold text-slate-700">{totalPages}</span>
+        {infoLabel}
       </span>
       <button
         type="button"
@@ -492,7 +539,7 @@ function PaginationControls({
             : 'border-slate-100 bg-slate-50 text-slate-400 cursor-not-allowed'
         }`}
       >
-        Next
+        {nextLabel}
       </button>
     </div>
   );

@@ -64,7 +64,21 @@
     "tableFacility": "Cơ sở",
     "tableDateTime": "Ngày & giờ",
     "tableStatus": "Trạng thái",
-    "tableActions": "Thao tác"
+    "tableActions": "Thao tác",
+    "headerBrand": "Hệ thống đặt lịch MS",
+    "headerSubtitle": "Theo dõi và quản lý các lịch hẹn của bạn.",
+    "upcomingSubtitle": "Quản lý các lịch hẹn khám sắp tới của bạn.",
+    "pastSubtitle": "Xem lại lịch sử khám và phản hồi.",
+    "filterStatus": "Lọc theo trạng thái",
+    "filterAllStatuses": "Tất cả trạng thái",
+    "sortLabel": "Sắp xếp",
+    "sortDateAsc": "Ngày khám tăng dần",
+    "sortDateDesc": "Ngày khám giảm dần",
+    "sortStatusAsc": "Trạng thái A → Z",
+    "sortStatusDesc": "Trạng thái Z → A",
+    "paginationPrev": "Trước",
+    "paginationNext": "Sau",
+    "paginationInfo": "Trang {currentPage} / {totalPages}"
   },
   "booking": {
     "pageTitle": "Đặt lịch hẹn",
