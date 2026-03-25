@@ -56,6 +56,8 @@
   "doctorDashboard": "Trang làm việc của bác sĩ",
   "managerDashboardIntro": "Đây là khu vực làm việc của quản lý. Giao diện sẽ được mở rộng thêm sau.",
   "doctorDashboardIntro": "Đây là khu vực làm việc của bác sĩ. Giao diện sẽ được mở rộng thêm sau.",
+  "myProfile": "Hồ sơ của tôi",
+  "myAppointments": "Lịch hẹn của tôi",
   "messages": {
     "APP_MESSAGE_2000": "Thao tác thực hiện thành công",
     "APP_MESSAGE_4001": "Số điện thoại không hợp lệ",

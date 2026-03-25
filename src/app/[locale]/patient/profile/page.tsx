@@ -168,7 +168,7 @@ export default function PatientProfilePage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-gray-600">{tProfile('loading')}</p>
         </div>
       </div>
@@ -184,7 +184,7 @@ export default function PatientProfilePage() {
           <p className="text-gray-600 mb-6">{tAuth('profileMessage')}</p>
           <a
             href="/login"
-            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+            className="inline-block bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition"
           >
             {tAuth('goToLogin')}
           </a>
@@ -202,7 +202,7 @@ export default function PatientProfilePage() {
           <p className="text-red-600 mb-6">{error.message}</p>
           <button
             onClick={() => refetch()}
-            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+            className="inline-block bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition"
           >
             {tProfile('tryAgain')}
           </button>
@@ -254,7 +254,7 @@ export default function PatientProfilePage() {
               value={formData.displayName}
               onChange={handleInputChange}
               disabled={updating}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:bg-gray-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition disabled:bg-gray-50 disabled:cursor-not-allowed"
               placeholder="e.g., John D."
               required
             />
@@ -272,7 +272,7 @@ export default function PatientProfilePage() {
               value={formData.fullName}
               onChange={handleInputChange}
               disabled={updating}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:bg-gray-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition disabled:bg-gray-50 disabled:cursor-not-allowed"
               placeholder="e.g., John Doe"
               required
             />
@@ -290,7 +290,7 @@ export default function PatientProfilePage() {
               value={formData.phoneNumber}
               onChange={handleInputChange}
               disabled={updating}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:bg-gray-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition disabled:bg-gray-50 disabled:cursor-not-allowed"
               placeholder="e.g., 1234567890"
               required
             />
@@ -336,7 +336,7 @@ export default function PatientProfilePage() {
             <button
               type="submit"
               disabled={updating}
-              className="flex-1 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
+              className="flex-1 bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
             >
               {updating ? tProfile('saving') : tProfile('save')}
             </button>
@@ -391,7 +391,7 @@ export default function PatientProfilePage() {
                   value={passwordForm.CurrentPassword}
                   onChange={handlePasswordChange}
                   disabled={changingPassword}
-                  className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:bg-gray-50 disabled:cursor-not-allowed"
+                  className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition disabled:bg-gray-50 disabled:cursor-not-allowed"
                   placeholder="Enter your current password"
                   required
                 />
@@ -431,7 +431,7 @@ export default function PatientProfilePage() {
                   value={passwordForm.NewPassword}
                   onChange={handlePasswordChange}
                   disabled={changingPassword}
-                  className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition disabled:bg-gray-50 disabled:cursor-not-allowed"
+                  className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition disabled:bg-gray-50 disabled:cursor-not-allowed"
                   placeholder="Enter your new password"
                   required
                 />
@@ -463,7 +463,7 @@ export default function PatientProfilePage() {
               <button
                 type="submit"
                 disabled={changingPassword}
-                className="w-full bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
+                className="w-full bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition disabled:bg-gray-400 disabled:cursor-not-allowed font-medium"
               >
                 {changingPassword ? tProfile('passwordSubmitting') : tProfile('passwordSubmit')}
               </button>

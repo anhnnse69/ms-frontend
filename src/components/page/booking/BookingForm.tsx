@@ -311,7 +311,7 @@ export function BookingForm() {
                     </div>
                 )}
                 {/* Appointment Details Section */}
-                <h2 className="text-xl font-bold text-blue-600 mb-6 pb-2 border-b-2 border-blue-600">
+                <h2 className="text-xl font-bold text-[#0076C0] mb-6 pb-2 border-b-2 border-[#0076C0]">
                     {t("appointmentDetails")}
                 </h2>
 
@@ -356,10 +356,10 @@ export function BookingForm() {
                                         setUseOtherDate(false);
                                         setSelectedDate(idx);
                                     }}
-                                    className={`shrink-0 px-4 py-2 rounded-lg border text-center transition-colors ${
+                                        className={`shrink-0 px-4 py-2 rounded-lg border text-center transition-colors ${
                                         selectedDate === idx
-                                            ? "bg-[#005a94] text-white border-[#005a94]"
-                                            : "bg-white text-gray-700 border-gray-300 hover:border-blue-600"
+                                            ? "bg-[#0076C0] text-white border-[#0076C0]"
+                                            : "bg-white text-gray-700 border-gray-300 hover:border-[#0076C0]"
                                     }`}
                                 >
                                     <div className="text-lg font-bold">{d.day}/{d.month}</div>
@@ -374,8 +374,8 @@ export function BookingForm() {
                                 }}
                                 className={`shrink-0 px-4 py-2 rounded-lg border flex flex-col items-center justify-center transition-colors ${
                                     useOtherDate
-                                        ? "bg-[#005a94] text-white border-[#005a94]"
-                                        : "bg-white text-gray-700 border-gray-300 hover:border-blue-600"
+                                        ? "bg-[#0076C0] text-white border-[#0076C0]"
+                                    : "bg-white text-gray-700 border-gray-300 hover:border-[#0076C0]"
                                 }`}
                             >
                                 <CalendarIcon />
@@ -389,7 +389,7 @@ export function BookingForm() {
                                     value={otherDate}
                                     onChange={(e) => setOtherDate(e.target.value)}
                                     min={todayStr}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076C0] focus:border-[#0076C0] text-gray-900"
                                 />
                                 <p className="mt-1 text-xs text-gray-500">{t("appointmentDate")}</p>
                             </div>
@@ -398,7 +398,7 @@ export function BookingForm() {
 
                     {/* Specialty Selection */}
                     <div>
-                        <label className="block text-sm font-medium text-blue-600 mb-2">
+                        <label className="block text-sm font-medium text-[#0076C0] mb-2">
                             {t("specialty")} <span className="text-red-500">*</span>
                         </label>
                         <select
@@ -411,7 +411,7 @@ export function BookingForm() {
 							}}
                             required
                             disabled={!hospital || filteredSpecialtyOptions.length === 0}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900 bg-white"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076C0] focus:border-[#0076C0] text-gray-900 bg-white"
                         >
                             <option value="">{t("selectSpecialty")}</option>
                             {filteredSpecialtyOptions.map((s) => (
@@ -424,14 +424,14 @@ export function BookingForm() {
 
                     {/* Doctor Selection */}
                     <div>
-                        <label className="block text-sm font-medium text-blue-600 mb-2">
+                        <label className="block text-sm font-medium text-[#0076C0] mb-2">
                             {t("doctor")}
                         </label>
                         <select
                             value={doctor}
                             onChange={(e) => setDoctor(e.target.value)}
                             disabled={isLoadingDoctors || allDoctors.length === 0 || !specialty}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900 bg-white disabled:bg-gray-50 disabled:text-gray-400"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076C0] focus:border-[#0076C0] text-gray-900 bg-white disabled:bg-gray-50 disabled:text-gray-400"
                         >
                             <option value="">
                                 {isLoadingDoctors
@@ -468,14 +468,14 @@ export function BookingForm() {
                 </p>
 
                 {/* Customer Information Section */}
-                <h2 className="text-xl font-bold text-blue-600 mb-6 pb-2 border-b-2 border-blue-600">
+                <h2 className="text-xl font-bold text-[#0076C0] mb-6 pb-2 border-b-2 border-[#0076C0]">
                     {t("customerInfo")}
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     {/* Full Name */}
                     <div>
-                        <label className="block text-sm font-medium text-blue-600 mb-2">
+                        <label className="block text-sm font-medium text-[#0076C0] mb-2">
                             {tc("fullName")} <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -498,7 +498,7 @@ export function BookingForm() {
                                     value="male"
                                     checked={gender === "male"}
                                     onChange={(e) => setGender(e.target.value)}
-                                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-600"
+                                    className="w-4 h-4 text-[#0076C0] border-gray-300 focus:ring-[#0076C0]"
                                 />
                                 <span className="text-sm text-gray-700">{t("male")}</span>
                             </label>
@@ -509,13 +509,13 @@ export function BookingForm() {
                                     value="female"
                                     checked={gender === "female"}
                                     onChange={(e) => setGender(e.target.value)}
-                                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-600"
+                                    className="w-4 h-4 text-[#0076C0] border-gray-300 focus:ring-[#0076C0]"
                                 />
                                 <span className="text-sm text-gray-700">{t("female")}</span>
                             </label>
                         </div>
                         <div className="flex-1">
-                            <label className="block text-sm font-medium text-blue-600 mb-2">
+                            <label className="block text-sm font-medium text-[#0076C0] mb-2">
                                 {t("birthDate")} <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -524,14 +524,14 @@ export function BookingForm() {
                                 onChange={(e) => setBirthDate(e.target.value)}
                                 required
                                 max={todayStr}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076C0] focus:border-[#0076C0] text-gray-900"
                             />
                         </div>
                     </div>
 
                     {/* Phone */}
                     <div>
-                        <label className="block text-sm font-medium text-blue-600 mb-2">
+                        <label className="block text-sm font-medium text-[#0076C0] mb-2">
                             {t("phone")} <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -540,13 +540,13 @@ export function BookingForm() {
                             onChange={(e) => setPhone(e.target.value)}
                             required
                             placeholder={t("phonePlaceholder")}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076C0] focus:border-[#0076C0] text-gray-900"
                         />
                     </div>
 
                     {/* Email */}
                     <div>
-                        <label className="block text-sm font-medium text-blue-600 mb-2">
+                        <label className="block text-sm font-medium text-[#0076C0] mb-2">
                             {tc("email")}
                         </label>
                         <input
@@ -554,7 +554,7 @@ export function BookingForm() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder={t("emailPlaceholder")}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076C0] focus:border-[#0076C0] text-gray-900"
                         />
                     </div>
                 </div>
@@ -566,7 +566,7 @@ export function BookingForm() {
 
                 {/* Reason */}
                 <div className="mb-6">
-                    <label className="block text-sm font-medium text-blue-600 mb-2">
+                    <label className="block text-sm font-medium text-[#0076C0] mb-2">
                         {t("reason")} <span className="text-red-500">*</span>
                     </label>
                     <textarea
@@ -575,7 +575,7 @@ export function BookingForm() {
                         required
                         rows={4}
                         placeholder={t("reasonPlaceholder")}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-gray-900 resize-none"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0076C0] focus:border-[#0076C0] text-gray-900 resize-none"
                     />
                 </div>
 
@@ -586,7 +586,7 @@ export function BookingForm() {
                             type="checkbox"
                             checked={agreePolicy}
                             onChange={(e) => setAgreePolicy(e.target.checked)}
-                            className="w-4 h-4 mt-1 text-blue-600 border-gray-300 rounded focus:ring-blue-600"
+                            className="w-4 h-4 mt-1 text-[#0076C0] border-gray-300 rounded focus:ring-[#0076C0]"
                         />
                         <span className="text-sm text-gray-700">
                             {t("agreePolicyText")}{" "}
@@ -594,7 +594,7 @@ export function BookingForm() {
                                 href={`${VINMEC_BASE_URL}/vie/chinh-sach-bao-ve-du-lieu-ca-nhan-cua-vinmec/`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-blue-600 hover:underline"
+                                className="text-[#0076C0] hover:underline"
                             >
                                 {t("privacyPolicy")}
                             </a>
@@ -608,7 +608,7 @@ export function BookingForm() {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="inline-flex items-center justify-center px-12 py-4 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg rounded-full shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="inline-flex items-center justify-center px-12 py-4 bg-[#0076C0] hover:bg-[#0076C0] text-white font-medium text-lg rounded-full shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isLoading ? t("submitting") : t("submit")}
                     </button>

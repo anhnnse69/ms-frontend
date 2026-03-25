@@ -64,7 +64,21 @@
     "tableFacility": "Facility",
     "tableDateTime": "Date & Time",
     "tableStatus": "Status",
-    "tableActions": "Actions"
+    "tableActions": "Actions",
+    "headerBrand": "MS Medical Scheduling",
+    "headerSubtitle": "Track and manage your visits.",
+    "upcomingSubtitle": "Manage your upcoming doctor visits and changes.",
+    "pastSubtitle": "Review your visit history and feedback.",
+    "filterStatus": "Filter by status",
+    "filterAllStatuses": "All statuses",
+    "sortLabel": "Sort",
+    "sortDateAsc": "Date ascending",
+    "sortDateDesc": "Date descending",
+    "sortStatusAsc": "Status A → Z",
+    "sortStatusDesc": "Status Z → A",
+    "paginationPrev": "Previous",
+    "paginationNext": "Next",
+    "paginationInfo": "Page {currentPage} of {totalPages}"
   },
   "booking": {
     "pageTitle": "Book an Appointment",

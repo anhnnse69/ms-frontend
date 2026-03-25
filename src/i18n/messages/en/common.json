@@ -56,6 +56,8 @@
   "doctorDashboard": "Doctor dashboard",
   "managerDashboardIntro": "This is the manager workspace. The UI will be expanded with more tools.",
   "doctorDashboardIntro": "This is the doctor workspace. The UI will be expanded with more tools.",
+  "myProfile": "My Profile",
+  "myAppointments": "My Appointments",
   "messages": {
     "APP_MESSAGE_2000": "Operation completed successfully",
     "APP_MESSAGE_4001": "Invalid phone number format",

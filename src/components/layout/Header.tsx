@@ -204,13 +204,13 @@ export function Header() {
                         href={`/${locale}/patient/profile`}
                         className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
                       >
-                        My Profile
+                        {t("myProfile")}
                       </Link>
                       <Link
                         href={`/${locale}/patient/appointments`}
                         className="hidden md:block text-xs font-medium text-[#0076c0] hover:text-[#005a91] border border-[#0076c0]/40 rounded px-3 py-1 transition-colors"
                       >
-                        My Appointments
+                        {t("myAppointments")}
                       </Link>
                     </>
                   )}
